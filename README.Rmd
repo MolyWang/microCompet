@@ -18,37 +18,51 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
+
+## Description
 The goal of microCompet is to ...
 
 ## Installation
 
-You can install the released version of microCompet from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("microCompet")
+```{r}
+# require("devtools")
+# devtools::install_github("MolyWang/microCompet")
+# library("microCompet)
 ```
 
-## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(microCompet)
-## basic example code
+## Overview
+```{r}
+# ls("package:microCompet")
+# data(package = "microCompet")
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
+_microCompet_ package contains ......
+Refer to package vignettes for more details.
+```{r}
+# browseVignettes("microCompet")
 ```
+The package tree structure is provided below.
+- microCompet
+  |- microCompet.Rproj
+  |- DESCRIPTION
+  |- NAMESPACE
+  |- LICENSE
+  |- README
+  |- man
+  |- R
+  |- tests
+  
+An overview of the package is illustrated below.
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+![](./inst/extdata/microbiome.jpg)
 
-You can also embed plots, for example:
+https://emerypharma.com/blog/human_microbiome_healthier_life/
 
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
+## Contributions
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+## References
+
+## Acknowledgements
+This package was developed as part of an assessment for 2019-2020 BCB410H: Applied Bioinformatics, University of Toronto, Toronto, CANADA.
+
+## Examples
