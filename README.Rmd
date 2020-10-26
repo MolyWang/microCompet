@@ -24,24 +24,25 @@ The goal of microCompet is to ...
 
 ## Installation
 
-```{r}
-# require("devtools")
-# devtools::install_github("MolyWang/microCompet")
-# library("microCompet)
+```{r, eval = FALSE}
+require("devtools")
+devtools::install_github("MolyWang/microCompet")
+library("microCompet)
 ```
 
 
 ## Overview
-```{r}
-# ls("package:microCompet")
-# data(package = "microCompet")
+```{r, eval = FALSE}
+ls("package:microCompet")
+data(package = "microCompet")
 ```
 _microCompet_ package contains ......
 Refer to package vignettes for more details.
-```{r}
-# browseVignettes("microCompet")
+```{r, eval = FALSE}
+browseVignettes("microCompet")
 ```
 The package tree structure is provided below.
+```{r, eval = FALSE}
 - microCompet
   |- microCompet.Rproj
   |- DESCRIPTION
@@ -51,7 +52,7 @@ The package tree structure is provided below.
   |- man
   |- R
   |- tests
-  
+``` 
 An overview of the package is illustrated below.
 
 ![](./inst/extdata/microbiome.jpg)

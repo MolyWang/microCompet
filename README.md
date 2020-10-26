@@ -14,28 +14,38 @@ The goal of microCompet is to …
 ## Installation
 
 ``` r
-# require("devtools")
-# devtools::install_github("MolyWang/microCompet")
-# library("microCompet)
+require("devtools")
+devtools::install_github("MolyWang/microCompet")
+library("microCompet)
 ```
 
 ## Overview
 
 ``` r
-# ls("package:microCompet")
-# data(package = "microCompet")
+ls("package:microCompet")
+data(package = "microCompet")
 ```
 
 *microCompet* package contains …… Refer to package vignettes for more
 details.
 
 ``` r
-# browseVignettes("microCompet")
+browseVignettes("microCompet")
 ```
 
-The package tree structure is provided below. - microCompet |-
-microCompet.Rproj |- DESCRIPTION |- NAMESPACE |- LICENSE |- README |-
-man |- R |- tests
+The package tree structure is provided below.
+
+``` r
+- microCompet
+  |- microCompet.Rproj
+  |- DESCRIPTION
+  |- NAMESPACE
+  |- LICENSE
+  |- README
+  |- man
+  |- R
+  |- tests
+```
 
 An overview of the package is illustrated below.
 
