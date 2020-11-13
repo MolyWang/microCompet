@@ -1,6 +1,6 @@
 Package: microCompet
 Type: Package
-Title: Identify the potential nutritional competitor from microbiota.
+Title: Identify the potential nutritional competitor from microbiota
 Version: 0.1.0
 Author: Zhuyi, Wang, email = "moly.wang@mail.utoronto.ca", role = c("aut", "cre")
 Maintainer: Zhuyi Wang <moly.wang@mail.utoronto.ca>
