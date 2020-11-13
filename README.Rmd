@@ -62,6 +62,7 @@ https://emerypharma.com/blog/human_microbiome_healthier_life/
 ## Contributions
 
 ## References
+Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61. doi:10.1093/nar/30.1.59
 
 ## Acknowledgements
 This package was developed as part of an assessment for 2019-2020 BCB410H: Applied Bioinformatics, University of Toronto, Toronto, CANADA.

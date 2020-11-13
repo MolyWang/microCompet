@@ -57,6 +57,10 @@ An overview of the package is illustrated below.
 
 ## References
 
+Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The
+MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61.
+<doi:10.1093/nar/30.1.59>
+
 ## Acknowledgements
 
 This package was developed as part of an assessment for 2019-2020
