@@ -17,11 +17,13 @@ A list of gene names that encode simple sugar degradation enzymes.
 \description{
 This functions extract genes encoding enzymes that participate in simple
 sugar degradation from the given genome.
+The imported function is known to produce warnings because microbial genomes
+do not contain introns.
 }
 \examples{
 \dontrun{
- file_path = "Path_to_File.gb"
- carboGenes <- extractCarboGenes(file_path)
+ genome_file_path = "./Klebsiella_variicola.gb"
+ carboGenes <- extractCarboGenes(genome_file_path)
 }
 
 }

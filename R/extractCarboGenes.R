@@ -2,6 +2,8 @@
 #'
 #' This functions extract genes encoding enzymes that participate in simple
 #' sugar degradation from the given genome.
+#' The imported function is known to produce warnings because microbial genomes
+#' do not contain introns.
 #'
 #' @param genome_file_path Full path to a GenBank file that represents a microbial genome.
 #'     This GenBank file must at least have gene names annotated.
@@ -11,8 +13,8 @@
 #'
 #' @examples
 #' \dontrun{
-#'  file_path = "Path_to_File.gb"
-#'  carboGenes <- extractCarboGenes(file_path)
+#'  genome_file_path = "./Klebsiella_variicola.gb"
+#'  carboGenes <- extractCarboGenes(genome_file_path)
 #' }
 #'
 #' @export
@@ -20,21 +22,37 @@
 #'
 extractCarboGenes <- function(genome_file_path) {
   library("genbankr")
+  data("EnzymaticReactions")
 
   # check if file exists
+  if (!file.exists(genome_file_path)) {
+    stop("File does not exist, double check the file path to the genome file.")
+  }
 
+  # check the proper file type
+  if (!endsWith(genome_file_path, ".gb")) {
+    stop("A file with extension 'gb' is required, such as Klebsiella_variicola.gb")
+  }
+
+  # extract all genes from a genome represented by the input gb file
   genome_record <- genbankr::readGenBank(genome_file_path)
   gene_lst <- genes(genome_record)$gene
-
-  # here check if the list length is zero
-
-  full_enzyme_gene_lst <- EnzymaticReactions$Gene
-
-  carboGenes <- vector(mode = "list")
-  # extract all genes in record that's also in the full_lst
+  if (length(gene_lst) == 0) {
+    stop("The GenBank file does not have gene names annotated in 'CDS' section.")
+  }
 
 
-  # return the extracted list.
+  full_enzyme_gene_lst <- unique(EnzymaticReactions$Gene)
+
+  carboGenes <- vector()
+  # extract all genes in record that's also in the full_enzyme_gene_lst
+  for (gene in gene_lst) {
+    if (is.element(gene, full_enzyme_gene_lst)) {
+      print("yes")
+      carboGenes <- append(carboGenes, gene)
+    }
+  }
+
   return(carboGenes)
 
 }
