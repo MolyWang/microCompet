@@ -14,13 +14,13 @@
 #' @example
 #' \dontrun{
 #'  gene_lst = c("tpiA", "glpX", "gpmM", "xylA", "xylB", "treF", "malP", "rpe", "pgk",  "fbaA", "rpiA", "fucU", "fucK", "fucI")
-#'  constructFullNet(gene_lst)
+#'  constructFullNetwork(gene_lst)
 #' }
 #'
 #'@export
 #'@import igraph dplyr
 #'
-constructFullNet <- function(gene_lst) {
+constructFullNetwork <- function(gene_lst) {
   data("EnzymaticReactions")
   require(igraph)
   require(dplyr)
@@ -62,10 +62,10 @@ constructFullNet <- function(gene_lst) {
 #' Given a list of enzymatic reactions (a subset of the EnzymaticReactions dataset),
 #' extract unique reactions, count genes encoding enzymes for each reaction, and
 #' keep the "sugar" column for coloring purpose.
-#' This function is only called as a helper for constructFullNet.
+#' This function is only called as a helper for constructFullNetwork.
 #'
 #' @param relevant_reactions A list of enzymatic_reactions, containing only enzymes
-#' encoded by genes from gene_lst (input of constructFullNet).
+#' encoded by genes from gene_lst (input of constructFullNetwork).
 #'
 #' @return A dataframe with 4 columns
 #' @format
@@ -117,10 +117,10 @@ createEdgeFrame <- function(relevant_reactions) {
 #' Given a list of enzymatic reactions (a subset of the EnzymaticReactions dataset),
 #' extract unique reactions, count genes encoding enzymes for each reaction, and
 #' keep the "sugar" column for coloring purpose.
-#' This function is only called as a helper for constructFullNet.
+#' This function is only called as a helper for constructFullNetwork.
 #'
 #' @param relevant_reactions A list of enzymatic_reactions, containing only enzymes
-#' encoded by genes from gene_lst (input of constructFullNet).
+#' encoded by genes from gene_lst (input of constructFullNetwork).
 #'
 #' @return A dataframe with 2 columns
 #' @format

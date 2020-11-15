@@ -16,7 +16,7 @@ createEdgeFrame(relevant_reactions)
 }
 \arguments{
 \item{relevant_reactions}{A list of enzymatic_reactions, containing only enzymes
-encoded by genes from gene_lst (input of constructFullNet).}
+encoded by genes from gene_lst (input of constructFullNetwork).}
 }
 \value{
 A dataframe with 4 columns
@@ -25,5 +25,5 @@ A dataframe with 4 columns
 Given a list of enzymatic reactions (a subset of the EnzymaticReactions dataset),
 extract unique reactions, count genes encoding enzymes for each reaction, and
 keep the "sugar" column for coloring purpose.
-This function is only called as a helper for constructFullNet.
+This function is only called as a helper for constructFullNetwork.
 }
