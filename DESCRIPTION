@@ -16,4 +16,7 @@ Depends:
     R (>= 2.10)
 biocViews: Software, Infrastructure, DataImport
 Imports:
-    genbankr
+    genbankr,
+    igraph,
+    dplyr
+

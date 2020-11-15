@@ -22,6 +22,7 @@ do not contain introns.
 }
 \examples{
 \dontrun{
+ require("genbankr")
  genome_file_path = "./Klebsiella_variicola.gb"
  carboGenes <- extractCarboGenes(genome_file_path)
 }

@@ -13,6 +13,7 @@
 #'
 #' @examples
 #' \dontrun{
+#'  require("genbankr")
 #'  genome_file_path = "./Klebsiella_variicola.gb"
 #'  carboGenes <- extractCarboGenes(genome_file_path)
 #' }
@@ -21,7 +22,7 @@
 #' @importFrom genbankr readGenBank
 #'
 extractCarboGenes <- function(genome_file_path) {
-  library("genbankr")
+  require("genbankr")
   data("EnzymaticReactions")
 
   # check if file exists
