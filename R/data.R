@@ -21,3 +21,37 @@
 #' @examples
 #' head(EnzymaticReactions)
 "EnzymaticReactions"
+
+
+#' Distribution of Sugar Degradation Enzymes
+#'
+#' The distribution of 71 sugar degradation enzymes in 9 representative
+#' human microbiota members. "0" suggests the enzyme represented by the
+#' row is not found in the column microbe, while "1" suggests it's found.
+#'
+#' E. coli is usually treated as a positive control species since it contains
+#' very abundant metabolic genes and can survive with minimal minerals and
+#' simple sugars.
+#'
+#' @source Genomes downloaded from NCBI
+#'
+#' @format A matrix with 71 rows (genes) and 13 variables
+#'  \describe{
+#'   \item{Gene}{}
+#'   \item{Reaction.EC}{}
+#'   \item{Enzyme}{}
+#'   \item{Sugar}{}
+#'   \item{Lplan}{Enzyme distribution in Lactobacillus plantarum}
+#'   \item{Ecoli}{Enzyme distribution in Escherichia coli}
+#'   \item{Blong}{Enzyme distribution in Bifidobacterium longum}
+#'   \item{Paeru}{Enzyme distribution in Pseudomonas aeruginosa}
+#'   \item{Bthet}{Enzyme distribution in Bacteroides thetaiotaomicron}
+#'   \item{Cbotu}{Enzyme distribution in Clostridium botulinum}
+#'   \item{Enter}{Enzyme distribution in Enterobacter sp. EA-01}
+#'   \item{Kvari}{Enzyme distribution in Klebsiella variicola}
+#'   \item{Spneu}{Enzyme distribution in Streptococcus pneumoniae}
+#'  }
+#'
+#'  @example
+#'  head(EnzymeDistribution)
+"EnzymeDistribution"

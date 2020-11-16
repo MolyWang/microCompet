@@ -17,6 +17,5 @@ Depends:
 biocViews: Software, Infrastructure, DataImport
 Imports:
     genbankr,
-    igraph,
-    dplyr
+    igraph
 

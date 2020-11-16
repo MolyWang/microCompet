@@ -23,7 +23,6 @@
 constructFullNetwork <- function(gene_lst) {
   data("EnzymaticReactions")
   require(igraph)
-  require(dplyr)
 
   # build all required dataframes to initialize the network
   relevant_reactions <- EnzymaticReactions[is.element(EnzymaticReactions$Gene, gene_lst), ]
@@ -85,7 +84,10 @@ constructFullNetwork <- function(gene_lst) {
 #'
 #'
 createEdgeFrame <- function(relevant_reactions) {
-  unique_reactions <- unique(select(relevant_reactions, Substrate, Product, Sugar))
+  relevant_frame <- data.frame(relevant_reactions$Substrate,
+                               relevant_reactions$Product,
+                               relevant_reactions$Sugar)
+  unique_reactions <- unique(relevant_frame)
 
   # initialize all cols of the final dataframe
   unique_reaction_counts <- length(unique_reactions)
