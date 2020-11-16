@@ -13,31 +13,44 @@
 #' @export
 #' @import radarchart
 competeMicrobiota <- function(genome_name, gene_lst) {
-  pathCompScores <- pathCompleteness(genome_name, gene_lst)
-
-
+  require(radarchart)
+  data("EnzymaticReactions")
+  available_microbes <- colnames(EnzymeDistribution)
+  if (is.element(genome_name, available_microbes)) {
+    stop(sprintf("Already have %s in available datasets (%s), please rename your genome.",
+                 genome_name,
+                 paste(available_microbes, collapse = ", ")))
+  }
+  all_sugars <- sort(unique(EnzymaticReactions$Sugar))
+  pathCompScores <- pathCompleteness(genome_name, gene_lst, all_sugars)
+  competitions <- chartJSRadar(scores = pathCompScores[, 2:11], labs = all_sugars, maxScale = 1)
+  return(competitions)
 }
 
 
-# cols are sugars
-# rows are microbes
+# cols are microbes
+# rows are sugars
 # each cell is a score, num of enzymes the microbe have for this pathway
-pathCompleteness <- function(genome_name, gene_lst) {
-  data("EnzymaticReactions")
-  all_sugars <- sort(unique(EnzymaticReactions$Sugar))
+pathCompleteness <- function(genome_name, gene_lst, all_sugars) {
+  data("EnzymeDistribution")
+
   total_steps <- calculateTotalSteps(all_sugars)
-  #dataset_microbes <- c("Lplan", "Ecoli", "Blong", "Paeru", "Bthet",
-  #                  "Cbotu", "Enter", "Kvari", "Spneu")
 
-  path_counts <- data.frame("Sugar" = all_sugars)
-  path_counts[genome_name] <- allSugarScoresForOneGenome(gene_lst, all_sugars)
+  path_pct <- data.frame("Sugar" = all_sugars)
+  path_counts <- allSugarScoresForOneGenome(gene_lst, all_sugars)
+  path_pct[genome_name] <- path_counts/total_steps
 
-  for (microbe in EnzymeDistribution[, 5:13]) {
+  genome_names <- colnames(EnzymeDistribution)
+
+  for (i in 5:13) {
+    genome_name <- genome_names[i]
+    microbe <- EnzymeDistribution[i]
     gene_lst <- unique(EnzymaticReactions$Gene[microbe == 1])
-    path_counts[microbe] <- allSugarScoresForOneGenome(gene_lst, all_sugars)
+    path_counts <- allSugarScoresForOneGenome(gene_lst, all_sugars)
+    path_pct[genome_name] <- round(path_counts/total_steps, digits = 2)
   }
 
-  return(path_counts)
+  return(path_pct)
 }
 
 

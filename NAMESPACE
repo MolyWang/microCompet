@@ -3,7 +3,6 @@
 export(competeMicrobiota)
 export(constructFullNetwork)
 export(extractCarboGenes)
-import(dplyr)
 import(igraph)
 import(radarchart)
 importFrom(genbankr,readGenBank)

@@ -19,7 +19,7 @@
 #' }
 #'
 #'@export
-#'@import igraph dplyr
+#'@import igraph
 #'
 constructFullNetwork <- function(gene_lst) {
   data("EnzymaticReactions")
