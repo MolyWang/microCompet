@@ -1,0 +1,12 @@
+
+
+calculateCompetition <- function() {
+
+
+}
+
+
+
+collapseByEC <- function() {
+
+}

@@ -13,7 +13,8 @@
 #'
 #' @example
 #' \dontrun{
-#'  gene_lst = c("tpiA", "glpX", "gpmM", "xylA", "xylB", "treF", "malP", "rpe", "pgk",  "fbaA", "rpiA", "fucU", "fucK", "fucI")
+#'  gene_lst = c("tpiA", "glpX", "gpmM", "xylA", "xylB", "treF", "malP", "rpe", "pgk",
+#'  "fbaA", "rpiA", "fucU", "fucK", "fucI")
 #'  constructFullNetwork(gene_lst)
 #' }
 #'
@@ -37,15 +38,23 @@ constructFullNetwork <- function(gene_lst) {
   sugars <- sort((E(network)$sugar))
   colors_ <- factor(sugars)
 
+  # the smallest node is size 5,
+  # and the largest is size 25
+  node_count_dif <- max(V(network)$weight) - min(V(network)$weight)
+  node_size_fold <- 20 / node_count_dif
+
+  coords <- layout_with_dh(network)
+
   plot(network,
-       vertex.size = (V(network)$weight + 1) * 1.2,
+       vertex.size = V(network)$weight * node_size_fold + 5,
        vertex.label.dist = 1,
        vertex.label.cex = 0.8,
        vertex.frame.color = "grey80",
        vertex.color = "grey80",
        edge.width = E(network)$num_of_enzymes * 1.5,
        edge.arrow.size = .5,
-       edge.color = colors_)
+       edge.color = colors_,
+       layout = coords)
 
   legend("topleft",
          unique(sugars),
@@ -87,6 +96,7 @@ createEdgeFrame <- function(relevant_reactions) {
   relevant_frame <- data.frame(relevant_reactions$Substrate,
                                relevant_reactions$Product,
                                relevant_reactions$Sugar)
+  colnames(relevant_frame) <- c("Substrate", "Product", "Sugar")
   unique_reactions <- unique(relevant_frame)
 
   # initialize all cols of the final dataframe
