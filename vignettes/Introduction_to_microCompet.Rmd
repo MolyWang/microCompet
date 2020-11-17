@@ -73,6 +73,19 @@ If you read in a data frame from a csv, tsv, excel file, be careful about empty 
 
 ## Available Functions
 __1. extractCarboGenes__
+When use provide a full path to a gbk file, and a list of potentially sugar degradation genes of interest, this function extract available carbo_genes from the file. There are other avilable gbk-parsing packages available, but they usually format the whole file (about 20M for one microbe) into one very object, which is very slow and provides unused information for this package. 
+
+Function extractCarboGenes simply screen over the file, extract all lines in the format "/gene="gene_name" and select ones in the list of genes provided by users. See example with 
+```{r, eval=FALSE}
+require("microCompet")
+#'  ED <- microCompet::EnzymeDistribution
+#'  full_enzyme_gene_lst <- ED$Gene
+#'  genome_file_path = "./Klebsiella_variicola.gb"
+#'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+#'  carbo_genes
+#' }
+
+```
 
 
 
