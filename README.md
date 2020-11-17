@@ -80,7 +80,7 @@ ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
 genome_file_path <- "./Lactobacillus_johnsonii.gb"
 carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-full_pathway <- constructFullNetwork("Ljohn", carbo_genes, ER)
+full_pathway <- constructFullNetwork("Lactobacillus johnsonii", carbo_genes, ER)
 full_pathway
 ```
 
