@@ -73,13 +73,14 @@ require("network")
 require("sna")
 require("ggplot2")
 require("igraph")
+require("dplyr")
 
-ER <- microCompet::EnymaticReactions
+ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
-genome_file_path = "./Klebsiella_variicola.gb"
+genome_file_path <- "./Lactobacillus_johnsonii.gb"
 carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
+full_pathway <- constructFullNetwork("Ljohn", carbo_genes, ER)
 full_pathway
 ```
 
@@ -90,12 +91,12 @@ between the given genome and other microbial species, and creates an
 interactive radar graph.
 
 ``` r
-library(microCompet)
-require(radarchart)
+library("microCompet")
+require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
-genome_file_path = "./Lactobacillus_johnsonii.gb"
+genome_file_path <- "./Lactobacillus_johnsonii.gb"
 carbo_genes <- microCompet::extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
 overall_similarity

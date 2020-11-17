@@ -46,7 +46,9 @@ overallSimilarity <- function(genome_name, gene_lst, ED,
   # then transform it into a dataframe for RadarGraph
   for (microbe_name in available_microbes) {
     microbe <- ED[microbe_name]
-    overall_similarity[microbe_name] <- compareTwoGenomes(genome_vector, microbe)
+    overall_similarity[microbe_name] <- compareTwoGenomes(genome_vector,
+                                                          microbe,
+                                                          length(ED$Gene))
   }
 
   df_for_chart <- as.data.frame(overall_similarity)
@@ -80,18 +82,18 @@ overallSimilarity <- function(genome_name, gene_lst, ED,
 #'  gene_lst2 <- EnzymeDistribution$Gene[10:35]
 #'  genome2 <- transformToVector(gene_lst2)
 #'  ED <- microCompet::EnzymaticDistribution
-#'  total_genes <- length(ED$Gene)
-#'  score <- compareTwoGenomes(genome1, genome2, total_genes)
+#'  total_genes_num <- length(ED$Gene)
+#'  score <- compareTwoGenomes(genome1, genome2, total_genes_num)
 #'  score
 #' }
-compareTwoGenomes <- function(genome1, genome2, total_genes) {
+compareTwoGenomes <- function(genome1, genome2, total_genes_num) {
   # Only 0 + 1 = 1
   # This counts all genes that are not shared by two genomes
   not_shared <- (genome1 + genome2) == 1
   total_not_shared <- sum(as.integer(not_shared))
 
   # then not "not shared" are shared
-  return(total_genes - total_not_shared)
+  return(total_genes_num - total_not_shared)
 }
 
 
