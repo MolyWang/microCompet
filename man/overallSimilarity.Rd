@@ -4,12 +4,27 @@
 \alias{overallSimilarity}
 \title{Compare overall similarity of the given genomes and microbiota.}
 \usage{
-overallSimilarity(genome_name, gene_lst)
+overallSimilarity(
+  genome_name,
+  gene_lst,
+  ED,
+  first_microbe,
+  last_microbe = ncol(ED)
+)
 }
 \arguments{
 \item{genome_name}{Name of the genome represented by gene_lst}
 
 \item{gene_lst}{A list of gene names represented by 3-5 characters, such as "rpiB"}
+
+\item{ED}{An enzyme distribution dataset that at least contain gene names and one
+microbial genome.}
+
+\item{first_microbe}{An integer. The index of first column in ED dataset that
+represents a microbial genome.}
+
+\item{last_microbe}{An integer. Same as first_microbe, just the index of last
+microbe genome}
 }
 \value{
 A radar chart with microbial species on corners and the user input genome

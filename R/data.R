@@ -37,10 +37,10 @@
 #'
 #' @format A matrix with 71 rows (genes) and 13 variables
 #'  \describe{
-#'   \item{Gene}{}
-#'   \item{Reaction.EC}{}
-#'   \item{Enzyme}{}
-#'   \item{Sugar}{}
+#'   \item{Gene}{Name of gene encoding this sugar degradation enzyme.}
+#'   \item{Reaction.EC}{EC category of this enzyme, indicating its reaction type.}
+#'   \item{Enzyme}{Full name of the enzyme}
+#'   \item{Sugar}{The sugar degradation pathway this enzyme invoved in.}
 #'   \item{Lplan}{Enzyme distribution in Lactobacillus plantarum}
 #'   \item{Ecoli}{Enzyme distribution in Escherichia coli}
 #'   \item{Blong}{Enzyme distribution in Bifidobacterium longum}

@@ -4,12 +4,15 @@
 \alias{calculateCount}
 \title{Calculate number of sugar-degradation specific enzymes in gene_lst.}
 \usage{
-calculateCount(gene_lst, sugar)
+calculateCount(gene_lst, sugar, ER)
 }
 \arguments{
 \item{gene_lst}{A list of gene names represented by 3-5 letters, such as "tktA".}
 
 \item{sugar}{The desired sugar degradation pathway. A simple sugar such as "fructose".}
+
+\item{ER}{A dataset with at least 3 columns. Gene name for an enzyme, Reaction.EC for
+one catalytic reaction, and Sugar for degradation pathway.}
 }
 \value{
 enzyme_count Number of sugar_specific enzymes inside the gene_lst.

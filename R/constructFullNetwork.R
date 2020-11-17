@@ -48,7 +48,6 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
   require(ggplot2)
   require(igraph)
 
-
   # build all required dataframes to initialize the network
   relevant_reactions <- ER[is.element(ER$Gene, gene_lst), ]
   edge_frame <- createEdgeFrame(relevant_reactions)

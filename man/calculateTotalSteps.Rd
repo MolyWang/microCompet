@@ -4,11 +4,14 @@
 \alias{calculateTotalSteps}
 \title{calculate total steps involved in each sugar degradation pathway}
 \usage{
-calculateTotalSteps(all_sugars)
+calculateTotalSteps(all_sugars, ER)
 }
 \arguments{
 \item{all_sugars}{A list of sugar names whose pathway enzyme count are to
 be calculated.}
+
+\item{ER}{A dataset with at least two required columns with specified names.
+Sugar (sugar pathway), Reaction.EC (enzymatic reaction type)}
 }
 \value{
 A vector. Name of each value is the sugar degraded, and the value

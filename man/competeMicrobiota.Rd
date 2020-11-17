@@ -4,12 +4,31 @@
 \alias{competeMicrobiota}
 \title{Visualize the competition by a radarchart.}
 \usage{
-competeMicrobiota(genome_name, gene_lst)
+competeMicrobiota(
+  genome_name,
+  gene_lst,
+  ER,
+  ED,
+  first_microbe,
+  last_microbe = ncol(ED)
+)
 }
 \arguments{
-\item{genome_name}{}
+\item{genome_name}{Steing represents the name of a genome/microbe.}
 
-\item{gene_lst}{}
+\item{gene_lst}{A list of sugar degradation gene names in microbe genome_name}
+
+\item{ER}{A dataset with at least 3 columns. Gene name for an enzyme, Reaction.EC for
+one catalytic reaction, and Sugar for degradation pathway. Column names are case
+sensitive.}
+
+\item{ED}{A dataset with at least Gene, Reaction.EC, and columns for genome
+sugar pathways data from different genomes. See EnzymeDistribution for example.}
+
+\item{first_microbe}{Column index of first microbe genome in dataset ED}
+
+\item{last_microbe}{Column index of last microbe genome in dataset ED. Default set
+to the last column of ED.}
 }
 \description{
 Visualize the competiion between a given microbe and other 9 available

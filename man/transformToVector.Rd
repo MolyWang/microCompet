@@ -4,10 +4,12 @@
 \alias{transformToVector}
 \title{Transform a list of gene into a vector of 0 and 1}
 \usage{
-transformToVector(gene_lst)
+transformToVector(gene_lst, all_genes)
 }
 \arguments{
 \item{gene_lst}{A list of gene_names, represented by 3-5 characters, such as "eno".}
+
+\item{all_genes}{A list of all sugar degradation genes that may be possibily included.}
 }
 \value{
 A vector of 0 and 1, indicating whether each sugar degradation enzyme (from
