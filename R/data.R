@@ -22,7 +22,6 @@
 #' \dontrun{
 #' head(EnzymaticReactions)
 #' }
-#' @export
 "EnzymaticReactions"
 
 
@@ -59,5 +58,4 @@
 #'\dontrun{
 #'head(EnzymeDistribution)
 #'}
-#'@export
 "EnzymeDistribution"
