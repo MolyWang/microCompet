@@ -22,7 +22,7 @@
 #'  genome_name <- "L. johnsonii"
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path = "./Klebsiella_variicola.gb"
+#'  genome_file_path = "./Lactobacillus_johnsonii.gb"
 #'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 #'  first_microbe = 5
 #'  last_microbe = 13

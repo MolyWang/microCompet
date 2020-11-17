@@ -21,6 +21,9 @@ and competeMicrobiota)
 
 ``` r
 require("devtools")
+# Remember to download the example gb files into your working directory, 
+# so examples run more smoothly.
+# Klebsiella_variicola.gb & Lactobacillus Johnsonii.gb
 devtools::install_github("MolyWang/microCompet", build_vignettes = TRUE)
 library("microCompet)
 ```

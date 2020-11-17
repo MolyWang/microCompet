@@ -29,9 +29,10 @@ Genomes downloaded from NCBI
 EnzymeDistribution
 }
 \description{
-The distribution of 71 sugar degradation enzymes in 9 representative
-human microbiota members. "0" suggests the enzyme represented by the
-row is not found in the column microbe, while "1" suggests it's found.
+The distribution of 66 sugar degradation enzymes in 9 representative
+human microbiota members. Some enzymes can catalyze more than one
+reactions. "0" suggests the enzyme represented by the row is not
+found in the column microbe, while "1" suggests it's found.
 }
 \details{
 E. coli is usually treated as a positive control species since it contains

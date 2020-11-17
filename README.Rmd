@@ -30,6 +30,9 @@ R package _microCompet_ is for visualizing potential microbial competitions for 
 
 ```{r, eval = FALSE}
 require("devtools")
+# Remember to download the example gb files into your working directory, 
+# so examples run more smoothly.
+# Klebsiella_variicola.gb & Lactobacillus Johnsonii.gb
 devtools::install_github("MolyWang/microCompet", build_vignettes = TRUE)
 library("microCompet)
 ```

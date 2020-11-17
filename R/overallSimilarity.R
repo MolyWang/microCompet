@@ -69,6 +69,8 @@ overallSimilarity <- function(genome_name, gene_lst, ED,
 #'
 #' @param genome2 Same as genome1, but represents another genome
 #'
+#' @param total_genes Total number of genes of interest to be compared.
+#'
 #' @return An integer indicating number of shared genes by genome1 and genome2.
 #'
 #' @example
@@ -77,17 +79,19 @@ overallSimilarity <- function(genome_name, gene_lst, ED,
 #'  genome1 <- transformToVector(gene_lst1)
 #'  gene_lst2 <- EnzymeDistribution$Gene[10:35]
 #'  genome2 <- transformToVector(gene_lst2)
-#'  score <- compareTwoGenomes(genome1, genome2)
+#'  ED <- microCompet::EnzymaticDistribution
+#'  total_genes <- length(ED$Gene)
+#'  score <- compareTwoGenomes(genome1, genome2, total_genes)
 #'  score
 #' }
-compareTwoGenomes <- function(genome1, genome2) {
+compareTwoGenomes <- function(genome1, genome2, total_genes) {
   # Only 0 + 1 = 1
   # This counts all genes that are not shared by two genomes
   not_shared <- (genome1 + genome2) == 1
   total_not_shared <- sum(as.integer(not_shared))
 
   # then not "not shared" are shared
-  return(length(EnzymeDistribution$Gene) - total_not_shared)
+  return(total_genes - total_not_shared)
 }
 
 

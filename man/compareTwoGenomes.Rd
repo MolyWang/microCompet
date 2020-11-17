@@ -4,12 +4,14 @@
 \alias{compareTwoGenomes}
 \title{Compare two genomes and count shared genes}
 \usage{
-compareTwoGenomes(genome1, genome2)
+compareTwoGenomes(genome1, genome2, total_genes)
 }
 \arguments{
 \item{genome1}{A vector of 0 and 1, genes ordered as in EnzymaticDistribution}
 
 \item{genome2}{Same as genome1, but represents another genome}
+
+\item{total_genes}{Total number of genes of interest to be compared.}
 }
 \value{
 An integer indicating number of shared genes by genome1 and genome2.
