@@ -19,7 +19,10 @@
 #' }
 #'
 #' @examples
+#' \dontrun{
 #' head(EnzymaticReactions)
+#' }
+#' @export
 "EnzymaticReactions"
 
 
@@ -52,6 +55,9 @@
 #'   \item{Spneu}{Enzyme distribution in Streptococcus pneumoniae}
 #'  }
 #'
-#'  @example
-#'  head(EnzymeDistribution)
+#'@example
+#'\dontrun{
+#'head(EnzymeDistribution)
+#'}
+#'@export
 "EnzymeDistribution"

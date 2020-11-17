@@ -33,16 +33,17 @@ data(package = "microCompet")
 ```
 
 *microCompet* package contains 4 functions and 2 datasets. Dataset
-*EnzymaticReactions* describe enzymatic steps for sugar degradation
+***EnzymaticReactions*** describe enzymatic steps for sugar degradation
 pathways with 5 factors: gene encoding the enzyme, enzyme catagory by EC
 number (such as 2.1.5.77), reaction substrate and product, and the sugar
-pathway. Dataset *EnzymeDistribution* lists genes for unique enzymes
+pathway. Dataset ***EnzymeDistribution*** lists genes for unique enzymes
 *AND* offers the genome data of 9 diverse microbe strains from human
 microbiota, using 0 and 1 to indicate whether a specific microbe (one
 column) carries the gene represented by the row. See these genomes by
 
 ``` r
 library("microCompet")
+
 # from the description for dataset by
 ?EnzymeDistribution
 #or
@@ -50,15 +51,77 @@ ED <- microCompet::EnzymeDistribution
 colnames(ED)[5:13]
 ```
 
-Function *extractCarboGenes* extract sugar degradation enzymes from
+Function ***extractCarboGenes*** extract sugar degradation enzymes from
 user-given GenBank file. The file must have genes annotated, that is
 they have lines in the format of */gene=“gene\_name”* (See the included
-*Klebsiella\_variicola.gb* and \*Lactobacillus\_johnsonii.gb" for
+*Klebsiella\_variicola.gb* and *Lactobacillus\_johnsonii.gb* for
 example, they are in the main folder). Other R packages are available
-for formatting GenBank file, but they parse the whole 20M file into one
+for formatting GenBank file, but they parse the whole file into one
 object, which is not necessary for this package.
 
-Refer to package vignettes for more details.
+Function ***constructFullNetwork*** takes a genome and plot its full
+sugar degradation pathways, the following image is a sample output using
+the provided *Lactobacillus\_johnsonii.gb* genome.
+
+``` r
+require("microCompet")
+require(ggraph)
+require(network)
+require(sna)
+require(ggplot2)
+require(igraph)
+
+ER <- microCompet::EnymaticReactions
+ED <- microCompet::EnzymeDistribution
+full_enzyme_gene_lst <- ED$Gene
+genome_file_path = "./Klebsiella_variicola.gb"
+carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
+full_pathway
+```
+
+![](./inst/extdata/Ljohn.png)
+
+Function ***overallSimilarity*** count sugar degradation genes in common
+between the given genome and other microbial species, and creates an
+interactive radar graph.
+
+``` r
+library(microCompet)
+require(radarchart)
+genome_name <- "L. johnsonii"
+ED <- microCompet::EnzymeDistribution
+full_enzyme_gene_lst <- ED$Gene
+genome_file_path = "./Lactobacillus_johnsonii.gb"
+carbo_genes <- microCompet::extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
+overall_similarity
+```
+
+![](./inst/extdata/overSimi1.png)
+
+The final function ***competeMicrobiota*** visualize available microbes
+in terms of pathway completeness, suggesting their ability to fully
+degrade indicated sugar sources.
+
+``` r
+library(microCompet)
+require(radarchart)
+genome_name <- "L. johnsonii"
+ED <- microCompet::EnzymeDistribution
+full_enzyme_gene_lst <- ED$Gene
+genome_file_path = "./Lactobacillus_johnsonii.gb"
+carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+first_microbe = 5
+last_microbe = 13
+ER <- microCompet::EnzymaticReactions
+compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
+                                       ED, first_microbe, last_microbe)
+compete_microbiota
+```
+
+![](./inst/extdata/comp1.png) ![](./inst/extdata/comp2.png) Refer to
+package vignettes for more details.
 
 ``` r
 browseVignettes("microCompet")
@@ -73,61 +136,83 @@ The package tree structure is provided below.
   |- NAMESPACE
   |- LICENSE
   |- README
+  |- data
+    |- EnzymaticReactions.rda
+    |- EnzymeDistribution.rda
+  |- inst
+    |- CITATION
+    |- extdata
+      |- comp1.png
+      |- comp2.png
+      |- Kvari_pathway.png
+      |- Ljohn.png
+      |- microbiome.jpg
+      |- overSimi1.png
   |- man
+    |- allSugarScoresForOneGenome.Rd
+    |- calculateCount.Rd
+    |- calclateTotalSteps.Rd
+    |- compareTwoGenomes.Rd
+    |- competeMicrobiota.Rd
+    |- constructFullNetwork.Rd
+    |- createEdgeFrame.Rd
+    |- createNodeFrame.Rd
+    |- EnzymaticReactions.Rd
+    |- EnzymeDistribution.Rd
+    |- extractCarboGenes.Rd
+    |- overallSimilarity.Rd
+    |- transformToVector.Rd
   |- R
+    |- competeMicrobiota.R
+    |- constructFullNetwork.R
+    |- data.R
+    |- extractCarboGenes.R
+    |- overallSimilarity.R
   |- tests
 ```
 
-An overview of the package is illustrated below.
-
-![](./inst/extdata/microbiome.jpg)
-
-<https://emerypharma.com/blog/human_microbiome_healthier_life/>
-
 ## Contributions
+
+Written by Zhuyi Wang.
 
 ## References
 
-Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The
-MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61.
-<doi:10.1093/nar/30.1.59>
+1.  Butts, C. 2008. “network: a Package for Managing Relational Data in
+    R.” *Journal of Statistical Software*. 24(2). \<URL:
+    <https://www.jstatsoft.org/v24/i02/paper>\>.
 
-Gabriel Becker and Michael Lawrence (2020). genbankr: Parsing GenBank
-files into semantically useful objects. R package version 1.16.0.
+2.  Butts, C. 2020. network: Classes for Relational Data. The Statnet
+    Project (\<URL:<http://www.statnet.org>\>). R package version
+    1.16.1, \<URL: <https://CRAN.R-project.org/package=network>\>.
 
-R Core Team (2020). R: A language and environment for statistical
-computing. R Foundation for Statistical Computing, Vienna, Austria. URL:
-<https://www.R-project.org/>.
+3.  Butts, C.T. 2020. sna: Tools for Social Network Analysis. R package
+    version 2.6. <https://CRAN.R-project.org/package=sna>
 
-Csardi G, Nepusz T: The igraph software package for complex network
-research, InterJournal, Complex Systems 1695. 2006. <https://igraph.org>
+4.  Csardi, G., Nepusz, T. 2006. The igraph software package for complex
+    network research, InterJournal, Complex Systems 1695.
+    <https://igraph.org>
 
-National Center for Biotechnology Information (NCBI)\[Internet\].
-Bethesda (MD): National Library of Medicine (US), National Center for
-Biotechnology Information; \[1988\]. Available from:
-<https://www.ncbi.nlm.nih.gov/>
+5.  Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002.
+    The MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61.
+    <doi:10.1093/nar/30.1.59>
 
-H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag
-New York. 2016.
+6.  National Center for Biotechnology Information (NCBI)\[Internet\].
+    Bethesda (MD): National Library of Medicine (US), National Center
+    for Biotechnology Information; \[1988\]. Available from:
+    <https://www.ncbi.nlm.nih.gov/>
 
-Butts C (2020). *network: Classes for Relational Data*. The Statnet
-Project (\<URL: <http://www.statnet.org>\>). R package version 1.16.1,
-\<URL: <https://CRAN.R-project.org/package=network>\>.
+7.  Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of
+    Graphics for Graphs and Networks. R package version 2.0.3.
+    <https://CRAN.R-project.org/package=ggraph>
 
-Butts C (2008). “network: a Package for Managing Relational Data in R.”
-*Journal of Statistical Software*, *24*(2). \<URL:
-<https://www.jstatsoft.org/v24/i02/paper>\>.
+8.  R Core Team. 2020. R: A language and environment for statistical
+    computing. R Foundation for Statistical Computing, Vienna, Austria.
+    URL: <https://www.R-project.org/>.
 
-Carter T. Butts (2020). sna: Tools for Social Network Analysis. R
-package version 2.6. <https://CRAN.R-project.org/package=sna>
-
-Thomas Lin Pedersen (2020). ggraph: An Implementation of Grammar of
-Graphics for Graphs and Networks. R package version 2.0.3.
-<https://CRAN.R-project.org/package=ggraph>
+9.  Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis.
+    Springer-Verlag New York.
 
 ## Acknowledgements
 
 This package was developed as part of an assessment for 2019-2020
 BCB410H: Applied Bioinformatics, University of Toronto, Toronto, CANADA.
-
-## Examples

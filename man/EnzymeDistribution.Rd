@@ -21,9 +21,6 @@ A matrix with 71 rows (genes) and 13 variables
   \item{Kvari}{Enzyme distribution in Klebsiella variicola}
   \item{Spneu}{Enzyme distribution in Streptococcus pneumoniae}
  }
-
- @example
- head(EnzymeDistribution)
 }
 \source{
 Genomes downloaded from NCBI

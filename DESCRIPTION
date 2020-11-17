@@ -11,7 +11,9 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 Depends: 
     R (>= 2.10)
 biocViews: Software, Infrastructure, DataImport
@@ -23,4 +25,4 @@ Imports:
     sna,
     network,
     ggplot2
-
+VignetteBuilder: knitr

@@ -47,7 +47,7 @@ competeMicrobiota <- function(genome_name, gene_lst, ER,
   all_sugars <- sort(unique(ER$Sugar))
   pathCompScores <- pathCompleteness(genome_name, gene_lst, all_sugars, ER,
                                      ED, first_microbe, last_microbe)
-  competitions <- radarchart::chartJSRadar(scores = pathCompScores[, 2:11],
+  competitions <- radarchart::chartJSRadar(scores = pathCompScores[, 2:ncol(pathCompScores)],
                                            labs = all_sugars,
                                            maxScale = 1)
   return(competitions)
@@ -65,7 +65,7 @@ pathCompleteness <- function(genome_name, gene_lst, all_sugars, ER,
 
   path_pct <- data.frame("Sugar" = all_sugars)
   path_counts <- allSugarScoresForOneGenome(gene_lst, all_sugars, ER)
-  path_pct[genome_name] <- path_counts/total_steps
+  path_pct[genome_name] <- round(path_counts/total_steps, digits = 2)
 
   genome_names <- colnames(ED)
 

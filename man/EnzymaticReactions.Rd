@@ -29,6 +29,8 @@ A list of 91 enzymatic steps that's required by microbes to degrade several
 simple sugars.
 }
 \examples{
+\dontrun{
 head(EnzymaticReactions)
+}
 }
 \keyword{datasets}
