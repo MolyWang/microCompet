@@ -22,3 +22,13 @@ For each sugar, count total number of enzymatic steps required to construct
 the entire sugar degradation pathway. Total counts are calculated based on
 number of enzymes with different EC number.
 }
+\examples{
+\dontrun{
+ library(microCompet)
+ ER <- microCompet::EnzymaticReactions
+ all_sugars <- ER$Sugar
+ total_steps <- calculateTotalSteps(all_sugars, ER)
+ total_steps
+}
+
+}

@@ -33,3 +33,16 @@ compound) to the head vertex (another compound). The thicker the edge, the more
 enzymes can catalyze this reaction.
 Color of the edge represents the sugar degradation pathway this enzyme involved in.
 }
+\examples{
+\dontrun{
+ require("microCompet")
+ ER <- microCompet::EnymaticReactions
+ ED <- microCompet::EnzymeDistribution
+ full_enzyme_gene_lst <- ED$Gene
+ genome_file_path = "./Klebsiella_variicola.gb"
+ carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+ full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
+ full_pathway
+}
+
+}

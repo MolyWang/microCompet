@@ -20,3 +20,13 @@ Given a list of genes, transform it into a vector of 0 and 1.
 Each cell is a named gene, 0 indicating this genome is not included
 inside the gene_lst, 1 indicating it's included
 }
+\examples{
+\dontrun{
+ ED <- microCompet::EnzymeDistribution
+ all_genes <- ED$Gene
+ gene_lst <- ED$Gene[4:25]
+ genome_vector <- transformToVector(gene_lst)
+ genome_vector
+}
+
+}

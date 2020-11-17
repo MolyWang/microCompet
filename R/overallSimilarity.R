@@ -16,7 +16,7 @@
 #' @return A radar chart with microbial species on corners and the user input genome
 #'    in the middle.
 #'
-#' @example
+#' @exampless
 #' \dontrun{
 #'  library(microCompet)
 #'  genome_name <- "L. johnsonii"
@@ -75,7 +75,7 @@ overallSimilarity <- function(genome_name, gene_lst, ED,
 #'
 #' @return An integer indicating number of shared genes by genome1 and genome2.
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'  gene_lst1 <- EnzymeDistribution$Gene[4:25]
 #'  genome1 <- transformToVector(gene_lst1)
@@ -110,7 +110,7 @@ compareTwoGenomes <- function(genome1, genome2, total_genes_num) {
 #' @return A vector of 0 and 1, indicating whether each sugar degradation enzyme (from
 #' the EnzymeDistribution dataset) is included in the gene_lst.
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'  ED <- microCompet::EnzymeDistribution
 #'  all_genes <- ED$Gene

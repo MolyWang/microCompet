@@ -4,7 +4,7 @@
 \alias{compareTwoGenomes}
 \title{Compare two genomes and count shared genes}
 \usage{
-compareTwoGenomes(genome1, genome2, total_genes)
+compareTwoGenomes(genome1, genome2, total_genes_num)
 }
 \arguments{
 \item{genome1}{A vector of 0 and 1, genes ordered as in EnzymaticDistribution}
@@ -19,4 +19,16 @@ An integer indicating number of shared genes by genome1 and genome2.
 \description{
 Given two genomes represented by a vector of 0 and 1 (genes in the same order),
 count shared genes. This includes genes both genomes have or neither.
+}
+\examples{
+\dontrun{
+ gene_lst1 <- EnzymeDistribution$Gene[4:25]
+ genome1 <- transformToVector(gene_lst1)
+ gene_lst2 <- EnzymeDistribution$Gene[10:35]
+ genome2 <- transformToVector(gene_lst2)
+ ED <- microCompet::EnzymaticDistribution
+ total_genes_num <- length(ED$Gene)
+ score <- compareTwoGenomes(genome1, genome2, total_genes_num)
+ score
+}
 }

@@ -34,3 +34,20 @@ to the last column of ED.}
 Visualize the competiion between a given microbe and other 9 available
 microbiota members in the EnzymeDistribution dataset.
 }
+\examples{
+ \dontrun{
+ library(microCompet)
+ genome_name <- "L. johnsonii"
+ ED <- microCompet::EnzymeDistribution
+ full_enzyme_gene_lst <- ED$Gene
+ genome_file_path = "./Lactobacillus_johnsonii.gb"
+ carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+ first_microbe = 5
+ last_microbe = 13
+ ER <- microCompet::EnzymaticReactions
+ compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
+                                         ED, first_microbe, last_microbe)
+ compete_microbiota
+ }
+
+}

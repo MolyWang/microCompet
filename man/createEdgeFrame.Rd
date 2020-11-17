@@ -34,3 +34,13 @@ Given a list of enzymatic reactions, extract unique reactions, count genes encod
 enzymes for each reaction.
 This function is only called as a helper for constructFullNetwork.
 }
+\examples{
+\dontrun{
+ library("microCompet")
+ ER <- microCompet::EnzymaticReactions
+ relevant_reactions <- ER[ER$Sugar == "ribose", ]
+ edge_frame <- createEdgeFrame(relevant_reactions)
+ edge_frame
+}
+
+}

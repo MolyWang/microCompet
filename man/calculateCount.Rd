@@ -23,3 +23,12 @@ extract enzymes encoded by these genes that involve in the specific degradation
 pathway of the given sugar. Enzymes with same catalytic function but encoded by
 different genes are treated as the same.
 }
+\examples{
+\dontrun{
+ gene_lst <- c("rpe", "rpiB", "eno", "fruK")
+ ER <- EnzymaticReactions
+ enzyme_count <- calculateCount(gene_lst, "fructose", ER)
+ enzyme_count
+}
+
+}
