@@ -9,71 +9,96 @@
 #' enzymes can catalyze this reaction.
 #' Color of the edge represents the sugar degradation pathway this enzyme involved in.
 #'
+#' @param genome_name The name of microbe to be graphed.
 #' @param gene_lst A list of gene names that represent sugar degradation enzymes.
+#'
+#' @param ER A list of enzymatic_reactions, containing only enzymes
+#'    encoded by genes from gene_lst.
+#' @format A dataframe with four required columns, can have other columns.
+#'  \describe{
+#'   \item{Gene}{Genes encoding the enzyme}
+#'   \item{Substrate}{Substrate of the enzyatic reaction.}
+#'   \item{Product}{Product of the reaction.}
+#'   \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
+#'  }
 #'
 #' @example
 #' \dontrun{
-#'  gene_lst = c("tpiA", "glpX", "gpmM", "xylA", "xylB", "treF", "malP", "rpe", "pgk",
-#'  "fbaA", "rpiA", "fucU", "fucK", "fucI")
-#'  constructFullNetwork(gene_lst)
+#'  require("microCompet")
+#'  ER <- microCompet::EnymaticReactions
+#'  ED <- microCompet::EnzymeDistribution
+#'  full_enzyme_gene_lst <- ED$Gene
+#'  genome_file_path = "./Klebsiella_variicola.gb"
+#'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+#'  full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
+#'  full_pathway
 #' }
 #'
 #'@export
 #'@import igraph
+#'@import ggraph
+#'@import network
+#'@import sna
+#'@import ggplot2
 #'
-constructFullNetwork <- function(gene_lst) {
-  data("EnzymaticReactions")
+constructFullNetwork <- function(genome_name, gene_lst, ER) {
+  require(ggraph)
+  require(network)
+  require(sna)
+  require(ggplot2)
   require(igraph)
 
+
   # build all required dataframes to initialize the network
-  relevant_reactions <- EnzymaticReactions[is.element(EnzymaticReactions$Gene, gene_lst), ]
+  relevant_reactions <- ER[is.element(ER$Gene, gene_lst), ]
   edge_frame <- createEdgeFrame(relevant_reactions)
   node_frame <- createNodeFrame(edge_frame)
 
-  network <- graph_from_data_frame(d = edge_frame,
-                                   vertices = node_frame,
-                                   directed = TRUE)
+  net <- igraph::graph_from_data_frame(d = edge_frame,
+                                           vertices = node_frame,
+                                           directed = TRUE)
 
-  # prepare colors for different sugar degradation pathways
-  sugars <- sort((E(network)$sugar))
-  colors_ <- factor(sugars)
+  # to change aes label in ggraph
+  Relative_Reaction_Count <- node_frame$weight
+  Relative_Enzyme_Count <- edge_frame$num_of_enzymes
+  Sugar_Pathway <- edge_frame$sugar
 
-  # the smallest node is size 5,
-  # and the largest is size 25
-  node_count_dif <- max(V(network)$weight) - min(V(network)$weight)
-  node_size_fold <- 20 / node_count_dif
+  full_network <-
+    ggraph(net,layout = "fr") +
+    geom_edge_link(arrow = arrow(length = unit(3, 'mm')),
+                   end_cap = circle(2, 'mm'),
+                   aes(color = Sugar_Pathway,
+                       width = Relative_Enzyme_Count)) +
+    geom_node_point(aes(size = Relative_Reaction_Count)) +
+    scale_size(range = c(1, 5)) +
+    theme_void() +
+    scale_edge_width(range = c(1, 2)) +
+    geom_node_text(label = node_frame$compound, size = 4, color = "gray30", repel = TRUE) +
+    #geom_edge_fan(color = E(network)$sugar) +
+    ggtitle(paste("Full Sugar Degradation Pathway for", genome_name)) +
+    theme(plot.title = element_text(hjust = 0.5, lineheight = 1.5))
 
-  coords <- layout_with_dh(network)
-
-  plot(network,
-       vertex.size = V(network)$weight * node_size_fold + 5,
-       vertex.label.dist = 1,
-       vertex.label.cex = 0.8,
-       vertex.frame.color = "grey80",
-       vertex.color = "grey80",
-       edge.width = E(network)$num_of_enzymes * 1.5,
-       edge.arrow.size = .5,
-       edge.color = colors_,
-       layout = coords)
-
-  legend("topleft",
-         unique(sugars),
-         pch = 21,
-         pt.bg = colors_,
-         cex = 0.8)
+  return(full_network)
 }
 
 
 
-#' Create a dataframe to be used as edges for FullNet
+
+#' Create a dataframe to be used as edges for FullNetwork
 #'
-#' Given a list of enzymatic reactions (a subset of the EnzymaticReactions dataset),
-#' extract unique reactions, count genes encoding enzymes for each reaction, and
-#' keep the "sugar" column for coloring purpose.
+#' Given a list of enzymatic reactions, extract unique reactions, count genes encoding
+#' enzymes for each reaction.
 #' This function is only called as a helper for constructFullNetwork.
 #'
 #' @param relevant_reactions A list of enzymatic_reactions, containing only enzymes
-#' encoded by genes from gene_lst (input of constructFullNetwork).
+#'     encoded by genes from gene_lst.
+#' @format A dataframe with four required columns, can have other columns.
+#'  \describe{
+#'   \item{Gene}{Genes encoding the enzyme, though not directly accessed, it's counted}
+#'   \item{Substrate}{Substrate of the enzyatic reaction.}
+#'   \item{Product}{Product of the reaction.}
+#'   \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
+#'  }
 #'
 #' @return A dataframe with 4 columns
 #' @format
@@ -86,17 +111,19 @@ constructFullNetwork <- function(gene_lst) {
 #'
 #' @example
 #' \dontrun{
-#'  data("EnzymaticReactions")
-#'  relevant_reactions <- EnzymaticReactions[EnzymaticReactions$Sugar == "ribose", ]
+#'  library("microCompet")
+#'  ER <- microCompet::EnzymaticReactions
+#'  relevant_reactions <- ER[ER$Sugar == "ribose", ]
 #'  edge_frame <- createEdgeFrame(relevant_reactions)
+#'  edge_frame
 #' }
 #'
+#' @import dplyr
 #'
 createEdgeFrame <- function(relevant_reactions) {
-  relevant_frame <- data.frame(relevant_reactions$Substrate,
-                               relevant_reactions$Product,
-                               relevant_reactions$Sugar)
-  colnames(relevant_frame) <- c("Substrate", "Product", "Sugar")
+  require(dplyr)
+  relevant_frame <- dplyr::select(relevant_reactions, Substrate, Product, Sugar)
+
   unique_reactions <- unique(relevant_frame)
 
   # initialize all cols of the final dataframe
@@ -110,31 +137,33 @@ createEdgeFrame <- function(relevant_reactions) {
   for (i in 1:length(edge_substrates)) {
     same_substrate <- relevant_reactions[relevant_reactions$Substrate == edge_substrates[i],]
     same_product <- same_substrate[same_substrate$Product == edge_products[i], ]
+    # unique genes counted through nrow here
     edge_weights[i] <- nrow(same_product)
     edge_sugar[i] <- same_product$Sugar[1]
-
   }
+
 
   edge_frame <- data.frame(edge_substrates,
                            edge_products,
                            edge_weights,
                            edge_sugar)
+
   colnames(edge_frame) <- c("substrate", "product", "num_of_enzymes", "sugar")
   return(edge_frame)
 }
 
 
-#' Create a dataframe to be used as edges for FullNet
+#' Create a dataframe to be used as vertices for FullNetwork.
 #'
-#' Given a list of enzymatic reactions (a subset of the EnzymaticReactions dataset),
-#' extract unique reactions, count genes encoding enzymes for each reaction, and
-#' keep the "sugar" column for coloring purpose.
+#' Given an edge frame (have columns "substrate" and "product), count total
+#' unique compounds involved in all reactions, and their weight (how many
+#' reactions this compound is involved in.)
 #' This function is only called as a helper for constructFullNetwork.
 #'
-#' @param relevant_reactions A list of enzymatic_reactions, containing only enzymes
-#' encoded by genes from gene_lst (input of constructFullNetwork).
+#' @param edge_frame A data frame created by createEdgeFrame, must have
+#'     "substrate", "product" columns, case sensitive.
 #'
-#' @return A dataframe with 2 columns
+#' @return A dataframe with 2 columns.
 #' @format
 #'  \describe{
 #'   \item{compound}{the compound this vertex represents.}
@@ -143,13 +172,15 @@ createEdgeFrame <- function(relevant_reactions) {
 #'
 #' @example
 #' \dontrun{
-#'  data("EnzymaticReactions")
-#'  relevant_reactions <- EnzymaticReactions[EnzymaticReactions$Sugar == "ribose", ]
+#'  ER <- microCompet::EnzymaticReactions
+#'  relevant_reactions <- ER[ER$Sugar == "ribose", ]
 #'  edge_frame <- createEdgeFrame(relevant_reactions)
 #'  node_frame <- createNodeFrame(edge_frame)
+#'  node_frame
 #' }
 createNodeFrame <- function(edge_frame) {
-  all_compounds <- c(edge_frame$substrate, edge_frame$product)
+  all_compounds <- c(edge_frame$substrate,
+                     edge_frame$product)
   node_frame <- as.data.frame(table(all_compounds))
   colnames(node_frame) <- c("compound", "weight")
 

@@ -2,8 +2,16 @@
 % Please edit documentation in R/constructFullNetwork.R
 \name{createEdgeFrame}
 \alias{createEdgeFrame}
-\title{Create a dataframe to be used as edges for FullNet}
+\title{Create a dataframe to be used as edges for FullNetwork}
 \format{
+A dataframe with four required columns, can have other columns.
+ \describe{
+  \item{Gene}{Genes encoding the enzyme, though not directly accessed, it's counted}
+  \item{Substrate}{Substrate of the enzyatic reaction.}
+  \item{Product}{Product of the reaction.}
+  \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
+ }
+
 \describe{
   \item{substrate}{substrate of this reaction, tail of the edge}
   \item{product}{product of the reaction, head of the edge}
@@ -16,14 +24,13 @@ createEdgeFrame(relevant_reactions)
 }
 \arguments{
 \item{relevant_reactions}{A list of enzymatic_reactions, containing only enzymes
-encoded by genes from gene_lst (input of constructFullNetwork).}
+encoded by genes from gene_lst.}
 }
 \value{
 A dataframe with 4 columns
 }
 \description{
-Given a list of enzymatic reactions (a subset of the EnzymaticReactions dataset),
-extract unique reactions, count genes encoding enzymes for each reaction, and
-keep the "sugar" column for coloring purpose.
+Given a list of enzymatic reactions, extract unique reactions, count genes encoding
+enzymes for each reaction.
 This function is only called as a helper for constructFullNetwork.
 }

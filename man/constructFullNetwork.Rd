@@ -3,11 +3,25 @@
 \name{constructFullNetwork}
 \alias{constructFullNetwork}
 \title{Build a full sugar degradation network for one genome.}
+\format{
+A dataframe with four required columns, can have other columns.
+ \describe{
+  \item{Gene}{Genes encoding the enzyme}
+  \item{Substrate}{Substrate of the enzyatic reaction.}
+  \item{Product}{Product of the reaction.}
+  \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
+ }
+}
 \usage{
-constructFullNetwork(gene_lst)
+constructFullNetwork(genome_name, gene_lst, ER)
 }
 \arguments{
+\item{genome_name}{The name of microbe to be graphed.}
+
 \item{gene_lst}{A list of gene names that represent sugar degradation enzymes.}
+
+\item{ER}{A list of enzymatic_reactions, containing only enzymes
+encoded by genes from gene_lst.}
 }
 \description{
 Given a list of sugar degradation enzymes, construct a metabolism network

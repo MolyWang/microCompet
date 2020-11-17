@@ -4,12 +4,16 @@
 \alias{extractCarboGenes}
 \title{Extract Carbohydrate-degrading Genes from Microbe Genome}
 \usage{
-extractCarboGenes(genome_file_path)
+extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 }
 \arguments{
 \item{genome_file_path}{Full path to a GenBank file that represents a microbial genome.
-This GenBank file must at least have gene names annotated.
-Only enzymes listed in the EnzymaticReactions dataset will be extracted.}
+This GenBank file must at least have gene names annotated, see provided file
+"Klebsiella_variicola.gb" and "Lactobacillus_johnsonii.gb" for example, they have
+lines starting with "/gene=".}
+
+\item{full_enzyme_gene_lst}{A list of all sugar degradation genes to be searched for in
+the user-defined genome.}
 }
 \value{
 A list of gene names that encode simple sugar degradation enzymes.
@@ -17,14 +21,19 @@ A list of gene names that encode simple sugar degradation enzymes.
 \description{
 This functions extract genes encoding enzymes that participate in simple
 sugar degradation from the given genome.
-The imported function is known to produce warnings because microbial genomes
-do not contain introns.
+There are other available packages that format the whole genbank file into
+one organized object, but information other than "gene_names" are not
+useful to this package, and those functions would take about 30 more
+seconds on a Windows system, so this function is provided.
 }
 \examples{
 \dontrun{
- require("genbankr")
+ require("microCompet")
+ ED <- microCompet::EnzymeDistribution
+ full_enzyme_gene_lst <- ED$Gene
  genome_file_path = "./Klebsiella_variicola.gb"
- carboGenes <- extractCarboGenes(genome_file_path)
+ carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+ carbo_genes
 }
 
 }

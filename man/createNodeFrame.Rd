@@ -2,7 +2,7 @@
 % Please edit documentation in R/constructFullNetwork.R
 \name{createNodeFrame}
 \alias{createNodeFrame}
-\title{Create a dataframe to be used as edges for FullNet}
+\title{Create a dataframe to be used as vertices for FullNetwork.}
 \format{
 \describe{
   \item{compound}{the compound this vertex represents.}
@@ -13,15 +13,15 @@
 createNodeFrame(edge_frame)
 }
 \arguments{
-\item{relevant_reactions}{A list of enzymatic_reactions, containing only enzymes
-encoded by genes from gene_lst (input of constructFullNetwork).}
+\item{edge_frame}{A data frame created by createEdgeFrame, must have
+"substrate", "product" columns, case sensitive.}
 }
 \value{
-A dataframe with 2 columns
+A dataframe with 2 columns.
 }
 \description{
-Given a list of enzymatic reactions (a subset of the EnzymaticReactions dataset),
-extract unique reactions, count genes encoding enzymes for each reaction, and
-keep the "sugar" column for coloring purpose.
+Given an edge frame (have columns "substrate" and "product), count total
+unique compounds involved in all reactions, and their weight (how many
+reactions this compound is involved in.)
 This function is only called as a helper for constructFullNetwork.
 }

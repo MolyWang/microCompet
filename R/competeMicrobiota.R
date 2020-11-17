@@ -14,7 +14,7 @@
 #' @import radarchart
 competeMicrobiota <- function(genome_name, gene_lst) {
   require(radarchart)
-  data("EnzymaticReactions")
+  #data("EnzymaticReactions")
   available_microbes <- colnames(EnzymeDistribution)
   if (is.element(genome_name, available_microbes)) {
     stop(sprintf("Already have %s in available datasets (%s), please rename your genome.",
@@ -23,7 +23,9 @@ competeMicrobiota <- function(genome_name, gene_lst) {
   }
   all_sugars <- sort(unique(EnzymaticReactions$Sugar))
   pathCompScores <- pathCompleteness(genome_name, gene_lst, all_sugars)
-  competitions <- chartJSRadar(scores = pathCompScores[, 2:11], labs = all_sugars, maxScale = 1)
+  competitions <- radarchart::chartJSRadar(scores = pathCompScores[, 2:11],
+                                           labs = all_sugars,
+                                           maxScale = 1)
   return(competitions)
 }
 
@@ -32,7 +34,7 @@ competeMicrobiota <- function(genome_name, gene_lst) {
 # rows are sugars
 # each cell is a score, num of enzymes the microbe have for this pathway
 pathCompleteness <- function(genome_name, gene_lst, all_sugars) {
-  data("EnzymeDistribution")
+  #data("EnzymeDistribution")
 
   total_steps <- calculateTotalSteps(all_sugars)
 
@@ -52,6 +54,11 @@ pathCompleteness <- function(genome_name, gene_lst, all_sugars) {
 
   return(path_pct)
 }
+
+
+
+
+
 
 
 allSugarScoresForOneGenome <- function(gene_lst, all_sugars) {

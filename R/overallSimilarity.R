@@ -19,9 +19,11 @@
 #'
 #' @export
 #' @import radarchart
+#' @import utils
 #'
 overallSimilarity <- function(genome_name, gene_lst) {
   require(radarchart)
+  #data("EnzymeDistribution", package = "microCompet")
 
   genome_vector <- transformToVector(gene_lst)
   available_microbes <- colnames(EnzymeDistribution)[5:13]
@@ -36,9 +38,9 @@ overallSimilarity <- function(genome_name, gene_lst) {
   df_for_chart <- as.data.frame(overall_similarity)
   colnames(df_for_chart) <- c(genome_name)
 
-  comparison_chart <- chartJSRadar(scores = df_for_chart,
-                                   labs = available_microbes,
-                                   maxScale = length(genome_vector))
+  comparison_chart <- radarchart::chartJSRadar(scores = df_for_chart,
+                                               labs = available_microbes,
+                                               maxScale = length(genome_vector))
   return(comparison_chart)
 }
 
@@ -93,7 +95,7 @@ compareTwoGenomes <- function(genome1, genome2) {
 #' }
 #'
 transformToVector <- function(gene_lst) {
-  data("EnzymaticReactions")
+  #data("EnzymaticReactions")
   all_genes <- EnzymaticReactions$Gene
   genome_vector <- vector(mode = "logical",
                           length = length(all_genes))
