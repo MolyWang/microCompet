@@ -38,14 +38,14 @@ To use this package, the only required input from users is a microbial genome in
 
 The first step is to load the library, and following this vignettes do not require any other user input.
 ```{r, eval=FALSE}
-library(microCompet)
+library("microCompet")
 # and load all dependencies
-require(radarchart)
-require(ggraph)
-require(network)
-require(sna)
-require(ggplot2)
-require(igraph)
+require("radarchart")
+require("ggraph")
+require("network")
+require("sna")
+require("ggplot2")
+require("igraph")
 ```
 
 
@@ -84,8 +84,8 @@ ED <- microCompet::EnzymeDistribution
 # Will include all sugar degradation genes for this example
 full_enzyme_gene_lst <- ED$Gene
 # Uncommet if you have the file in your working directory
-# otherwise replice the . with path to the directory
-genome_file_path = "./Lactobacillus_johnsonii.gb"
+# otherwise replace the . with path to the directory
+genome_file_path <- "./Lactobacillus_johnsonii.gb"
 carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 carbo_genes
 
@@ -123,7 +123,7 @@ Given a genome of interest (represented by a list of gene names) and an expressi
 # library(microCompet)
 # genome_name <- "L. johnsonii"
 # full_enzyme_gene_lst <- ED$Gene
-# genome_file_path = "./Lactobacillus_johnsonii.gb"
+# genome_file_path <- "./Lactobacillus_johnsonii.gb"
 # carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 # check ED with head(ED)
 ED <- microCompet::EnzymeDistribution
@@ -149,11 +149,11 @@ Run the code, play with the interactive plot, and compare your favourite ones.
 #  library(microCompet)
 #  genome_name <- "L. johnsonii"
 #  full_enzyme_gene_lst <- ED$Gene
-#  genome_file_path = "./Lactobacillus_johnsonii.gb"
+#  genome_file_path <- "./Lactobacillus_johnsonii.gb"
 #  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 ED <- microCompet::EnzymeDistribution
-first_microbe = 5
-last_microbe = 13
+first_microbe <- 5
+last_microbe <- 13
 ER <- microCompet::EnzymaticReactions
 compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
                                         ED, first_microbe, last_microbe)

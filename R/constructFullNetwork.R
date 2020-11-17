@@ -22,7 +22,7 @@
 #'   \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
 #'  }
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'  require("microCompet")
 #'  ER <- microCompet::EnymaticReactions
@@ -108,7 +108,7 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
 #'   \item{sugar}{the sugar degradation pathway this enzyme participates in.}
 #'  }
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'  library("microCompet")
 #'  ER <- microCompet::EnzymaticReactions
@@ -169,7 +169,7 @@ createEdgeFrame <- function(relevant_reactions) {
 #'   \item{weight}{number of edges this vertex involves in}
 #'  }
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'  ER <- microCompet::EnzymaticReactions
 #'  relevant_reactions <- ER[ER$Sugar == "ribose", ]

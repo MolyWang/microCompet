@@ -16,7 +16,7 @@
 #' @param last_microbe Column index of last microbe genome in dataset ED. Default set
 #'   to the last column of ED.
 #'
-#' @example
+#' @examples
 #'  \dontrun{
 #'  library(microCompet)
 #'  genome_name <- "L. johnsonii"
@@ -128,7 +128,7 @@ allSugarScoresForOneGenome <- function(gene_lst, all_sugars, ER) {
 #'
 #' @return enzyme_count Number of sugar_specific enzymes inside the gene_lst.
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'  gene_lst <- c("rpe", "rpiB", "eno", "fruK")
 #'  ER <- EnzymaticReactions
@@ -160,7 +160,7 @@ calculateCount <- function(gene_lst, sugar, ER) {
 #' @return A vector. Name of each value is the sugar degraded, and the value
 #'   is the number of steps involved.
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'  library(microCompet)
 #'  ER <- microCompet::EnzymaticReactions
