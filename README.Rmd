@@ -34,7 +34,7 @@ require("devtools")
 # so examples run more smoothly.
 # Klebsiella_variicola.gb & Lactobacillus Johnsonii.gb
 devtools::install_github("MolyWang/microCompet", build_vignettes = TRUE)
-library("microCompet)
+library("microCompet")
 ```
 
 
@@ -61,11 +61,11 @@ The file must have genes annotated, that is they have lines in the format of _/g
 Function __*constructFullNetwork*__ takes a genome and plot its full sugar degradation pathways, the following image is a sample output using the provided *Lactobacillus_johnsonii.gb* genome.
 ```{r, eval=FALSE}
 require("microCompet")
-require(ggraph)
-require(network)
-require(sna)
-require(ggplot2)
-require(igraph)
+require("ggraph")
+require("network")
+require("sna")
+require("ggplot2")
+require("igraph")
 
 ER <- microCompet::EnymaticReactions
 ED <- microCompet::EnzymeDistribution

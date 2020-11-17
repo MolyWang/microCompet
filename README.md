@@ -25,7 +25,7 @@ require("devtools")
 # so examples run more smoothly.
 # Klebsiella_variicola.gb & Lactobacillus Johnsonii.gb
 devtools::install_github("MolyWang/microCompet", build_vignettes = TRUE)
-library("microCompet)
+library("microCompet")
 ```
 
 ## Overview
@@ -68,11 +68,11 @@ the provided *Lactobacillus\_johnsonii.gb* genome.
 
 ``` r
 require("microCompet")
-require(ggraph)
-require(network)
-require(sna)
-require(ggplot2)
-require(igraph)
+require("ggraph")
+require("network")
+require("sna")
+require("ggplot2")
+require("igraph")
 
 ER <- microCompet::EnymaticReactions
 ED <- microCompet::EnzymeDistribution

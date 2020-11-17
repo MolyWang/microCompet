@@ -35,7 +35,7 @@
 #' }
 #'
 #'@export
-#'@importFrom igraph graph_from_data_frame
+#'@import igraph
 #'@import ggraph
 #'@import network
 #'@import sna
@@ -117,7 +117,7 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
 #'  edge_frame
 #' }
 #'
-#' @importFrom dplyr select
+#' @import dplyr
 #'
 createEdgeFrame <- function(relevant_reactions) {
   require(dplyr)
