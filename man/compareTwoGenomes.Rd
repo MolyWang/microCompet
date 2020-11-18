@@ -22,11 +22,13 @@ count shared genes. This includes genes both genomes have or neither.
 }
 \examples{
 \dontrun{
- gene_lst1 <- EnzymeDistribution$Gene[4:25]
- genome1 <- transformToVector(gene_lst1)
- gene_lst2 <- EnzymeDistribution$Gene[10:35]
- genome2 <- transformToVector(gene_lst2)
- ED <- microCompet::EnzymaticDistribution
+ ED <- microCompet::EnzymeDistribution
+ all_genes <-ED$Gene
+ gene_lst1 <- ED$Gene[4:25]
+ genome1 <- transformToVector(gene_lst1, all_genes)
+ gene_lst2 <- ED$Gene[10:35]
+ genome2 <- transformToVector(gene_lst2, all_genes)
+
  total_genes_num <- length(ED$Gene)
  score <- compareTwoGenomes(genome1, genome2, total_genes_num)
  score

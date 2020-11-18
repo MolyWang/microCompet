@@ -22,7 +22,7 @@
 #'  genome_name <- "L. johnsonii"
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path = "./Lactobacillus_johnsonii.gb"
+#'  genome_file_path <- "./Lactobacillus_johnsonii.gb"
 #'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 #'  first_microbe <- 5
 #'  last_microbe <- 13
@@ -54,10 +54,29 @@ competeMicrobiota <- function(genome_name, gene_lst, ER,
 }
 
 
-# cols are microbes
-# rows are sugars
-# each cell is a score, num of enzymes the microbe have for this pathway
-# same as the competeMicrobiota
+#' Evaluate completeness of sugar degradation paths
+#'
+#' Evalute path completeness of all sugar degradation pathways listed in all_sugars
+#'
+#' @param genome_name Name of the species of interest
+#'
+#' @param gene_lst A list of gene name that represent the species
+#'
+#' @param all_sugars Name of all sugar pathways relevant
+#'
+#' @param ER A dataset with at least 3 columns. Gene name for an enzyme, Reaction.EC for
+#'   one catalytic reaction, and Sugar for degradation pathway. Column names are case
+#'   sensitive.
+#'
+#' @param ED A dataset with at least Gene, Reaction.EC, and columns for genome
+#'   sugar pathways data from different genomes. See EnzymeDistribution for example.
+#'
+#' @param first_microbe Column index of first microbe genome in dataset ED
+#'
+#' @param last_microbe Column index of last microbe genome in dataset ED. Default set
+#'   to the last column of ED.
+#'
+#'
 pathCompleteness <- function(genome_name, gene_lst, all_sugars, ER,
                              ED, first_microbe, last_microbe) {
 
@@ -83,7 +102,8 @@ pathCompleteness <- function(genome_name, gene_lst, all_sugars, ER,
 
 #' Calculate pathway completeness for all pathways within a genome.
 #'
-#' use the calculateCount function for all sugar pathways.
+#' Use the calculateCount function for all sugar pathways one by one,
+#' and build a named vector for all pathways
 #'
 #' @param gene_lst Gene list represents on genome
 #' @param all_sugars A list representing all sugar degradation pathways.
@@ -98,8 +118,8 @@ pathCompleteness <- function(genome_name, gene_lst, all_sugars, ER,
 #'  ER <- microCompet::EnzymaticReactions
 #'  ED <- microCompet::EnzymeDistribution
 #'  all_sugars <- sort(unique(ED$Sugar))
-#'  enzyme_count <- calculateCount(gene_lst, all_sugars, ER)
-#'  enzyme_count
+#'  enzyme_counts <- allSugarScoresForOneGenome(gene_lst, all_sugars, ER)
+#'  enzyme_counts
 #' }
 #'
 #'

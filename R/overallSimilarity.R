@@ -18,11 +18,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'  library(microCompet)
+#'  library("microCompet")
 #'  genome_name <- "L. johnsonii"
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path <- "./Klebsiella_variicola.gb"
+#'  genome_file_path <- "./Lactobacillus_johnsonii.gb"
 #'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 #'
 #'  overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
@@ -77,11 +77,13 @@ overallSimilarity <- function(genome_name, gene_lst, ED,
 #'
 #' @examples
 #' \dontrun{
-#'  gene_lst1 <- EnzymeDistribution$Gene[4:25]
-#'  genome1 <- transformToVector(gene_lst1)
-#'  gene_lst2 <- EnzymeDistribution$Gene[10:35]
-#'  genome2 <- transformToVector(gene_lst2)
-#'  ED <- microCompet::EnzymaticDistribution
+#'  ED <- microCompet::EnzymeDistribution
+#'  all_genes <-ED$Gene
+#'  gene_lst1 <- ED$Gene[4:25]
+#'  genome1 <- transformToVector(gene_lst1, all_genes)
+#'  gene_lst2 <- ED$Gene[10:35]
+#'  genome2 <- transformToVector(gene_lst2, all_genes)
+#'
 #'  total_genes_num <- length(ED$Gene)
 #'  score <- compareTwoGenomes(genome1, genome2, total_genes_num)
 #'  score
@@ -115,7 +117,7 @@ compareTwoGenomes <- function(genome1, genome2, total_genes_num) {
 #'  ED <- microCompet::EnzymeDistribution
 #'  all_genes <- ED$Gene
 #'  gene_lst <- ED$Gene[4:25]
-#'  genome_vector <- transformToVector(gene_lst)
+#'  genome_vector <- transformToVector(gene_lst, all_genes)
 #'  genome_vector
 #' }
 #'

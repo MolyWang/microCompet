@@ -29,7 +29,14 @@ __*Welcome to the world of microbes and microbiota!*__
 
 <img src="../inst/extdata/microbiome.jpg" height="400px" width="600px"/>
 
-https://emerypharma.com/blog/human_microbiome_healthier_life/
+
+```{r, eval=FALSE}
+- Introduction
+- Available Datasets
+- Available Functions
+- References
+```
+
 
 ## Introduction
 _*microCompet*_ is a package for visualizing potential microbial competition for simple sugars as sources of nutrition and energy. It can plot all pathways one microbe has, evaluate each pathway's completeness, and compare across species to score the potential for competition. 
@@ -46,6 +53,7 @@ require("network")
 require("sna")
 require("ggplot2")
 require("igraph")
+require("dplyr")
 ```
 
 
@@ -98,7 +106,7 @@ This function offers to visualize the all sugar degradation pathways of a microb
 # require("microCompet")
 # ED <- microCompet::EnzymeDistribution
 # full_enzyme_gene_lst <- ED$Gene
-# genome_file_path = "./Lactobacillus_johnsonii.gb"
+# genome_file_path <- "./Lactobacillus_johnsonii.gb"
 # carbo_genes <- microCompet::extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 ER <- microCompet::EnzymaticReactions
 full_pathway <- microCompet::constructFullNetwork("L. johnsonii", carbo_genes, ER)
@@ -120,7 +128,7 @@ __3. overallSimilarity__
 
 Given a genome of interest (represented by a list of gene names) and an expression profile of some other species (must be offered in a dataframe following the format of __*EnzymeDistribution*__), this function compares the overall similarity of the genome of interest with other species and produce a radar chart. See example
 ```{r, eval=FALSE}
-# library(microCompet)
+# library("microCompet")
 # genome_name <- "L. johnsonii"
 # full_enzyme_gene_lst <- ED$Gene
 # genome_file_path <- "./Lactobacillus_johnsonii.gb"
@@ -146,7 +154,7 @@ The last function is to show potential microbial competition for various sugars.
 Run the code, play with the interactive plot, and compare your favourite ones.
 
 ```{r, eval=FALSE}
-#  library(microCompet)
+#  library("microCompet")
 #  genome_name <- "L. johnsonii"
 #  full_enzyme_gene_lst <- ED$Gene
 #  genome_file_path <- "./Lactobacillus_johnsonii.gb"
@@ -176,13 +184,14 @@ Now you understand how to play with this package, have fun!
 
 4. Csardi, G., Nepusz, T. 2006. The igraph software package for complex network research, InterJournal, Complex Systems 1695. https://igraph.org
 
-5. Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61. doi:10.1093/nar/30.1.59
+5. Emery Pharma. A Fascination for the Human Microbiome for a Healthier Life. https://emerypharma.com/blog/human_microbiome_healthier_life/ 
 
-6. National Center for Biotechnology Information (NCBI)[Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information; [1988]. Available from: https://www.ncbi.nlm.nih.gov/
+6. Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61. doi:10.1093/nar/30.1.59
 
-7. Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of Graphics for Graphs and Networks. R package version 2.0.3. https://CRAN.R-project.org/package=ggraph
+7. National Center for Biotechnology Information (NCBI)[Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information; [1988]. Available from: https://www.ncbi.nlm.nih.gov/
 
-8. R Core Team. 2020. R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL: https://www.R-project.org/.
+8. Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of Graphics for Graphs and Networks. R package version 2.0.3. https://CRAN.R-project.org/package=ggraph
 
-9. Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.
+9. R Core Team. 2020. R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL: https://www.R-project.org/.
 
+10. Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.

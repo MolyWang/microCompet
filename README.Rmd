@@ -20,9 +20,11 @@ knitr::opts_chunk$set(
 
 
 ## Description
-R package _microCompet_ is for visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
-1. visualize all sugar degradation activities one microbe can carry out (See function constructFullNetwork)
-2. Compare a microbe's overall sugar degradation pathway similarity to other microbes (See functions overallSimilarity and competeMicrobiota)
+R package __*microCompet*__ is for visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
+
+1. visualize all sugar degradation activities one microbe can carry out (See function _*constructFullNetwork*_)
+
+2. Compare a microbe's overall sugar degradation pathway similarity to other microbes (See functions _*overallSimilarity*_ and _*competeMicrobiota*_)
 
 
 
@@ -44,7 +46,9 @@ ls("package:microCompet")
 data(package = "microCompet")
 ```
 _microCompet_ package contains 4 functions and 2 datasets. 
+
 Dataset __*EnzymaticReactions*__ describe enzymatic steps for sugar degradation pathways with 5 factors: gene encoding the enzyme, enzyme catagory by EC number (such as 2.1.5.77), reaction substrate and product, and the sugar pathway.
+
 Dataset __*EnzymeDistribution*__ lists genes for unique enzymes *AND* offers the genome data of 9 diverse microbe strains from human microbiota, using 0 and 1 to indicate whether a specific microbe (one column) carries the gene represented by the row. See these genomes by 
 ```{r, eval=FALSE}
 library("microCompet")
@@ -96,8 +100,8 @@ overall_similarity
 
 The final function __*competeMicrobiota*__ visualize available microbes in terms of pathway completeness, suggesting their ability to fully degrade indicated sugar sources.
 ```{r, eval=FALSE}
-library(microCompet)
-require(radarchart)
+library("microCompet")
+require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene

@@ -9,13 +9,16 @@
 
 ## Description
 
-R package *microCompet* is for visualizing potential microbial
+R package ***microCompet*** is for visualizing potential microbial
 competitions for nutrition, mainly simple sugars such as pentoses an
-pyranoses. This package offers functions to: 1. visualize all sugar
-degradation activities one microbe can carry out (See function
-constructFullNetwork) 2. Compare a microbe’s overall sugar degradation
-pathway similarity to other microbes (See functions overallSimilarity
-and competeMicrobiota)
+pyranoses. This package offers functions to:
+
+1.  visualize all sugar degradation activities one microbe can carry out
+    (See function *_constructFullNetwork_*)
+
+2.  Compare a microbe’s overall sugar degradation pathway similarity to
+    other microbes (See functions *_overallSimilarity_* and
+    *_competeMicrobiota_*)
 
 ## Installation
 
@@ -35,12 +38,15 @@ ls("package:microCompet")
 data(package = "microCompet")
 ```
 
-*microCompet* package contains 4 functions and 2 datasets. Dataset
-***EnzymaticReactions*** describe enzymatic steps for sugar degradation
-pathways with 5 factors: gene encoding the enzyme, enzyme catagory by EC
-number (such as 2.1.5.77), reaction substrate and product, and the sugar
-pathway. Dataset ***EnzymeDistribution*** lists genes for unique enzymes
-*AND* offers the genome data of 9 diverse microbe strains from human
+*microCompet* package contains 4 functions and 2 datasets.
+
+Dataset ***EnzymaticReactions*** describe enzymatic steps for sugar
+degradation pathways with 5 factors: gene encoding the enzyme, enzyme
+catagory by EC number (such as 2.1.5.77), reaction substrate and
+product, and the sugar pathway.
+
+Dataset ***EnzymeDistribution*** lists genes for unique enzymes *AND*
+offers the genome data of 9 diverse microbe strains from human
 microbiota, using 0 and 1 to indicate whether a specific microbe (one
 column) carries the gene represented by the row. See these genomes by
 
@@ -109,8 +115,8 @@ in terms of pathway completeness, suggesting their ability to fully
 degrade indicated sugar sources.
 
 ``` r
-library(microCompet)
-require(radarchart)
+library("microCompet")
+require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene

@@ -25,7 +25,7 @@ inside the gene_lst, 1 indicating it's included
  ED <- microCompet::EnzymeDistribution
  all_genes <- ED$Gene
  gene_lst <- ED$Gene[4:25]
- genome_vector <- transformToVector(gene_lst)
+ genome_vector <- transformToVector(gene_lst, all_genes)
  genome_vector
 }
 

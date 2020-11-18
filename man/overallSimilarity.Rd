@@ -37,11 +37,11 @@ available species in the EnzymeDistribution dataset.
 }
 \examples{
 \dontrun{
- library(microCompet)
+ library("microCompet")
  genome_name <- "L. johnsonii"
  ED <- microCompet::EnzymeDistribution
  full_enzyme_gene_lst <- ED$Gene
- genome_file_path <- "./Klebsiella_variicola.gb"
+ genome_file_path <- "./Lactobacillus_johnsonii.gb"
  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 
  overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)

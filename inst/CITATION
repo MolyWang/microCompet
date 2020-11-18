@@ -2,11 +2,11 @@ citHeader("To cite microCompet in publications use:")
 
 citEntry(
   entry    = "Unpublished",
-  title    = "microCompet: an R package for visualizing microbial nutritional competition",
+  title    = "microCompet: an R package for visualizing microbial competition for simple sugars",
   author   = "Zhuyi Wang",
   note     = "Unpublished",
   year     = "2020",
   textVersion = paste(
-"Wang, Z. (2020) microCompet: an R package for visualizing microbial nutritional competition. URL: https://github.com/MolyWang/microCompet"
+"Wang, Z. (2020) microCompet: an R package for visualizing microbial competition for simple sugars. URL: https://github.com/MolyWang/microCompet"
   )
 )
