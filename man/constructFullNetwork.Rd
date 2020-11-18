@@ -36,10 +36,10 @@ Color of the edge represents the sugar degradation pathway this enzyme involved 
 \examples{
 \dontrun{
  require("microCompet")
- ER <- microCompet::EnymaticReactions
+ ER <- microCompet::EnzymaticReactions
  ED <- microCompet::EnzymeDistribution
  full_enzyme_gene_lst <- ED$Gene
- genome_file_path = "./Klebsiella_variicola.gb"
+ genome_file_path <- "./Klebsiella_variicola.gb"
  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
  full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
  full_pathway

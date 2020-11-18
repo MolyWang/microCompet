@@ -16,13 +16,13 @@
 #' @return A radar chart with microbial species on corners and the user input genome
 #'    in the middle.
 #'
-#' @exampless
+#' @examples
 #' \dontrun{
 #'  library(microCompet)
 #'  genome_name <- "L. johnsonii"
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path = "./Klebsiella_variicola.gb"
+#'  genome_file_path <- "./Klebsiella_variicola.gb"
 #'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 #'
 #'  overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
@@ -71,7 +71,7 @@ overallSimilarity <- function(genome_name, gene_lst, ED,
 #'
 #' @param genome2 Same as genome1, but represents another genome
 #'
-#' @param total_genes Total number of genes of interest to be compared.
+#' @param total_genes_num Total number of genes of interest to be compared.
 #'
 #' @return An integer indicating number of shared genes by genome1 and genome2.
 #'

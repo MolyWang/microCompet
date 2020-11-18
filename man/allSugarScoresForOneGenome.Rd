@@ -17,6 +17,11 @@ the next calculateCount function, since it's only for passing to the helper.}
 }
 \value{
 A vector containing a genome's score for all sugar degradatin pathways.
+}
+\description{
+use the calculateCount function for all sugar pathways.
+}
+\examples{
 \dontrun{
  gene_lst <- c("rpe", "rpiB", "eno", "fucK")
  ER <- microCompet::EnzymaticReactions
@@ -25,7 +30,6 @@ A vector containing a genome's score for all sugar degradatin pathways.
  enzyme_count <- calculateCount(gene_lst, all_sugars, ER)
  enzyme_count
 }
-}
-\description{
-use the calculateCount function for all sugar pathways.
+
+
 }

@@ -18,14 +18,14 @@
 #'
 #' @examples
 #'  \dontrun{
-#'  library(microCompet)
+#'  library("microCompet")
 #'  genome_name <- "L. johnsonii"
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_gene_lst <- ED$Gene
 #'  genome_file_path = "./Lactobacillus_johnsonii.gb"
 #'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-#'  first_microbe = 5
-#'  last_microbe = 13
+#'  first_microbe <- 5
+#'  last_microbe <- 13
 #'  ER <- microCompet::EnzymaticReactions
 #'  compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
 #'                                          ED, first_microbe, last_microbe)
@@ -92,6 +92,7 @@ pathCompleteness <- function(genome_name, gene_lst, all_sugars, ER,
 #'   the next calculateCount function, since it's only for passing to the helper.
 #'
 #' @return A vector containing a genome's score for all sugar degradatin pathways.
+#' @examples
 #' \dontrun{
 #'  gene_lst <- c("rpe", "rpiB", "eno", "fucK")
 #'  ER <- microCompet::EnzymaticReactions
@@ -137,7 +138,6 @@ allSugarScoresForOneGenome <- function(gene_lst, all_sugars, ER) {
 #' }
 #'
 calculateCount <- function(gene_lst, sugar, ER) {
-  # data("EnzymaticReactions")
   enzymes_carried_df <- ER[is.element(ER$Gene, gene_lst), ]
   enzyme_count <- length(unique(enzymes_carried_df[enzymes_carried_df$Sugar == sugar, ]$Reaction.EC))
   return(enzyme_count)
@@ -162,7 +162,7 @@ calculateCount <- function(gene_lst, sugar, ER) {
 #'
 #' @examples
 #' \dontrun{
-#'  library(microCompet)
+#'  library("microCompet")
 #'  ER <- microCompet::EnzymaticReactions
 #'  all_sugars <- ER$Sugar
 #'  total_steps <- calculateTotalSteps(all_sugars, ER)

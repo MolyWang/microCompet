@@ -22,7 +22,7 @@
 #'  require("microCompet")
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path = "./Klebsiella_variicola.gb"
+#'  genome_file_path <- "./Klebsiella_variicola.gb"
 #'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 #'  carbo_genes
 #' }

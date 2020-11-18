@@ -25,10 +25,10 @@
 #' @examples
 #' \dontrun{
 #'  require("microCompet")
-#'  ER <- microCompet::EnymaticReactions
+#'  ER <- microCompet::EnzymaticReactions
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path = "./Klebsiella_variicola.gb"
+#'  genome_file_path <- "./Klebsiella_variicola.gb"
 #'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 #'  full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
 #'  full_pathway
@@ -72,8 +72,10 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
     scale_size(range = c(1, 5)) +
     theme_void() +
     scale_edge_width(range = c(1, 2)) +
-    geom_node_text(label = node_frame$compound, size = 4, color = "gray30", repel = TRUE) +
-    #geom_edge_fan(color = E(network)$sugar) +
+    geom_node_text(label = node_frame$compound,
+                   size = 4,
+                   color = "gray30",
+                   repel = TRUE) +
     ggtitle(paste("Full Sugar Degradation Pathway for", genome_name)) +
     theme(plot.title = element_text(hjust = 0.5, lineheight = 1.5))
 
@@ -121,7 +123,7 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
 #'
 createEdgeFrame <- function(relevant_reactions) {
   require(dplyr)
-  relevant_frame <- dplyr::select(relevant_reactions, Substrate, Product, Sugar)
+  relevant_frame <- dplyr::select(relevant_reactions, "Substrate", "Product", "Sugar")
 
   unique_reactions <- unique(relevant_frame)
 

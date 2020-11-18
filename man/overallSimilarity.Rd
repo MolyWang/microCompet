@@ -35,3 +35,17 @@ Based on sugar degradation genes, compare the overall similarity
 of the given genome and other 9 microbial species from microbiota
 available species in the EnzymeDistribution dataset.
 }
+\examples{
+\dontrun{
+ library(microCompet)
+ genome_name <- "L. johnsonii"
+ ED <- microCompet::EnzymeDistribution
+ full_enzyme_gene_lst <- ED$Gene
+ genome_file_path <- "./Klebsiella_variicola.gb"
+ carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+
+ overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
+ overall_similarity
+}
+
+}

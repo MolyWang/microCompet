@@ -11,7 +11,7 @@ compareTwoGenomes(genome1, genome2, total_genes_num)
 
 \item{genome2}{Same as genome1, but represents another genome}
 
-\item{total_genes}{Total number of genes of interest to be compared.}
+\item{total_genes_num}{Total number of genes of interest to be compared.}
 }
 \value{
 An integer indicating number of shared genes by genome1 and genome2.

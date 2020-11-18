@@ -24,7 +24,7 @@ number of enzymes with different EC number.
 }
 \examples{
 \dontrun{
- library(microCompet)
+ library("microCompet")
  ER <- microCompet::EnzymaticReactions
  all_sugars <- ER$Sugar
  total_steps <- calculateTotalSteps(all_sugars, ER)
