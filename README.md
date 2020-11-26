@@ -71,7 +71,7 @@ the provided *Lactobacillus\_johnsonii.gb* genome.
 
 ``` r
 require("microCompet")
-
+#> Loading required package: microCompet
 
 ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
@@ -97,11 +97,16 @@ require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
-genome_file_path <- "./Lactobacillus_johnsonii.gb"
+genome_file_path <- system.file("extdata",
+                              "Lactobacillus johnsonii.gb",
+                              package = "microCompet",
+                              mustWork = TRUE)
 carbo_genes <- microCompet::extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
 overall_similarity
 ```
+
+<img src="./inst/extdata/overSimi1.png" width="100%" />
 
 The final function ***competeMicrobiota*** visualize available microbes
 in terms of pathway completeness, suggesting their ability to fully
@@ -110,7 +115,6 @@ degrade indicated sugar sources.
 ``` r
 library("microCompet")
 require("radarchart")
-#> Loading required package: radarchart
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
@@ -127,7 +131,7 @@ compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
 compete_microbiota
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="./inst/extdata/comp1.png" width="100%" />
 
 Refer to package vignettes for more details.
 
