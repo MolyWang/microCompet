@@ -55,8 +55,32 @@
 #'   \item{Spneu}{Enzyme distribution in Streptococcus pneumoniae}
 #'  }
 #'
-#'@example
+#'@examples
 #'\dontrun{
 #'head(EnzymeDistribution)
 #'}
 "EnzymeDistribution"
+
+
+#' Sample genome from Klebsiella variicola
+#'
+#' A list of all simple sugar degradation enzymes present in Klebsiella variicola.
+#'
+#' @examples
+#' \dontrun{
+#' sampleGenome_Kvari
+#' }
+"sampleGenome_Kvari"
+
+#' Sample genome from Klebsiella variicola
+#'
+#' A list of all simple sugar degradation enzymes present in Lactobacillus johnsonii.
+#'
+#' @examples
+#' \dontrun{
+#' sampleGenome_Ljohn
+#' }
+"sampleGenome_Ljohn"
+
+
+#[END]

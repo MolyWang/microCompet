@@ -42,11 +42,11 @@
 #'@import ggplot2
 #'
 constructFullNetwork <- function(genome_name, gene_lst, ER) {
-  require(ggraph)
-  require(network)
-  require(sna)
-  require(ggplot2)
-  require(igraph)
+#  require(ggraph)
+#  require(network)
+#  require(sna)
+#  require(ggplot2)
+#  require(igraph)
 
   # build all required dataframes to initialize the network
   relevant_reactions <- ER[is.element(ER$Gene, gene_lst), ]
@@ -63,21 +63,21 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
   Sugar_Pathway <- edge_frame$sugar
 
   full_network <-
-    ggraph(net,layout = "fr") +
-    geom_edge_link(arrow = arrow(length = unit(3, 'mm')),
-                   end_cap = circle(2, 'mm'),
-                   aes(color = Sugar_Pathway,
-                       width = Relative_Enzyme_Count)) +
-    geom_node_point(aes(size = Relative_Reaction_Count)) +
-    scale_size(range = c(1, 5)) +
-    theme_void() +
-    scale_edge_width(range = c(1, 2)) +
-    geom_node_text(label = node_frame$compound,
-                   size = 4,
-                   color = "gray30",
-                   repel = TRUE) +
-    ggtitle(paste("Full Sugar Degradation Pathway for", genome_name)) +
-    theme(plot.title = element_text(hjust = 0.5, lineheight = 1.5))
+    ggraph::ggraph(net,layout = "fr") +
+    ggraph::geom_edge_link(arrow = arrow(length = unit(3, 'mm')),
+                           end_cap = circle(2, 'mm'),
+                           aes(color = Sugar_Pathway,
+                               width = Relative_Enzyme_Count)) +
+    ggraph::geom_node_point(aes(size = Relative_Reaction_Count)) +
+    ggplot2::scale_size(range = c(1, 5)) +
+    ggplot2::theme_void() +
+    ggraph::scale_edge_width(range = c(1, 2)) +
+    ggraph::geom_node_text(label = node_frame$compound,
+                           size = 4,
+                           color = "gray30",
+                           repel = TRUE) +
+    ggplot2::ggtitle(paste("Full Sugar Degradation Pathway for", genome_name)) +
+    ggplot2::theme(plot.title = element_text(hjust = 0.5, lineheight = 1.5))
 
   return(full_network)
 }
@@ -122,7 +122,7 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
 #' @importFrom dplyr select
 #'
 createEdgeFrame <- function(relevant_reactions) {
-  require(dplyr)
+#  require(dplyr)
   relevant_frame <- dplyr::select(relevant_reactions, "Substrate", "Product", "Sugar")
 
   unique_reactions <- unique(relevant_frame)

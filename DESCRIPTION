@@ -2,7 +2,7 @@ Package: microCompet
 Type: Package
 Title: Identify the potential nutritional competitor from microbiota
 Version: 0.1.0
-Author: Zhuyi, Wang, email = "moly.wang@mail.utoronto.ca", role = c("aut", "cre")
+Authors@R: person("Zhuyi", "Wang", email = "moly.wang@mail.utoronto.ca", role = c("aut", "cre"))
 Maintainer: Zhuyi Wang <moly.wang@mail.utoronto.ca>
 Description: Given one or more microbial pathogens, identify its potential nutritional 
     competitors among members of microbiota.
@@ -23,5 +23,6 @@ Imports:
     ggraph,
     sna,
     network,
-    ggplot2
+    ggplot2,
+    shiny
 VignetteBuilder: knitr

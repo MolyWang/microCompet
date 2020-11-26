@@ -131,3 +131,5 @@ transformToVector <- function(gene_lst, all_genes) {
 
   return(as.integer(genome_vector))
 }
+
+#[END]
