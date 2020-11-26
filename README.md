@@ -71,16 +71,11 @@ the provided *Lactobacillus\_johnsonii.gb* genome.
 
 ``` r
 require("microCompet")
-require("ggraph")
-require("network")
-require("sna")
-require("ggplot2")
-require("igraph")
-require("dplyr")
+
 
 ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
-full_enzyme_gene_lst <- ED$Gene
+fullEnzymeGeneList <- ED$Gene
 genomeFilePath <- system.file("extdata",
                               "Lactobacillus johnsonii.gb",
                               package = "microCompet",
@@ -90,7 +85,7 @@ fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
 fullPathway
 ```
 
-![](./inst/extdata/Ljohn.png)
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 Function ***overallSimilarity*** count sugar degradation genes in common
 between the given genome and other microbial species, and creates an
@@ -108,8 +103,6 @@ overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
 overall_similarity
 ```
 
-![](./inst/extdata/overSimi1.png)
-
 The final function ***competeMicrobiota*** visualize available microbes
 in terms of pathway completeness, suggesting their ability to fully
 degrade indicated sugar sources.
@@ -117,10 +110,14 @@ degrade indicated sugar sources.
 ``` r
 library("microCompet")
 require("radarchart")
+#> Loading required package: radarchart
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
-genome_file_path <- "./Lactobacillus_johnsonii.gb"
+genome_file_path <- system.file("extdata",
+                              "Lactobacillus johnsonii.gb",
+                              package = "microCompet",
+                              mustWork = TRUE)
 carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
 first_microbe <- 5
 last_microbe <- 13
@@ -130,8 +127,9 @@ compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
 compete_microbiota
 ```
 
-![](./inst/extdata/comp1.png) ![](./inst/extdata/comp2.png) Refer to
-package vignettes for more details.
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+Refer to package vignettes for more details.
 
 ``` r
 browseVignettes("microCompet")
@@ -228,3 +226,10 @@ Written by Zhuyi Wang.
 
 This package was developed as part of an assessment for 2019-2020
 BCB410H: Applied Bioinformatics, University of Toronto, Toronto, CANADA.
+
+## Examples
+
+## Consent
+
+As on 2020-11-26, I, Zhuyi Wang, consent to leave this package public
+and share it with future BCB410 students.
