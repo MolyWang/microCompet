@@ -24,9 +24,6 @@ pyranoses. This package offers functions to:
 
 ``` r
 require("devtools")
-# Remember to download the example gb files into your working directory, 
-# so examples run more smoothly.
-# Klebsiella_variicola.gb & Lactobacillus Johnsonii.gb
 devtools::install_github("MolyWang/microCompet", build_vignettes = TRUE)
 library("microCompet")
 ```
@@ -84,10 +81,13 @@ require("dplyr")
 ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
-genome_file_path <- "./Lactobacillus_johnsonii.gb"
-carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-full_pathway <- constructFullNetwork("Lactobacillus johnsonii", carbo_genes, ER)
-full_pathway
+genomeFilePath <- system.file("extdata",
+                              "Lactobacillus johnsonii.gb",
+                              package = "microCompet",
+                              mustWork = TRUE)
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
+fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
+fullPathway
 ```
 
 ![](./inst/extdata/Ljohn.png)
@@ -221,6 +221,8 @@ Written by Zhuyi Wang.
 
 9.  Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis.
     Springer-Verlag New York.
+
+10. Cite the R-package textbook here.
 
 ## Acknowledgements
 

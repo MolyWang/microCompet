@@ -2,27 +2,30 @@
 % Please edit documentation in R/extractCarboGenes.R
 \name{extractCarboGenes}
 \alias{extractCarboGenes}
-\title{Extract Carbohydrate-degrading Genes from Microbe Genome}
+\title{Extract Carbohydrate Degradation Genes from Microbe Genome}
 \usage{
-extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
 }
 \arguments{
-\item{genome_file_path}{Full path to a GenBank file that represents a microbial genome.
+\item{genomeFilePath}{Full path to a GenBank file that represents a microbial genome.
 This GenBank file must at least have gene names annotated, see provided file
-"Klebsiella_variicola.gb" and "Lactobacillus_johnsonii.gb" for example, they have
-lines starting with "/gene=".}
+"Klebsiella variicola.gb" and "Lactobacillus johnsonii.gb" in extdata for example,
+they have lines in the format /gene="gene_name".}
 
-\item{full_enzyme_gene_lst}{A list of all sugar degradation genes to be searched for in
-the user-defined genome.}
+\item{fullEnzymeGeneList}{A list of all sugar degradation genes to be searched for in
+the user-provided genome (the file with genomeFilePath).}
 }
 \value{
 A list of gene names that encode simple sugar degradation enzymes.
 }
 \description{
-This functions extract genes encoding enzymes that participate in simple
-sugar degradation from the given genome.
+This function reads a genbank file specified by path line by line and
+extracts genes encoding enzymes that participate in simple sugar
+degradation from the given genome.
+}
+\details{
 There are other available packages that format the whole genbank file into
-one organized object, but information other than "gene_names" are not
+one organized object, but information other than geneName are not
 useful to this package, and those functions would take about 30 more
 seconds on a Windows system, so this function is provided.
 }
@@ -30,10 +33,15 @@ seconds on a Windows system, so this function is provided.
 \dontrun{
  require("microCompet")
  ED <- microCompet::EnzymeDistribution
- full_enzyme_gene_lst <- ED$Gene
- genome_file_path <- "./Klebsiella_variicola.gb"
- carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
- carbo_genes
+ fullEnzymeGeneList <- ED$Gene
+ genomeFilePath <- system.file("extdata",
+                               "Klebsiella variicola.gb",
+                               package = "microCompet",
+                               mustWork = TRUE)
+ carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
+ carboGenes
+ # carboGenes should be the same as the following geneList
+ expectedCarboGenes <- microCompet::sampleGenomeKvari
 }
 
 }

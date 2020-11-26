@@ -62,25 +62,37 @@
 "EnzymeDistribution"
 
 
-#' Sample genome from Klebsiella variicola
+#' Sample carboGenes extracted from Klebsiella variicola
 #'
 #' A list of all simple sugar degradation enzymes present in Klebsiella variicola.
 #'
 #' @examples
 #' \dontrun{
-#' sampleGenome_Kvari
+#' sampleGenomeKvari
 #' }
-"sampleGenome_Kvari"
+"sampleGenomeKvari"
 
-#' Sample genome from Klebsiella variicola
+
+#' Sample carboGenes extracted from Lactobacillus johnsonii
 #'
 #' A list of all simple sugar degradation enzymes present in Lactobacillus johnsonii.
 #'
 #' @examples
 #' \dontrun{
-#' sampleGenome_Ljohn
+#' sampleGenomeLjohn
 #' }
-"sampleGenome_Ljohn"
+"sampleGenomeLjohn"
+
+
+#' Information about genomes used in EnzymeDistribution
+#'
+#'  @format A matrix with 9 rows and 3 variables
+#'  \describe{
+#'   \item{Bacterial.Genome}{Full name of 9 bacteria.}
+#'   \item{Accession}{Accession of this genome on NCBI.}
+#'   \item{Description}{Full description of this genome on NCBI, including strain name.}
+#'   }
+"GenomesInfo"
 
 
 #[END]

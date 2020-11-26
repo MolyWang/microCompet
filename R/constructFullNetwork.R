@@ -50,17 +50,17 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
 
   # build all required dataframes to initialize the network
   relevant_reactions <- ER[is.element(ER$Gene, gene_lst), ]
-  edge_frame <- createEdgeFrame(relevant_reactions)
-  node_frame <- createNodeFrame(edge_frame)
+  edgeFrame <- createEdgeFrame(relevant_reactions)
+  nodeFrame <- createNodeFrame(edgeFrame)
 
-  net <- igraph::graph_from_data_frame(d = edge_frame,
-                                           vertices = node_frame,
+  net <- igraph::graph_from_data_frame(d = edgeFrame,
+                                           vertices = nodeFrame,
                                            directed = TRUE)
 
   # to change aes label in ggraph
-  Relative_Reaction_Count <- node_frame$weight
-  Relative_Enzyme_Count <- edge_frame$num_of_enzymes
-  Sugar_Pathway <- edge_frame$sugar
+  Relative_Reaction_Count <- nodeFrame$weight
+  Relative_Enzyme_Count <- edgeFrame$num_of_enzymes
+  Sugar_Pathway <- edgeFrame$sugar
 
   full_network <-
     ggraph::ggraph(net,layout = "fr") +
@@ -72,7 +72,7 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
     ggplot2::scale_size(range = c(1, 5)) +
     ggplot2::theme_void() +
     ggraph::scale_edge_width(range = c(1, 2)) +
-    ggraph::geom_node_text(label = node_frame$compound,
+    ggraph::geom_node_text(label = nodeFrame$compound,
                            size = 4,
                            color = "gray30",
                            repel = TRUE) +
@@ -115,8 +115,8 @@ constructFullNetwork <- function(genome_name, gene_lst, ER) {
 #'  library("microCompet")
 #'  ER <- microCompet::EnzymaticReactions
 #'  relevant_reactions <- ER[ER$Sugar == "ribose", ]
-#'  edge_frame <- createEdgeFrame(relevant_reactions)
-#'  edge_frame
+#'  edgeFrame <- createEdgeFrame(relevant_reactions)
+#'  edgeFrame
 #' }
 #'
 #' @importFrom dplyr select
@@ -144,13 +144,13 @@ createEdgeFrame <- function(relevant_reactions) {
   }
 
 
-  edge_frame <- data.frame(edge_substrates,
+  edgeFrame <- data.frame(edge_substrates,
                            edge_products,
                            edge_weights,
                            edge_sugar)
 
-  colnames(edge_frame) <- c("substrate", "product", "num_of_enzymes", "sugar")
-  return(edge_frame)
+  colnames(edgeFrame) <- c("substrate", "product", "num_of_enzymes", "sugar")
+  return(edgeFrame)
 }
 
 
@@ -161,7 +161,7 @@ createEdgeFrame <- function(relevant_reactions) {
 #' reactions this compound is involved in.)
 #' This function is only called as a helper for constructFullNetwork.
 #'
-#' @param edge_frame A data frame created by createEdgeFrame, must have
+#' @param edgeFrame A data frame created by createEdgeFrame, must have
 #'     "substrate", "product" columns, case sensitive.
 #'
 #' @return A dataframe with 2 columns.
@@ -175,17 +175,17 @@ createEdgeFrame <- function(relevant_reactions) {
 #' \dontrun{
 #'  ER <- microCompet::EnzymaticReactions
 #'  relevant_reactions <- ER[ER$Sugar == "ribose", ]
-#'  edge_frame <- createEdgeFrame(relevant_reactions)
-#'  node_frame <- createNodeFrame(edge_frame)
-#'  node_frame
+#'  edgeFrame <- createEdgeFrame(relevant_reactions)
+#'  nodeFrame <- createNodeFrame(edgeFrame)
+#'  nodeFrame
 #' }
-createNodeFrame <- function(edge_frame) {
-  all_compounds <- c(edge_frame$substrate,
-                     edge_frame$product)
-  node_frame <- as.data.frame(table(all_compounds))
-  colnames(node_frame) <- c("compound", "weight")
+createNodeFrame <- function(edgeFrame) {
+  all_compounds <- c(edgeFrame$substrate,
+                     edgeFrame$product)
+  nodeFrame <- as.data.frame(table(all_compounds))
+  colnames(nodeFrame) <- c("compound", "weight")
 
-  return(node_frame)
+  return(nodeFrame)
 }
 
 #[END]

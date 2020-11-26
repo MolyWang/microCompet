@@ -4,8 +4,8 @@ Title: Identify the potential nutritional competitor from microbiota
 Version: 0.1.0
 Authors@R: person("Zhuyi", "Wang", email = "moly.wang@mail.utoronto.ca", role = c("aut", "cre"))
 Maintainer: Zhuyi Wang <moly.wang@mail.utoronto.ca>
-Description: Given one or more microbial pathogens, identify its potential nutritional 
-    competitors among members of microbiota.
+Description: Given one microbial genome, identify its potential nutritional competitors 
+    among members of gut microbiota.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

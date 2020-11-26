@@ -10,10 +10,10 @@
  }
 }
 \usage{
-createNodeFrame(edge_frame)
+createNodeFrame(edgeFrame)
 }
 \arguments{
-\item{edge_frame}{A data frame created by createEdgeFrame, must have
+\item{edgeFrame}{A data frame created by createEdgeFrame, must have
 "substrate", "product" columns, case sensitive.}
 }
 \value{
@@ -29,8 +29,8 @@ This function is only called as a helper for constructFullNetwork.
 \dontrun{
  ER <- microCompet::EnzymaticReactions
  relevant_reactions <- ER[ER$Sugar == "ribose", ]
- edge_frame <- createEdgeFrame(relevant_reactions)
- node_frame <- createNodeFrame(edge_frame)
- node_frame
+ edgeFrame <- createEdgeFrame(relevant_reactions)
+ nodeFrame <- createNodeFrame(edgeFrame)
+ nodeFrame
 }
 }

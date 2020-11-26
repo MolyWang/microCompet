@@ -39,4 +39,9 @@ E. coli is usually treated as a positive control species since it contains
 very abundant metabolic genes and can survive with minimal minerals and
 simple sugars.
 }
+\examples{
+\dontrun{
+head(EnzymeDistribution)
+}
+}
 \keyword{datasets}

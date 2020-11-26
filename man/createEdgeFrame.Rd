@@ -39,8 +39,8 @@ This function is only called as a helper for constructFullNetwork.
  library("microCompet")
  ER <- microCompet::EnzymaticReactions
  relevant_reactions <- ER[ER$Sugar == "ribose", ]
- edge_frame <- createEdgeFrame(relevant_reactions)
- edge_frame
+ edgeFrame <- createEdgeFrame(relevant_reactions)
+ edgeFrame
 }
 
 }
