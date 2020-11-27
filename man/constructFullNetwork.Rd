@@ -17,6 +17,10 @@ enzymatic reactions with at least four characteristics: Gene, Substrate, Product
 Header should be EXACTLY the same. (See the sample dataset EnzymaticReactions for example
 by \code{?EnzymaticReactions}). Rows containing NA will be removed.}
 }
+\value{
+A network graph representing the full simple sugar degradation pathway of the
+    genome given as geneVec.
+}
 \description{
 Given a name of a microbe, a vector of gene names for sugar degradation enzymes,
 and a data.frame containing all enzymatic reactions of interest, this function

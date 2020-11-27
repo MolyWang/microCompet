@@ -17,14 +17,15 @@
 #' Color of the edge represents the sugar degradation pathway this step involved in.
 #'
 #' @param genomeName Name of the microbe to be plotted.
-#'
 #' @param geneVec A vector containing gene names of all sugar degradation enzymes present
 #'    in the given microbial genome (\code{genomeName}).
-#'
 #' @param ER A data.frame containing all enzymatic reactions of interest, and should represent
 #'     enzymatic reactions with at least four characteristics: Gene, Substrate, Product, Sugar.
 #'     Header should be EXACTLY the same. (See the sample dataset EnzymaticReactions for example
 #'     by \code{?EnzymaticReactions}). Rows containing NA will be removed.
+#'
+#' @return A network graph representing the full simple sugar degradation pathway of the
+#'     genome given as geneVec.
 #'
 #' @examples
 #' \dontrun{
@@ -42,15 +43,16 @@
 #' }
 #'
 #'@export
+#'
 #'@importFrom igraph graph_from_data_frame
 #'@import ggraph
 #'@import network
 #'@import sna
 #'@import ggplot2
-#'@import stats complete.cases
+#'@importFrom stats complete.cases
 #'
 constructFullNetwork <- function(genomeName, geneVec, ER) {
-  # ============ Check ============
+  # ============ Check ER ============
   # check the given dataset ER have all required columns with expected names
   expectedColNames <- c("Gene", "Substrate", "Product", "Sugar")
   if (!all(expectedColNames %in% colnames(ER))) {

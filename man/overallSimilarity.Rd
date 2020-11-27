@@ -2,50 +2,63 @@
 % Please edit documentation in R/overallSimilarity.R
 \name{overallSimilarity}
 \alias{overallSimilarity}
-\title{Compare overall similarity of the given genomes and microbiota.}
+\title{Compare Overall Similarity Of A Genome And Microbiota Members}
 \usage{
 overallSimilarity(
-  genome_name,
-  gene_lst,
+  genomeName,
+  geneVec,
   ED,
-  first_microbe,
-  last_microbe = ncol(ED)
+  firstMicrobe,
+  lastMicrobe = ncol(ED)
 )
 }
 \arguments{
-\item{genome_name}{Name of the genome represented by gene_lst}
+\item{genomeName}{Name of the genome represented by geneVec}
 
-\item{gene_lst}{A list of gene names represented by 3-5 characters, such as "rpiB"}
+\item{geneVec}{A vector gene names represented by 3-5 characters, such as "rpiB",
+containing all present simple sugar degradation enzymes in the microbe with
+genomeName.}
 
-\item{ED}{An enzyme distribution dataset that at least contain gene names and one
-microbial genome.}
+\item{ED}{An enzyme distribution data.frame that represents sugar degradation enzyme
+profiles in genomes that genomeName microbe is to be compare with. This data.frame
+contains a column "Gene" (case sensitive), and at least one genome profile
+from column index firstMicrobe to column index lastMicrobe CONTINUOUSLY. Genome
+profiles use 1 to indicate the presence of a gene, and 0 for absence. T/TRUE and
+F/FALSE can be coerced into 1 and 0, but not recommended.}
 
-\item{first_microbe}{An integer. The index of first column in ED dataset that
-represents a microbial genome.}
+\item{firstMicrobe}{A positive integer. Index of the first column in ED data.frame that
+represents a microbial genome. Count starts from 1. That is if ED contains microbial
+genome profiles from column 4-9, firstMicrobe is 4.}
 
-\item{last_microbe}{An integer. Same as first_microbe, just the index of last
-microbe genome}
+\item{lastMicrobe}{A positive integer. Index of the last column in ED data.frame that
+represents a microbial genome. Count starts from 1. That is if ED contains microbial
+genome profiles from column 4-9, firstMicrobe is 9. Default of lastMicrobe is
+the last column of data.frame ED.}
 }
 \value{
 A radar chart with microbial species on corners and the user input genome
-   in the middle.
+    in the middle. The genome of interest (genomeName) receives a score when compred
+    with each genome in the data.frame ED, and is formatted as [number of shared genes]
+    out of [total number of genes of interest].
 }
 \description{
-Based on sugar degradation genes, compare the overall similarity
-of the given genome and other 9 microbial species from microbiota
-available species in the EnzymeDistribution dataset.
+Based on the presence of simple sugar degradation enzymes, this function compares
+the overall similarity of one genome with other genome profiles provided as a
+data.frame.
 }
 \examples{
 \dontrun{
- library("microCompet")
- genome_name <- "L. johnsonii"
+ require("microCompet")
+ genomeName <- "L. johnsonii"
  ED <- microCompet::EnzymeDistribution
- full_enzyme_gene_lst <- ED$Gene
- genome_file_path <- "./Lactobacillus_johnsonii.gb"
- carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-
- overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
- overall_similarity
+ fullEnzymeGeneVec <- ED$Gene
+ genomeFilePath <- system.file("extdata",
+                               "Lactobacillus johnsonii.gb",
+                               package = "microCompet",
+                               mustWork = TRUE)
+ carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+ overSimi <- overallSimilarity(genomeName, carboGenes, ED, 5, 13)
+ overSimi
 }
 
 }

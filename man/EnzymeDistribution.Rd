@@ -3,7 +3,7 @@
 \docType{data}
 \name{EnzymeDistribution}
 \alias{EnzymeDistribution}
-\title{Distribution of Sugar Degradation Enzymes}
+\title{Distribution Of Simple Sugar Degradation Enzymes In Microbes}
 \format{
 A matrix with 71 rows (genes) and 13 variables
  \describe{
@@ -11,37 +11,38 @@ A matrix with 71 rows (genes) and 13 variables
   \item{Reaction.EC}{EC category of this enzyme, indicating its reaction type.}
   \item{Enzyme}{Full name of the enzyme}
   \item{Sugar}{The sugar degradation pathway this enzyme invoved in.}
-  \item{Lplan}{Enzyme distribution in Lactobacillus plantarum}
-  \item{Ecoli}{Enzyme distribution in Escherichia coli}
-  \item{Blong}{Enzyme distribution in Bifidobacterium longum}
-  \item{Paeru}{Enzyme distribution in Pseudomonas aeruginosa}
-  \item{Bthet}{Enzyme distribution in Bacteroides thetaiotaomicron}
-  \item{Cbotu}{Enzyme distribution in Clostridium botulinum}
-  \item{Enter}{Enzyme distribution in Enterobacter sp. EA-01}
-  \item{Kvari}{Enzyme distribution in Klebsiella variicola}
-  \item{Spneu}{Enzyme distribution in Streptococcus pneumoniae}
+  \item{Lplan}{Lactobacillus plantarum}
+  \item{Ecoli}{Escherichia coli}
+  \item{Blong}{Bifidobacterium longum}
+  \item{Paeru}{Pseudomonas aeruginosa}
+  \item{Bthet}{Bacteroides thetaiotaomicron}
+  \item{Cbotu}{Clostridium botulinum}
+  \item{Enter}{Enterobacter sp. EA-01}
+  \item{Kvari}{Klebsiella variicola}
+  \item{Spneu}{Streptococcus pneumoniae}
  }
 }
 \source{
-Genomes downloaded from NCBI
+Genomes downloaded from NCBI, see dataset GenomesInfo for details.
 }
 \usage{
 EnzymeDistribution
 }
 \description{
 The distribution of 66 sugar degradation enzymes in 9 representative
-human microbiota members. Some enzymes can catalyze more than one
-reactions. "0" suggests the enzyme represented by the row is not
-found in the column microbe, while "1" suggests it's found.
+human microbiota members. Because some enzymes can catalyze more than one
+reactions, this dataset has more than 66 rows. When reading this dataset,
+"0" suggests the enzyme represented by the row is not present in the column
+microbe, while "1" suggests it's present
 }
 \details{
-E. coli is usually treated as a positive control species since it contains
-very abundant metabolic genes and can survive with minimal minerals and
-simple sugars.
+E. coli is usually treated as a positive control species because it survives
+in minimal media and can synthesize and degrade almost all common sugars.
 }
 \examples{
-\dontrun{
-head(EnzymeDistribution)
+ \dontrun {
+  head(EnzymeDistribution)
 }
+
 }
 \keyword{datasets}

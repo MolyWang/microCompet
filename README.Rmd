@@ -21,9 +21,7 @@ knitr::opts_chunk$set(
 
 ## Description
 R package __*microCompet*__ is for visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
-
 1. visualize all sugar degradation activities one microbe can carry out (See function _*constructFullNetwork*_)
-
 2. Compare a microbe's overall sugar degradation pathway similarity to other microbes (See functions _*overallSimilarity*_ and _*competeMicrobiota*_)
 
 
@@ -60,7 +58,7 @@ Function __*extractCarboGenes*__ extract sugar degradation enzymes from user-giv
 The file must have genes annotated, that is they have lines in the format of _/gene="gene_name"_ (See the included *Klebsiella_variicola.gb* and *Lactobacillus_johnsonii.gb* for example, they are in the main folder). Other R packages are available for formatting GenBank file, but they parse the whole file into one object, which is not necessary for this package.
 
 Function __*constructFullNetwork*__ takes a genome and plot its full sugar degradation pathways, the following image is a sample output using the provided *Lactobacillus_johnsonii.gb* genome.
-```{r}
+```{r message=FALSE, warning=FALSE}
 require("microCompet")
 
 ER <- microCompet::EnzymaticReactions
@@ -77,7 +75,7 @@ fullPathway
 
 
 Function __*overallSimilarity*__ count sugar degradation genes in common between the given genome and other microbial species, and creates an interactive radar graph.
-```{r echo=TRUE, message=FALSE, warning=FALSE, screenshot.alt = "./inst/extdata/overSimi1.png"}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/overSimi1.png"}
 require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
@@ -95,7 +93,7 @@ overall_similarity
 
 
 The final function __*competeMicrobiota*__ visualize available microbes in terms of pathway completeness, suggesting their ability to fully degrade indicated sugar sources.
-```{r message=FALSE, warning=FALSE, screenshot.alt =  "./inst/extdata/comp1.png"}
+```{r, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/comp1.png"}
 require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"

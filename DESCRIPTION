@@ -1,11 +1,11 @@
 Package: microCompet
 Type: Package
-Title: Identify the potential nutritional competitor from microbiota
-Version: 0.1.0
+Title: Identify A Microbe's Potential Nutrition Competitor From Microbiota
+Version: 0.2.0
 Authors@R: person("Zhuyi", "Wang", email = "moly.wang@mail.utoronto.ca", role = c("aut", "cre"))
 Maintainer: Zhuyi Wang <moly.wang@mail.utoronto.ca>
-Description: Given one microbial genome, identify its potential nutritional competitors 
-    among members of gut microbiota.
+Description: Given one microbial genome as an annotated genban file, identify its 
+    potential Nutrition competitors among members of gut microbiota.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

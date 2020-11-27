@@ -15,7 +15,6 @@
 #'     "Klebsiella variicola.gb" and "Lactobacillus johnsonii.gb" in extdata for example,
 #'     they have lines in the format /gene="geneName". And see example for how to extract
 #'     full path to the example files. (\code{genomeFilePath <-} part)
-#'
 #' @param fullEnzymeGeneVec A list of all sugar degradation genes to be searched for in
 #'     the user-provided genome (the file with genomeFilePath).
 #'

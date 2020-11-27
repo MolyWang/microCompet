@@ -3,19 +3,27 @@
 \docType{data}
 \name{GenomesInfo}
 \alias{GenomesInfo}
-\title{Information about genomes used in EnzymeDistribution}
+\title{Information about Genomes Included In EnzymeDistribution}
 \format{
-An object of class \code{data.frame} with 9 rows and 3 columns.
+A matrix with 9 rows and 3 variables
+ \describe{
+  \item{Bacterial.Genome}{Full name of bacterial species.}
+  \item{Accession}{Accession of this genome on NCBI.}
+  \item{Description}{Full description of this genome on NCBI, including strain name.}
+  }
 }
 \usage{
 GenomesInfo
 }
 \description{
-@format A matrix with 9 rows and 3 variables
- \describe{
-  \item{Bacterial.Genome}{Full name of 9 bacteria.}
-  \item{Accession}{Accession of this genome on NCBI.}
-  \item{Description}{Full description of this genome on NCBI, including strain name.}
-  }
+This dataset offers detailed information about genomes included in another dataset
+EnzymeDistribution (See with \code{?EnzymeDistribution}). You can find the original
+genbank files on NCBI by searching the Accession.
+}
+\examples{
+ \dontrun {
+  GenomesInfo
+ }
+
 }
 \keyword{datasets}

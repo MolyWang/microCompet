@@ -11,14 +11,11 @@
 
 R package ***microCompet*** is for visualizing potential microbial
 competitions for nutrition, mainly simple sugars such as pentoses an
-pyranoses. This package offers functions to:
-
-1.  visualize all sugar degradation activities one microbe can carry out
-    (See function *_constructFullNetwork_*)
-
-2.  Compare a microbe’s overall sugar degradation pathway similarity to
-    other microbes (See functions *_overallSimilarity_* and
-    *_competeMicrobiota_*)
+pyranoses. This package offers functions to: 1. visualize all sugar
+degradation activities one microbe can carry out (See function
+*_constructFullNetwork_*) 2. Compare a microbe’s overall sugar
+degradation pathway similarity to other microbes (See functions
+*_overallSimilarity_* and *_competeMicrobiota_*)
 
 ## Installation
 

@@ -1,135 +1,189 @@
-#' Compare overall similarity of the given genomes and microbiota.
+#' Compare Overall Similarity Of A Genome And Microbiota Members
 #'
-#' Based on sugar degradation genes, compare the overall similarity
-#' of the given genome and other 9 microbial species from microbiota
-#' available species in the EnzymeDistribution dataset.
+#' Based on the presence of simple sugar degradation enzymes, this function compares
+#' the overall similarity of one genome with other genome profiles provided as a
+#' data.frame.
 #'
-#' @param genome_name Name of the genome represented by gene_lst
-#' @param gene_lst A list of gene names represented by 3-5 characters, such as "rpiB"
-#' @param ED An enzyme distribution dataset that at least contain gene names and one
-#'   microbial genome.
-#' @param first_microbe An integer. The index of first column in ED dataset that
-#'   represents a microbial genome.
-#' @param last_microbe An integer. Same as first_microbe, just the index of last
-#'   microbe genome
+#' @param genomeName Name of the genome represented by geneVec
+#' @param geneVec A vector gene names represented by 3-5 characters, such as "rpiB",
+#'     containing all present simple sugar degradation enzymes in the microbe with
+#'     genomeName.
+#' @param ED An enzyme distribution data.frame that represents sugar degradation enzyme
+#'     profiles in genomes that genomeName microbe is to be compare with. This data.frame
+#'     contains a column "Gene" (case sensitive), and at least one genome profile
+#'     from column index firstMicrobe to column index lastMicrobe CONTINUOUSLY. Genome
+#'     profiles use 1 to indicate the presence of a gene, and 0 for absence. T/TRUE and
+#'     F/FALSE can be coerced into 1 and 0, but not recommended.
+#' @param firstMicrobe A positive integer. Index of the first column in ED data.frame that
+#'     represents a microbial genome. Count starts from 1. That is if ED contains microbial
+#'     genome profiles from column 4-9, firstMicrobe is 4.
+#' @param lastMicrobe A positive integer. Index of the last column in ED data.frame that
+#'     represents a microbial genome. Count starts from 1. That is if ED contains microbial
+#'     genome profiles from column 4-9, firstMicrobe is 9. Default of lastMicrobe is
+#'     the last column of data.frame ED.
 #'
 #' @return A radar chart with microbial species on corners and the user input genome
-#'    in the middle.
+#'     in the middle. The genome of interest (genomeName) receives a score when compred
+#'     with each genome in the data.frame ED, and is formatted as [number of shared genes]
+#'     out of [total number of genes of interest].
 #'
 #' @examples
 #' \dontrun{
-#'  library("microCompet")
-#'  genome_name <- "L. johnsonii"
+#'  require("microCompet")
+#'  genomeName <- "L. johnsonii"
 #'  ED <- microCompet::EnzymeDistribution
-#'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path <- "./Lactobacillus_johnsonii.gb"
-#'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-#'
-#'  overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
-#'  overall_similarity
+#'  fullEnzymeGeneVec <- ED$Gene
+#'  genomeFilePath <- system.file("extdata",
+#'                                "Lactobacillus johnsonii.gb",
+#'                                package = "microCompet",
+#'                                mustWork = TRUE)
+#'  carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+#'  overSimi <- overallSimilarity(genomeName, carboGenes, ED, 5, 13)
+#'  overSimi
 #' }
 #'
 #' @export
+#'
 #' @import radarchart
 #'
-overallSimilarity <- function(genome_name, gene_lst, ED,
-                              first_microbe, last_microbe = ncol(ED)) {
-  require(radarchart)
-
-  genome_vector <- transformToVector(gene_lst, ED$Gene)
-  available_microbes <- colnames(ED)[first_microbe:last_microbe]
-  overall_similarity <- vector(mode = "integer",
-                               length = length(available_microbes))
-  names(overall_similarity) <- available_microbes
-
-  # now fill the vector with scores
-  # then transform it into a dataframe for RadarGraph
-  for (microbe_name in available_microbes) {
-    microbe <- ED[microbe_name]
-    overall_similarity[microbe_name] <- compareTwoGenomes(genome_vector,
-                                                          microbe,
-                                                          length(ED$Gene))
+overallSimilarity <- function(genomeName, geneVec, ED,
+                              firstMicrobe, lastMicrobe = ncol(ED)) {
+  # ============ Check ED and indices ============
+  # check user provided indices firstMicrobe and lastMicrobe are positive integers
+  if (firstMicrobe <= 0 | floor(fistMicrobe) != firstMicrobe |
+      lastMicrobe <= 0 | floor(lastMicrobe) != lastMicrobe) {
+    stop("firstMicrobe or lastMicrobe is invalid, positive integers are required.")
   }
 
-  df_for_chart <- as.data.frame(overall_similarity)
-  colnames(df_for_chart) <- c(genome_name)
+  # check column "Gene" is present
+  if (!"Gene" %in% colnames(ED)) {
+    stop("The required column Gene is missing in the provided data.frame.")
+  }
 
-  comparison_chart <- radarchart::chartJSRadar(scores = df_for_chart,
-                                               labs = available_microbes,
-                                               maxScale = length(genome_vector))
-  return(comparison_chart)
+  # check at least one genomes are provided in ED
+  if (firstMicrobe > lastMicrobe) {
+    stop("Invalid column indices, firstMicrobe should be no larger than lastMicobe.")
+  }
+
+  # check whether columns from firstMicrbe to lastMicrobe contains only 0 and 1,
+  relevantSection <- ED[firstMicrobe:lastMicrobe]
+  unexpectedValues <- (relevantSection != 0) & (relevantSection != 1)
+  sprintf("%d cells from column %d to column %d in the provided data.frame is not 0 or 1, and will be replaced by 0.",
+          sum(as.integer(unexpectedValues)),
+          firstMicrobe,
+          lastMicrobe)
+  # replace values other than 0 (FALSE) and 1 (TRUE) with 0.
+  relevantSection[unexpectedValues] <- 0
+  ED[firstMicrobe:lastMicrobe] <- relevantSection
+
+
+  # ============ start construction ============
+  # transformToVector is a helper defined later in this file
+  genomeVec <- transformToVector(geneVec, ED$Gene)
+  availableMicrobes <- colnames(ED)[firstMicrobe:lastMicrobe]
+
+  # initialize the vector for the output radarchart
+  overSimiScores <- vector(mode = "integer",
+                           length = length(availableMicrobes))
+  names(overSimiScores) <- availableMicrobes
+
+  # fill the vector with scores
+  for (microbeName in availableMicrobes) {
+    oneMicrobe <- ED[microbeName]
+    names(oneMicrobe) <- ED$Gene
+    # compareTwoGenomes is a helper defined later in this file
+    overSimiScores[microbeName] <- compareTwoGenomes(genomeVec,
+                                                     oneMicrobe,
+                                                     length(ED$Gene))
+  }
+
+  # transform the score vector into a dataframe for RadarGraph
+  overSimiScoresDF <- as.data.frame(overSimiScores)
+  colnames(overSimiScoresDF) <- c(genomeName)
+
+
+  # ============ Visualization ============
+  overSimiChart <- radarchart::chartJSRadar(scores = overSimiScoresDF,
+                                            labs = availableMicrobes,
+                                            maxScale = length(genomeVec))
+  return(overSimiChart)
 }
 
 
 
-#' Compare two genomes and count shared genes
+#' Compare Two Genomes And Count Number Of Shared Genes
 #'
-#' Given two genomes represented by a vector of 0 and 1 (genes in the same order),
-#' count shared genes. This includes genes both genomes have or neither.
+#' Given two genomes represented by vectors of 0 and 1 (genes in the same order),
+#' count total number of genes with shared status. This includes genes that are
+#' present in both or neither of the two genomes.
+#' This is a helper only called internally by overallSimilarity.
 #'
-#' @param genome1 A vector of 0 and 1, genes ordered as in EnzymaticDistribution
-#'
+#' @param genome1 A vector of 0 and 1, and each element is named by the gene whose
+#'     status it represents. 0 for absence, and 1 for presence.
 #' @param genome2 Same as genome1, but represents another genome
+#' @param totalGeneCount Total number of genes of interest to be compared.
 #'
-#' @param total_genes_num Total number of genes of interest to be compared.
-#'
-#' @return An integer indicating number of shared genes by genome1 and genome2.
+#' @return An integer indicating number of genes shared by genome1 and genome2.
 #'
 #' @examples
 #' \dontrun{
 #'  ED <- microCompet::EnzymeDistribution
-#'  all_genes <-ED$Gene
-#'  gene_lst1 <- ED$Gene[4:25]
-#'  genome1 <- transformToVector(gene_lst1, all_genes)
-#'  gene_lst2 <- ED$Gene[10:35]
-#'  genome2 <- transformToVector(gene_lst2, all_genes)
-#'
-#'  total_genes_num <- length(ED$Gene)
-#'  score <- compareTwoGenomes(genome1, genome2, total_genes_num)
+#'  allGenes <-ED$Gene
+#'  geneVec1 <- ED$Gene[4:25]
+#'  genome1 <- transformToVector(geneVec1, allGenes)
+#'  geneVec2 <- ED$Gene[10:35]
+#'  genome2 <- transformToVector(geneVec2, allGenes)
+#'  totalGeneCount <- length(allGenes)
+#'  score <- compareTwoGenomes(genome1, genome2, totalGeneCount)
 #'  score
 #' }
-compareTwoGenomes <- function(genome1, genome2, total_genes_num) {
-  # Only 0 + 1 = 1
-  # This counts all genes that are not shared by two genomes
-  not_shared <- (genome1 + genome2) == 1
-  total_not_shared <- sum(as.integer(not_shared))
+#'
+compareTwoGenomes <- function(genome1, genome2, totalGeneCount) {
+  # This function first applies xor on two vectors (Only 0 + 1 = 1)
+  # and counts all genes that are not shared by two genomes
+  notShared <- (genome1 + genome2) == 1
+  notSharedCount <- sum(as.integer(notShared))
 
   # then not "not shared" are shared
-  return(total_genes_num - total_not_shared)
+  return(totalGeneCount - notSharedCount)
 }
 
 
 
-#' Transform a list of gene into a vector of 0 and 1
+#' Transform A Vector Of Gene Names Into A Vector Of 0 And 1
 #'
-#' Given a list of genes, transform it into a vector of 0 and 1.
-#' Each cell is a named gene, 0 indicating this genome is not included
-#' inside the gene_lst, 1 indicating it's included
+#' Given a vector of genes that represents a genome, transform it into a simple sugar
+#' degradation enzyme profile as a vector of 0 and 1. A 0 indicates the gene represented
+#' by element name is absent in the genome, and a 1 indicates its presence.
 #'
-#' @param gene_lst A list of gene_names, represented by 3-5 characters, such as "eno".
-#' @param all_genes A list of all sugar degradation genes that may be possibily included.
+#' @param geneVec A vector of gene names, represented by 3-5 characters, such as "eno",
+#'     this vector includes all simple sugar degradation enzymes present in a microbial
+#'     genome of interest.
+#' @param allGenes A vector containing all sugar degradation genes of interest.
 #'
-#' @return A vector of 0 and 1, indicating whether each sugar degradation enzyme (from
-#' the EnzymeDistribution dataset) is included in the gene_lst.
+#' @return A named vector of 0 and 1, indicating whether each sugar degradation enzyme,
+#'     represented by the element's name, is presetn in the geneVec.
 #'
 #' @examples
 #' \dontrun{
 #'  ED <- microCompet::EnzymeDistribution
-#'  all_genes <- ED$Gene
-#'  gene_lst <- ED$Gene[4:25]
-#'  genome_vector <- transformToVector(gene_lst, all_genes)
-#'  genome_vector
+#'  allGenes <- ED$Gene
+#'  geneVec <- ED$Gene[4:25]
+#'  genomeVec <- transformToVector(geneVec, allGenes)
+#'  genomeVec
 #' }
 #'
-transformToVector <- function(gene_lst, all_genes) {
-  genome_vector <- vector(mode = "logical",
-                          length = length(all_genes))
-  names(genome_vector) <- all_genes
-  for (gene in all_genes) {
-    genome_vector[gene] <- is.element(gene, gene_lst)
-  }
+transformToVector <- function(geneVec, allGenes) {
+  genomeVec <- vector(mode = "logical",
+                      length = length(allGenes))
+  names(genomeVec) <- allGenes
 
-  return(as.integer(genome_vector))
+  for (gene in allGenes) {
+    genomeVec[gene] <- is.element(gene, geneVec)
+  }
+  # convert T and F to 1 and 0.
+  return(as.integer(genomeVec))
 }
+
 
 #[END]

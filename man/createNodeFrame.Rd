@@ -24,4 +24,5 @@ This is a helper function defined for constructFullNetwork and is called only in
  nodeFrame <- createNodeFrame(edgeFrame)
  nodeFrame
 }
+
 }

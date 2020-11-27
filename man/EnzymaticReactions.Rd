@@ -3,7 +3,7 @@
 \docType{data}
 \name{EnzymaticReactions}
 \alias{EnzymaticReactions}
-\title{Enzymatic Reactions of Carbohydrate Degradation}
+\title{Enzymatic Reactions Of Simple Sugar Degradation}
 \format{
 A matrix with 96 rows and 6 variables:
 \describe{
@@ -12,10 +12,10 @@ A matrix with 96 rows and 6 variables:
    on the reaction it catalyzes.}
  \item{Enzyme}{Full name of the enzyme.}
  \item{Substrate}{Starting material of the enzyme. If one reaction requires more
-   than one substrates, the reaction is split into more than one lines.}
+   than one substrates, the reaction is split multiple lines.}
  \item{Product}{Product of this enzymatic reaction. If more than one products are
-   produced, they are split into more than one lines.}
- \item{Sugar}{The sugar degradation pathway this enzyme acts in.}
+   produced, they are split into multiple lines.}
+ \item{Sugar}{The sugar degradation pathway this enzyme participates in.}
 }
 }
 \source{
@@ -25,12 +25,14 @@ MetaCyc from metacyc.org
 EnzymaticReactions
 }
 \description{
-A list of 91 enzymatic steps that's required by microbes to degrade several
-simple sugars.
+A list of 72 enzymatic reactions that involve in microbial degradation of
+several simple sugars. Because some reactions can be catalyzed by more than one
+enzymes, the dataset have more than 72 rows.
 }
 \examples{
-\dontrun{
-head(EnzymaticReactions)
+ \dontrun{
+  head(EnzymaticReactions)
 }
+
 }
 \keyword{datasets}

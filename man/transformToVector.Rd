@@ -2,31 +2,33 @@
 % Please edit documentation in R/overallSimilarity.R
 \name{transformToVector}
 \alias{transformToVector}
-\title{Transform a list of gene into a vector of 0 and 1}
+\title{Transform A Vector Of Gene Names Into A Vector Of 0 And 1}
 \usage{
-transformToVector(gene_lst, all_genes)
+transformToVector(geneVec, allGenes)
 }
 \arguments{
-\item{gene_lst}{A list of gene_names, represented by 3-5 characters, such as "eno".}
+\item{geneVec}{A vector of gene names, represented by 3-5 characters, such as "eno",
+this vector includes all simple sugar degradation enzymes present in a microbial
+genome of interest.}
 
-\item{all_genes}{A list of all sugar degradation genes that may be possibily included.}
+\item{allGenes}{A vector containing all sugar degradation genes of interest.}
 }
 \value{
-A vector of 0 and 1, indicating whether each sugar degradation enzyme (from
-the EnzymeDistribution dataset) is included in the gene_lst.
+A named vector of 0 and 1, indicating whether each sugar degradation enzyme,
+    represented by the element's name, is presetn in the geneVec.
 }
 \description{
-Given a list of genes, transform it into a vector of 0 and 1.
-Each cell is a named gene, 0 indicating this genome is not included
-inside the gene_lst, 1 indicating it's included
+Given a vector of genes that represents a genome, transform it into a simple sugar
+degradation enzyme profile as a vector of 0 and 1. A 0 indicates the gene represented
+by element name is absent in the genome, and a 1 indicates its presence.
 }
 \examples{
 \dontrun{
  ED <- microCompet::EnzymeDistribution
- all_genes <- ED$Gene
- gene_lst <- ED$Gene[4:25]
- genome_vector <- transformToVector(gene_lst, all_genes)
- genome_vector
+ allGenes <- ED$Gene
+ geneVec <- ED$Gene[4:25]
+ genomeVec <- transformToVector(geneVec, allGenes)
+ genomeVec
 }
 
 }

@@ -2,35 +2,38 @@
 % Please edit documentation in R/overallSimilarity.R
 \name{compareTwoGenomes}
 \alias{compareTwoGenomes}
-\title{Compare two genomes and count shared genes}
+\title{Compare Two Genomes And Count Number Of Shared Genes}
 \usage{
-compareTwoGenomes(genome1, genome2, total_genes_num)
+compareTwoGenomes(genome1, genome2, totalGeneCount)
 }
 \arguments{
-\item{genome1}{A vector of 0 and 1, genes ordered as in EnzymaticDistribution}
+\item{genome1}{A vector of 0 and 1, and each element is named by the gene whose
+status it represents. 0 for absence, and 1 for presence.}
 
 \item{genome2}{Same as genome1, but represents another genome}
 
-\item{total_genes_num}{Total number of genes of interest to be compared.}
+\item{totalGeneCount}{Total number of genes of interest to be compared.}
 }
 \value{
-An integer indicating number of shared genes by genome1 and genome2.
+An integer indicating number of genes shared by genome1 and genome2.
 }
 \description{
-Given two genomes represented by a vector of 0 and 1 (genes in the same order),
-count shared genes. This includes genes both genomes have or neither.
+Given two genomes represented by vectors of 0 and 1 (genes in the same order),
+count total number of genes with shared status. This includes genes that are
+present in both or neither of the two genomes.
+This is a helper only called internally by overallSimilarity.
 }
 \examples{
 \dontrun{
  ED <- microCompet::EnzymeDistribution
- all_genes <-ED$Gene
- gene_lst1 <- ED$Gene[4:25]
- genome1 <- transformToVector(gene_lst1, all_genes)
- gene_lst2 <- ED$Gene[10:35]
- genome2 <- transformToVector(gene_lst2, all_genes)
-
- total_genes_num <- length(ED$Gene)
- score <- compareTwoGenomes(genome1, genome2, total_genes_num)
+ allGenes <-ED$Gene
+ geneVec1 <- ED$Gene[4:25]
+ genome1 <- transformToVector(geneVec1, allGenes)
+ geneVec2 <- ED$Gene[10:35]
+ genome2 <- transformToVector(geneVec2, allGenes)
+ totalGeneCount <- length(allGenes)
+ score <- compareTwoGenomes(genome1, genome2, totalGeneCount)
  score
 }
+
 }
