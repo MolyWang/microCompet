@@ -48,7 +48,7 @@ microbiota, using 0 and 1 to indicate whether a specific microbe (one
 column) carries the gene represented by the row. See these genomes by
 
 ``` r
-library("microCompet")
+require("microCompet")
 
 # from the description for dataset by
 ?EnzymeDistribution
@@ -92,7 +92,7 @@ between the given genome and other microbial species, and creates an
 interactive radar graph.
 
 ``` r
-library("microCompet")
+require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
@@ -113,7 +113,7 @@ in terms of pathway completeness, suggesting their ability to fully
 degrade indicated sugar sources.
 
 ``` r
-library("microCompet")
+require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
@@ -225,6 +225,9 @@ Written by Zhuyi Wang.
     Springer-Verlag New York.
 
 10. Cite the R-package textbook here.
+
+11. bookdown: Authoring Books and Technical Documents with R Markdown.
+    <https://bookdown.org/yihui/bookdown/>
 
 ## Acknowledgements
 

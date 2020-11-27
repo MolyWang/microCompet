@@ -2,34 +2,25 @@
 % Please edit documentation in R/constructFullNetwork.R
 \name{createNodeFrame}
 \alias{createNodeFrame}
-\title{Create a dataframe to be used as vertices for FullNetwork.}
-\format{
-\describe{
-  \item{compound}{the compound this vertex represents.}
-  \item{weight}{number of edges this vertex involves in}
- }
-}
+\title{Create A Data.frame To Represent All Vertices in fullNetwork.}
 \usage{
 createNodeFrame(edgeFrame)
 }
 \arguments{
 \item{edgeFrame}{A data frame created by createEdgeFrame, must have
-"substrate", "product" columns, case sensitive.}
-}
-\value{
-A dataframe with 2 columns.
+"Substrate" and "Product" columns, case sensitive.}
 }
 \description{
-Given an edge frame (have columns "substrate" and "product), count total
+Given an edge frame (have columns "Substrate" and "Product), count total
 unique compounds involved in all reactions, and their weight (how many
 reactions this compound is involved in.)
-This function is only called as a helper for constructFullNetwork.
+This is a helper function defined for constructFullNetwork and is called only internally.
 }
 \examples{
 \dontrun{
  ER <- microCompet::EnzymaticReactions
- relevant_reactions <- ER[ER$Sugar == "ribose", ]
- edgeFrame <- createEdgeFrame(relevant_reactions)
+ relevantReactions <- ER[ER$Sugar == "ribose", ]
+ edgeFrame <- createEdgeFrame(relevantReactions)
  nodeFrame <- createNodeFrame(edgeFrame)
  nodeFrame
 }

@@ -62,28 +62,6 @@
 "EnzymeDistribution"
 
 
-#' Sample carboGenes extracted from Klebsiella variicola
-#'
-#' A list of all simple sugar degradation enzymes present in Klebsiella variicola.
-#'
-#' @examples
-#' \dontrun{
-#' sampleGenomeKvari
-#' }
-"sampleGenomeKvari"
-
-
-#' Sample carboGenes extracted from Lactobacillus johnsonii
-#'
-#' A list of all simple sugar degradation enzymes present in Lactobacillus johnsonii.
-#'
-#' @examples
-#' \dontrun{
-#' sampleGenomeLjohn
-#' }
-"sampleGenomeLjohn"
-
-
 #' Information about genomes used in EnzymeDistribution
 #'
 #'  @format A matrix with 9 rows and 3 variables

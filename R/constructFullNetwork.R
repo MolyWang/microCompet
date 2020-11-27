@@ -1,37 +1,44 @@
-#' Build a full sugar degradation network for one genome.
+#' Build A Full Simple Sugar Degradation Network For One Genome
 #'
-#' Given a list of sugar degradation enzymes, construct a metabolism network
-#' of these enzymes and create a network plot.
-#' One vertex represents one compound. Size of the vertex suggests its importance,
-#' the larger the vertex, the more pathways this compound is involved in.
-#' One edge represents one enzymatic reaction that convert the tail vertex (a
-#' compound) to the head vertex (another compound). The thicker the edge, the more
-#' enzymes can catalyze this reaction.
-#' Color of the edge represents the sugar degradation pathway this enzyme involved in.
+#' Given a name of a microbe, a vector of gene names for sugar degradation enzymes,
+#' and a data.frame containing all enzymatic reactions of interest, this function
+#' constructs a network plot that represents all sugar degradation steps the given
+#' microbe/genome can perform.
 #'
-#' @param genome_name The name of microbe to be graphed.
-#' @param gene_lst A list of gene names that represent sugar degradation enzymes.
+#' In the output plot, one vertex represents one compound, and its size suggests the
+#' number of sugar degradation pathways it involves in. You can interpret vertex size
+#' as the importance of a compound within this network.
 #'
-#' @param ER A list of enzymatic_reactions, containing only enzymes
-#'    encoded by genes from gene_lst.
-#' @format A dataframe with four required columns, can have other columns.
-#'  \describe{
-#'   \item{Gene}{Genes encoding the enzyme}
-#'   \item{Substrate}{Substrate of the enzyatic reaction.}
-#'   \item{Product}{Product of the reaction.}
-#'   \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
-#'  }
+#' Similarly, one edge represents one enzymatic reaction that convert the tail vertex (a
+#' reaction substrate) to the head vertex (a reaction product). Thickness of one edge
+#' represents number of genes that encoding enzymes capable of catalyzing this reaction,
+#' and represents the robustness of this step.
+#'
+#' Color of the edge represents the sugar degradation pathway this step involved in.
+#'
+#' @param genomeName Name of the microbe to be plotted.
+#'
+#' @param geneVec A vector containing gene names of all sugar degradation enzymes present
+#'    in the given microbial genome (\code{genomeName}).
+#'
+#' @param ER A data.frame containing all enzymatic reactions of interest, and should represent
+#'     enzymatic reactions with at least four characteristics: Gene, Substrate, Product, Sugar.
+#'     Header should be EXACTLY the same. (See the sample dataset EnzymaticReactions for example
+#'     by \code{?EnzymaticReactions}). Rows containing NA will be removed.
 #'
 #' @examples
 #' \dontrun{
 #'  require("microCompet")
 #'  ER <- microCompet::EnzymaticReactions
 #'  ED <- microCompet::EnzymeDistribution
-#'  full_enzyme_gene_lst <- ED$Gene
-#'  genome_file_path <- "./Klebsiella_variicola.gb"
-#'  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-#'  full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
-#'  full_pathway
+#'  fullEnzymeGeneVec <- ED$Gene
+#'  genomeFilePath <- system.file("extdata",
+#'                                "Lactobacillus johnsonii.gb",
+#'                                package = "microCompet",
+#'                                mustWork = TRUE)
+#'  carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+#'  fullNetwork <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
+#'  fullNetwork
 #' }
 #'
 #'@export
@@ -40,152 +47,148 @@
 #'@import network
 #'@import sna
 #'@import ggplot2
+#'@import stats complete.cases
 #'
-constructFullNetwork <- function(genome_name, gene_lst, ER) {
-#  require(ggraph)
-#  require(network)
-#  require(sna)
-#  require(ggplot2)
-#  require(igraph)
+constructFullNetwork <- function(genomeName, geneVec, ER) {
+  # ============ Check ============
+  # check the given dataset ER have all required columns with expected names
+  expectedColNames <- c("Gene", "Substrate", "Product", "Sugar")
+  if (!all(expectedColNames %in% colnames(ER))) {
+    stop("The provided dataset ER lacks required columns (Gene, Substrate, Product, Sugar), double check before continuing.")
+  }
 
+  # check the dataset ER and drop rows with NA.
+  originalRowNum <- nrow(ER)
+  ER <- ER[stats::complete.cases(ER), ]
+  completeRowNum <- nrow(ER)
+  sprintf("Running constructFullNetwork now, %d rows out of %d in the given ER dataset contain NA and are removed.",
+          originalRowNum - completeRowNum,
+          originalRowNum)
+
+  # ============ start construction ============
   # build all required dataframes to initialize the network
-  relevant_reactions <- ER[is.element(ER$Gene, gene_lst), ]
-  edgeFrame <- createEdgeFrame(relevant_reactions)
+  relevantReactions <- ER[is.element(ER$Gene, geneVec), ]
+  #createEdgeFrame and createNodeFrame are helpers defined later in this file.
+  edgeFrame <- createEdgeFrame(relevantReactions)
   nodeFrame <- createNodeFrame(edgeFrame)
 
+  # create the backbone of the network
   net <- igraph::graph_from_data_frame(d = edgeFrame,
-                                           vertices = nodeFrame,
-                                           directed = TRUE)
+                                       vertices = nodeFrame,
+                                       directed = TRUE)
 
-  # to change aes label in ggraph
-  Relative_Reaction_Count <- nodeFrame$weight
-  Relative_Enzyme_Count <- edgeFrame$num_of_enzymes
-  Sugar_Pathway <- edgeFrame$sugar
+  # to change aes legends in the output graph
+  Relative.Reaction.Count <- nodeFrame$Weight
+  Relative.Enzyme.Count <- edgeFrame$NumOfEnzymes
+  Sugar.Pathway <- edgeFrame$Sugar
 
-  full_network <-
+  # ============ Visualization ============
+  fullNetwork <-
     ggraph::ggraph(net,layout = "fr") +
     ggraph::geom_edge_link(arrow = arrow(length = unit(3, 'mm')),
                            end_cap = circle(2, 'mm'),
-                           aes(color = Sugar_Pathway,
-                               width = Relative_Enzyme_Count)) +
-    ggraph::geom_node_point(aes(size = Relative_Reaction_Count)) +
-    ggplot2::scale_size(range = c(1, 5)) +
+                           aes(color = Sugar.Pathway,
+                               width = Relative.Enzyme.Count)) +
+    ggraph::geom_node_point(aes(size = Relative.Reaction.Count)) +
+    ggplot2::scale_size(range = c(2, 5)) +
     ggplot2::theme_void() +
-    ggraph::scale_edge_width(range = c(1, 2)) +
-    ggraph::geom_node_text(label = nodeFrame$compound,
+    ggraph::scale_edge_width(range = c(0.5, 1)) +
+    ggraph::geom_node_text(label = nodeFrame$Compound,
                            size = 4,
                            color = "gray30",
                            repel = TRUE) +
-    ggplot2::ggtitle(paste("Full Sugar Degradation Pathway for", genome_name)) +
-    ggplot2::theme(plot.title = element_text(hjust = 0.5, lineheight = 1.5))
+    ggplot2::ggtitle(paste("Full Sugar Degradation Pathway Network of", genomeName)) +
+    ggplot2::theme(plot.title = element_text(hjust = 0.5,
+                                             lineheight = 1.5,
+                                             size = 18))
 
-  return(full_network)
+  return(fullNetwork)
 }
 
 
 
-
-#' Create a dataframe to be used as edges for FullNetwork
+#' Create A Data.frame To Represent All Edges in fullNetwork
 #'
-#' Given a list of enzymatic reactions, extract unique reactions, count genes encoding
-#' enzymes for each reaction.
-#' This function is only called as a helper for constructFullNetwork.
+#' Given a list of enzymatic reactions, extract unique reactions, count number of genes encoding
+#' enzymes that catalyze each reaction.
+#' This is a helper function defined for constructFullNetwork and is called only internally.
 #'
-#' @param relevant_reactions A list of enzymatic_reactions, containing only enzymes
-#'     encoded by genes from gene_lst.
-#' @format A dataframe with four required columns, can have other columns.
-#'  \describe{
-#'   \item{Gene}{Genes encoding the enzyme, though not directly accessed, it's counted}
-#'   \item{Substrate}{Substrate of the enzyatic reaction.}
-#'   \item{Product}{Product of the reaction.}
-#'   \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
-#'  }
+#' @param relevantReactions A data.frame of enzymatic reactions, containing the required columns:
+#'     Gene, Substrate, Product, Sugar (case sensitive).
 #'
-#' @return A dataframe with 4 columns
-#' @format
-#'  \describe{
-#'   \item{substrate}{substrate of this reaction, tail of the edge}
-#'   \item{product}{product of the reaction, head of the edge}
-#'   \item{num_of_enzymes}{numbef of genes encoding enzymes that can catalyze this reaction}
-#'   \item{sugar}{the sugar degradation pathway this enzyme participates in.}
-#'  }
+#' @return A data.frame with 4 columns. Substrate and Product are tail and head of each edge;
+#'     NumOfEnzymes is count of enzymes that can catalyze the reaction; Sugar is the simple sugar
+#'     degradation pathway this reaction is one step of.
 #'
 #' @examples
 #' \dontrun{
 #'  library("microCompet")
 #'  ER <- microCompet::EnzymaticReactions
-#'  relevant_reactions <- ER[ER$Sugar == "ribose", ]
-#'  edgeFrame <- createEdgeFrame(relevant_reactions)
+#'  relevantReactions <- ER[ER$Sugar == "ribose", ]
+#'  edgeFrame <- createEdgeFrame(relevantReactions)
 #'  edgeFrame
 #' }
 #'
 #' @importFrom dplyr select
 #'
-createEdgeFrame <- function(relevant_reactions) {
-#  require(dplyr)
-  relevant_frame <- dplyr::select(relevant_reactions, "Substrate", "Product", "Sugar")
+createEdgeFrame <- function(relevantReactions) {
+  relevantFrame <- dplyr::select(relevantReactions, "Substrate", "Product", "Sugar")
+  uniqueReactions <- unique(relevantFrame)
 
-  unique_reactions <- unique(relevant_frame)
-
-  # initialize all cols of the final dataframe
-  unique_reaction_counts <- length(unique_reactions)
-  edge_substrates <- unique_reactions$Substrate
-  edge_products <- unique_reactions$Product
-  edge_weights <- vector(mode = "integer", unique_reaction_counts)
-  edge_sugar <- vector(mode = "character", unique_reaction_counts)
+  # initialize all cols of the output data.frame
+  uniqueReactionCounts <- length(uniqueReactions)
+  edgeSubstrates <- uniqueReactions$Substrate
+  edgeProducts <- uniqueReactions$Product
+  edgeWeights <- vector(mode = "integer", uniqueReactionCounts)
+  edgeSugar <- vector(mode = "character", uniqueReactionCounts)
 
   # count edge weight as adding them into empty edge columns
-  for (i in 1:length(edge_substrates)) {
-    same_substrate <- relevant_reactions[relevant_reactions$Substrate == edge_substrates[i],]
-    same_product <- same_substrate[same_substrate$Product == edge_products[i], ]
+  for (i in 1:length(edgeSubstrates)) {
+    sameSubstrate <- relevantReactions[relevantReactions$Substrate == edgeSubstrates[i],]
+    sameProduct <- sameSubstrate[sameSubstrate$Product == edgeProducts[i], ]
     # unique genes counted through nrow here
-    edge_weights[i] <- nrow(same_product)
-    edge_sugar[i] <- same_product$Sugar[1]
+    edgeWeights[i] <- nrow(sameProduct)
+    edgeSugar[i] <- sameProduct$Sugar[1]
   }
 
+  edgeFrame <- data.frame(edgeSubstrates,
+                          edgeProducts,
+                          edgeWeights,
+                          edgeSugar)
 
-  edgeFrame <- data.frame(edge_substrates,
-                           edge_products,
-                           edge_weights,
-                           edge_sugar)
-
-  colnames(edgeFrame) <- c("substrate", "product", "num_of_enzymes", "sugar")
+  colnames(edgeFrame) <- c("Substrate", "Product", "NumOfEnzymes", "Sugar")
   return(edgeFrame)
 }
 
 
-#' Create a dataframe to be used as vertices for FullNetwork.
+
+#' Create A Data.frame To Represent All Vertices in fullNetwork.
 #'
-#' Given an edge frame (have columns "substrate" and "product), count total
+#' Given an edge frame (have columns "Substrate" and "Product), count total
 #' unique compounds involved in all reactions, and their weight (how many
 #' reactions this compound is involved in.)
-#' This function is only called as a helper for constructFullNetwork.
+#' This is a helper function defined for constructFullNetwork and is called only internally.
 #'
 #' @param edgeFrame A data frame created by createEdgeFrame, must have
-#'     "substrate", "product" columns, case sensitive.
-#'
-#' @return A dataframe with 2 columns.
-#' @format
-#'  \describe{
-#'   \item{compound}{the compound this vertex represents.}
-#'   \item{weight}{number of edges this vertex involves in}
-#'  }
+#'     "Substrate" and "Product" columns, case sensitive.
 #'
 #' @examples
 #' \dontrun{
 #'  ER <- microCompet::EnzymaticReactions
-#'  relevant_reactions <- ER[ER$Sugar == "ribose", ]
-#'  edgeFrame <- createEdgeFrame(relevant_reactions)
+#'  relevantReactions <- ER[ER$Sugar == "ribose", ]
+#'  edgeFrame <- createEdgeFrame(relevantReactions)
 #'  nodeFrame <- createNodeFrame(edgeFrame)
 #'  nodeFrame
 #' }
+#'
 createNodeFrame <- function(edgeFrame) {
-  all_compounds <- c(edgeFrame$substrate,
-                     edgeFrame$product)
-  nodeFrame <- as.data.frame(table(all_compounds))
-  colnames(nodeFrame) <- c("compound", "weight")
+  allCompounds <- c(edgeFrame$Substrate,
+                     edgeFrame$Product)
+  nodeFrame <- as.data.frame(table(allCompounds))
+  colnames(nodeFrame) <- c("Compound", "Weight")
 
   return(nodeFrame)
 }
+
 
 #[END]

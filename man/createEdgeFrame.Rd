@@ -2,44 +2,30 @@
 % Please edit documentation in R/constructFullNetwork.R
 \name{createEdgeFrame}
 \alias{createEdgeFrame}
-\title{Create a dataframe to be used as edges for FullNetwork}
-\format{
-A dataframe with four required columns, can have other columns.
- \describe{
-  \item{Gene}{Genes encoding the enzyme, though not directly accessed, it's counted}
-  \item{Substrate}{Substrate of the enzyatic reaction.}
-  \item{Product}{Product of the reaction.}
-  \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
- }
-
-\describe{
-  \item{substrate}{substrate of this reaction, tail of the edge}
-  \item{product}{product of the reaction, head of the edge}
-  \item{num_of_enzymes}{numbef of genes encoding enzymes that can catalyze this reaction}
-  \item{sugar}{the sugar degradation pathway this enzyme participates in.}
- }
-}
+\title{Create A Data.frame To Represent All Edges in fullNetwork}
 \usage{
-createEdgeFrame(relevant_reactions)
+createEdgeFrame(relevantReactions)
 }
 \arguments{
-\item{relevant_reactions}{A list of enzymatic_reactions, containing only enzymes
-encoded by genes from gene_lst.}
+\item{relevantReactions}{A data.frame of enzymatic reactions, containing the required columns:
+Gene, Substrate, Product, Sugar (case sensitive).}
 }
 \value{
-A dataframe with 4 columns
+A data.frame with 4 columns. Substrate and Product are tail and head of each edge;
+    NumOfEnzymes is count of enzymes that can catalyze the reaction; Sugar is the simple sugar
+    degradation pathway this reaction is one step of.
 }
 \description{
-Given a list of enzymatic reactions, extract unique reactions, count genes encoding
-enzymes for each reaction.
-This function is only called as a helper for constructFullNetwork.
+Given a list of enzymatic reactions, extract unique reactions, count number of genes encoding
+enzymes that catalyze each reaction.
+This is a helper function defined for constructFullNetwork and is called only internally.
 }
 \examples{
 \dontrun{
  library("microCompet")
  ER <- microCompet::EnzymaticReactions
- relevant_reactions <- ER[ER$Sugar == "ribose", ]
- edgeFrame <- createEdgeFrame(relevant_reactions)
+ relevantReactions <- ER[ER$Sugar == "ribose", ]
+ edgeFrame <- createEdgeFrame(relevantReactions)
  edgeFrame
 }
 

@@ -2,47 +2,52 @@
 % Please edit documentation in R/constructFullNetwork.R
 \name{constructFullNetwork}
 \alias{constructFullNetwork}
-\title{Build a full sugar degradation network for one genome.}
-\format{
-A dataframe with four required columns, can have other columns.
- \describe{
-  \item{Gene}{Genes encoding the enzyme}
-  \item{Substrate}{Substrate of the enzyatic reaction.}
-  \item{Product}{Product of the reaction.}
-  \item{Sugar}{Sugar degradation pathway this enzyme participates in.}
- }
-}
+\title{Build A Full Simple Sugar Degradation Network For One Genome}
 \usage{
-constructFullNetwork(genome_name, gene_lst, ER)
+constructFullNetwork(genomeName, geneVec, ER)
 }
 \arguments{
-\item{genome_name}{The name of microbe to be graphed.}
+\item{genomeName}{Name of the microbe to be plotted.}
 
-\item{gene_lst}{A list of gene names that represent sugar degradation enzymes.}
+\item{geneVec}{A vector containing gene names of all sugar degradation enzymes present
+in the given microbial genome (\code{genomeName}).}
 
-\item{ER}{A list of enzymatic_reactions, containing only enzymes
-encoded by genes from gene_lst.}
+\item{ER}{A data.frame containing all enzymatic reactions of interest, and should represent
+enzymatic reactions with at least four characteristics: Gene, Substrate, Product, Sugar.
+Header should be EXACTLY the same. (See the sample dataset EnzymaticReactions for example
+by \code{?EnzymaticReactions}). Rows containing NA will be removed.}
 }
 \description{
-Given a list of sugar degradation enzymes, construct a metabolism network
-of these enzymes and create a network plot.
-One vertex represents one compound. Size of the vertex suggests its importance,
-the larger the vertex, the more pathways this compound is involved in.
-One edge represents one enzymatic reaction that convert the tail vertex (a
-compound) to the head vertex (another compound). The thicker the edge, the more
-enzymes can catalyze this reaction.
-Color of the edge represents the sugar degradation pathway this enzyme involved in.
+Given a name of a microbe, a vector of gene names for sugar degradation enzymes,
+and a data.frame containing all enzymatic reactions of interest, this function
+constructs a network plot that represents all sugar degradation steps the given
+microbe/genome can perform.
+}
+\details{
+In the output plot, one vertex represents one compound, and its size suggests the
+number of sugar degradation pathways it involves in. You can interpret vertex size
+as the importance of a compound within this network.
+
+Similarly, one edge represents one enzymatic reaction that convert the tail vertex (a
+reaction substrate) to the head vertex (a reaction product). Thickness of one edge
+represents number of genes that encoding enzymes capable of catalyzing this reaction,
+and represents the robustness of this step.
+
+Color of the edge represents the sugar degradation pathway this step involved in.
 }
 \examples{
 \dontrun{
  require("microCompet")
  ER <- microCompet::EnzymaticReactions
  ED <- microCompet::EnzymeDistribution
- full_enzyme_gene_lst <- ED$Gene
- genome_file_path <- "./Klebsiella_variicola.gb"
- carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
- full_pathway <- constructFullNetwork("Kvari", carbo_genes, ER)
- full_pathway
+ fullEnzymeGeneVec <- ED$Gene
+ genomeFilePath <- system.file("extdata",
+                               "Lactobacillus johnsonii.gb",
+                               package = "microCompet",
+                               mustWork = TRUE)
+ carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+ fullNetwork <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
+ fullNetwork
 }
 
 }

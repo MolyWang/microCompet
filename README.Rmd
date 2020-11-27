@@ -48,7 +48,7 @@ Dataset __*EnzymaticReactions*__ describe enzymatic steps for sugar degradation 
 
 Dataset __*EnzymeDistribution*__ lists genes for unique enzymes *AND* offers the genome data of 9 diverse microbe strains from human microbiota, using 0 and 1 to indicate whether a specific microbe (one column) carries the gene represented by the row. See these genomes by 
 ```{r, eval=FALSE}
-library("microCompet")
+require("microCompet")
 
 # from the description for dataset by
 ?EnzymeDistribution
@@ -78,7 +78,7 @@ fullPathway
 
 Function __*overallSimilarity*__ count sugar degradation genes in common between the given genome and other microbial species, and creates an interactive radar graph.
 ```{r echo=TRUE, message=FALSE, warning=FALSE, screenshot.alt = "./inst/extdata/overSimi1.png"}
-library("microCompet")
+require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
@@ -96,7 +96,7 @@ overall_similarity
 
 The final function __*competeMicrobiota*__ visualize available microbes in terms of pathway completeness, suggesting their ability to fully degrade indicated sugar sources.
 ```{r message=FALSE, warning=FALSE, screenshot.alt =  "./inst/extdata/comp1.png"}
-library("microCompet")
+require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
@@ -187,6 +187,8 @@ Written by Zhuyi Wang.
 9. Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.
 
 10. Cite the R-package textbook here.
+
+11. bookdown: Authoring Books and Technical Documents with R Markdown. https://bookdown.org/yihui/bookdown/
 
 
 
