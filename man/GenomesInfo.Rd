@@ -21,7 +21,7 @@ EnzymeDistribution (See with \code{?EnzymeDistribution}). You can find the origi
 genbank files on NCBI by searching the Accession.
 }
 \examples{
- \dontrun {
+\dontrun{
   GenomesInfo
 }
 

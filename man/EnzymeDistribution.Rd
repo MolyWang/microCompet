@@ -40,9 +40,9 @@ E. coli is usually treated as a positive control species because it survives
 in minimal media and can synthesize and degrade almost all common sugars.
 }
 \examples{
- \dontrun {
-  head(EnzymeDistribution)
-}
+ \dontrun{
+   head(EnzymeDistribution)
+ }
 
 }
 \keyword{datasets}

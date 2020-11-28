@@ -58,9 +58,9 @@
 #'  }
 #'
 #' @examples
-#'  \dontrun {
-#'   head(EnzymeDistribution)
-#' }
+#'  \dontrun{
+#'    head(EnzymeDistribution)
+#'  }
 #'
 "EnzymeDistribution"
 
@@ -77,8 +77,9 @@
 #'   \item{Accession}{Accession of this genome on NCBI.}
 #'   \item{Description}{Full description of this genome on NCBI, including strain name.}
 #' }
+#'
 #' @examples
-#'  \dontrun {
+#' \dontrun{
 #'   GenomesInfo
 #' }
 #'
