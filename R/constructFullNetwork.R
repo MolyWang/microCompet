@@ -68,7 +68,7 @@ constructFullNetwork <- function(genomeName, geneVec, ER) {
           originalRowNum)
 
   # ============ start construction ============
-  # build all required dataframes to initialize the network
+  # build all required data.frames to initialize the network
   relevantReactions <- ER[is.element(ER$Gene, geneVec), ]
   #createEdgeFrame and createNodeFrame are helpers defined later in this file.
   edgeFrame <- createEdgeFrame(relevantReactions)

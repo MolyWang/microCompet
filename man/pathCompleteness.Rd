@@ -5,21 +5,21 @@
 \title{Evaluate completeness of sugar degradation paths}
 \usage{
 pathCompleteness(
-  genome_name,
-  gene_lst,
-  all_sugars,
+  genomeName,
+  geneVec,
+  allSugars,
   ER,
   ED,
-  first_microbe,
-  last_microbe
+  firstMicrobe,
+  lastMicrobe
 )
 }
 \arguments{
-\item{genome_name}{Name of the species of interest}
+\item{genomeName}{Name of the species of interest}
 
-\item{gene_lst}{A list of gene name that represent the species}
+\item{geneVec}{A list of gene name that represent the species}
 
-\item{all_sugars}{Name of all sugar pathways relevant}
+\item{allSugars}{Name of all sugar pathways relevant}
 
 \item{ER}{A dataset with at least 3 columns. Gene name for an enzyme, Reaction.EC for
 one catalytic reaction, and Sugar for degradation pathway. Column names are case
@@ -28,11 +28,11 @@ sensitive.}
 \item{ED}{A dataset with at least Gene, Reaction.EC, and columns for genome
 sugar pathways data from different genomes. See EnzymeDistribution for example.}
 
-\item{first_microbe}{Column index of first microbe genome in dataset ED}
+\item{firstMicrobe}{Column index of first microbe genome in dataset ED}
 
-\item{last_microbe}{Column index of last microbe genome in dataset ED. Default set
+\item{lastMicrobe}{Column index of last microbe genome in dataset ED. Default set
 to the last column of ED.}
 }
 \description{
-Evalute path completeness of all sugar degradation pathways listed in all_sugars
+Evalute path completeness of all sugar degradation pathways listed in allSugars
 }

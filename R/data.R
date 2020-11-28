@@ -65,7 +65,7 @@
 "EnzymeDistribution"
 
 
-#' Information about Genomes Included In EnzymeDistribution
+#' Information About Genomes Included In EnzymeDistribution
 #'
 #' This dataset offers detailed information about genomes included in another dataset
 #' EnzymeDistribution (See with \code{?EnzymeDistribution}). You can find the original

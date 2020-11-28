@@ -3,7 +3,7 @@
 \docType{data}
 \name{GenomesInfo}
 \alias{GenomesInfo}
-\title{Information about Genomes Included In EnzymeDistribution}
+\title{Information About Genomes Included In EnzymeDistribution}
 \format{
 A matrix with 9 rows and 3 variables
  \describe{

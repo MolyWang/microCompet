@@ -9,11 +9,12 @@
 #'     containing all present simple sugar degradation enzymes in the microbe with
 #'     genomeName.
 #' @param ED An enzyme distribution data.frame that represents sugar degradation enzyme
-#'     profiles in genomes that genomeName microbe is to be compare with. This data.frame
+#'     profiles in genomes that genomeName microbe is to be compared with. This data.frame
 #'     contains a column "Gene" (case sensitive), and at least one genome profile
 #'     from column index firstMicrobe to column index lastMicrobe CONTINUOUSLY. Genome
 #'     profiles use 1 to indicate the presence of a gene, and 0 for absence. T/TRUE and
 #'     F/FALSE can be coerced into 1 and 0, but not recommended.
+#'     See \code{?EnzymeDistribution} for example.
 #' @param firstMicrobe A positive integer. Index of the first column in ED data.frame that
 #'     represents a microbial genome. Count starts from 1. That is if ED contains microbial
 #'     genome profiles from column 4-9, firstMicrobe is 4.
@@ -44,10 +45,11 @@
 #'
 #' @export
 #'
-#' @import radarchart
+#' @importFrom radarchart chartJSRadar
 #'
 overallSimilarity <- function(genomeName, geneVec, ED,
                               firstMicrobe, lastMicrobe = ncol(ED)) {
+
   # ============ Check ED and indices ============
   # check user provided indices firstMicrobe and lastMicrobe are positive integers
   if (firstMicrobe <= 0 | floor(fistMicrobe) != firstMicrobe |
@@ -63,6 +65,22 @@ overallSimilarity <- function(genomeName, geneVec, ED,
   # check at least one genomes are provided in ED
   if (firstMicrobe > lastMicrobe) {
     stop("Invalid column indices, firstMicrobe should be no larger than lastMicobe.")
+  }
+
+  # check indices are no larger than total number of columns available
+  if (firstMicrobe > ncol(ED)) {
+    stop("Start index firstMicrobe should be no larger than total number of columns available. (", ncol(ED), ")")
+  }
+
+
+
+
+
+  # Remind if lastMicrobe is larger than total columns available
+  if (lastMicrobe > ncol(ED)) {
+    lastMicrobe = ncol(ED)
+    sprintf("The given lastMicrobe index is larger than total columns available, and is replaced by %d.",
+            ncol(ED))
   }
 
   # check whether columns from firstMicrbe to lastMicrobe contains only 0 and 1,

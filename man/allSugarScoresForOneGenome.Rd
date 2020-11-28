@@ -4,33 +4,32 @@
 \alias{allSugarScoresForOneGenome}
 \title{Calculate pathway completeness for all pathways within a genome.}
 \usage{
-allSugarScoresForOneGenome(gene_lst, all_sugars, ER)
+allSugarScoresForOneGenome(geneVec, allSugars, ER)
 }
 \arguments{
-\item{gene_lst}{Gene list represents on genome}
+\item{geneVec}{Gene list represents on genome}
 
-\item{all_sugars}{A list representing all sugar degradation pathways.}
+\item{allSugars}{A list representing all sugar degradation pathways.}
 
 \item{ER}{A dataset with at least 3 columns. Gene name for an enzyme, Reaction.EC for
 one catalytic reaction, and Sugar for degradation pathway. Same requirement for
-the next calculateCount function, since it's only for passing to the helper.}
+the next calculateStepsForOneSugar function, since it's only for passing to the helper.}
 }
 \value{
 A vector containing a genome's score for all sugar degradatin pathways.
 }
 \description{
-Use the calculateCount function for all sugar pathways one by one,
+Use the calculateStepsForOneSugar function for all sugar pathways one by one,
 and build a named vector for all pathways
 }
 \examples{
 \dontrun{
- gene_lst <- c("rpe", "rpiB", "eno", "fucK")
+ geneVec <- c("rpe", "rpiB", "eno", "fucK")
  ER <- microCompet::EnzymaticReactions
  ED <- microCompet::EnzymeDistribution
- all_sugars <- sort(unique(ED$Sugar))
- enzyme_counts <- allSugarScoresForOneGenome(gene_lst, all_sugars, ER)
- enzyme_counts
+ allSugars <- sort(unique(ED$Sugar))
+ ECCounts <- allSugarScoresForOneGenome(geneVec, allSugars, ER)
+ ECCounts
 }
-
 
 }

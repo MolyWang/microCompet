@@ -36,6 +36,7 @@
 #' @export
 #'
 extractCarboGenes <- function(genomeFilePath, fullEnzymeGeneVec) {
+  # ============ Check ============
   # check if file exists
   if (!file.exists(genomeFilePath)) {
     stop("File does not exist, double check the file path to the genome file.")
@@ -46,6 +47,7 @@ extractCarboGenes <- function(genomeFilePath, fullEnzymeGeneVec) {
     stop("The given fullEnzymeGeneVec is not valid, should contain at least one gene.")
   }
 
+  # ============ Extraction ============
   carboGenes <- vector(mode = "character")
   genomeFile <- file(genomeFilePath, "r")
   line <- readLines(genomeFile, n = 1)

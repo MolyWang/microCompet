@@ -20,11 +20,12 @@ containing all present simple sugar degradation enzymes in the microbe with
 genomeName.}
 
 \item{ED}{An enzyme distribution data.frame that represents sugar degradation enzyme
-profiles in genomes that genomeName microbe is to be compare with. This data.frame
+profiles in genomes that genomeName microbe is to be compared with. This data.frame
 contains a column "Gene" (case sensitive), and at least one genome profile
 from column index firstMicrobe to column index lastMicrobe CONTINUOUSLY. Genome
 profiles use 1 to indicate the presence of a gene, and 0 for absence. T/TRUE and
-F/FALSE can be coerced into 1 and 0, but not recommended.}
+F/FALSE can be coerced into 1 and 0, but not recommended.
+See \code{?EnzymeDistribution} for example.}
 
 \item{firstMicrobe}{A positive integer. Index of the first column in ED data.frame that
 represents a microbial genome. Count starts from 1. That is if ED contains microbial

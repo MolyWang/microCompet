@@ -2,52 +2,68 @@
 % Please edit documentation in R/competeMicrobiota.R
 \name{competeMicrobiota}
 \alias{competeMicrobiota}
-\title{Visualize the competition by a radarchart.}
+\title{Visualize A Microbe's Competition For Simple Sugars With Other Microbiota Members}
 \usage{
 competeMicrobiota(
-  genome_name,
-  gene_lst,
+  genomeName,
+  geneVec,
   ER,
   ED,
-  first_microbe,
-  last_microbe = ncol(ED)
+  firstMicrobe,
+  lastMicrobe = ncol(ED)
 )
 }
 \arguments{
-\item{genome_name}{Steing represents the name of a genome/microbe.}
+\item{genomeName}{Steing represents the name of a genome/microbe.}
 
-\item{gene_lst}{A list of sugar degradation gene names in microbe genome_name}
+\item{geneVec}{A list of sugar degradation gene names in microbe genomeName}
 
-\item{ER}{A dataset with at least 3 columns. Gene name for an enzyme, Reaction.EC for
-one catalytic reaction, and Sugar for degradation pathway. Column names are case
-sensitive.}
+\item{ER}{A data.frame that describing enzymatic reactions with at least 3 factors,
+"Gene" for gene name encoding an enzyme, "Reaction.EC" for categorization of one
+enzymatic reaction, and "Sugar" for the degradation pathway this enzyme involves
+in. Column names are case sensitive, see \code{?EnzymaticReactions} for example.}
 
-\item{ED}{A dataset with at least Gene, Reaction.EC, and columns for genome
-sugar pathways data from different genomes. See EnzymeDistribution for example.}
+\item{ED}{An enzyme distribution data.frame that represents sugar degradation enzyme
+profiles in genomes that genomeName microbe is to be compared with. This data.frame
+contains a column "Gene" (case sensitive), and at least one genome profile
+from column index firstMicrobe to column index lastMicrobe CONTINUOUSLY. Genome
+profiles use 1 to indicate the presence of a gene, and 0 for absence. T/TRUE and
+F/FALSE can be coerced into 1 and 0, but not recommended.
+See \code{?EnzymeDistribution} for example.}
 
-\item{first_microbe}{Column index of first microbe genome in dataset ED}
+\item{firstMicrobe}{Column index of first microbe genome in dataset ED}
 
-\item{last_microbe}{Column index of last microbe genome in dataset ED. Default set
+\item{lastMicrobe}{Column index of last microbe genome in dataset ED. Default set
 to the last column of ED.}
 }
 \description{
-Visualize the competiion between a given microbe and other 9 available
-microbiota members in the EnzymeDistribution dataset.
+This fuction visualizes the competition of one microbe of interest (specified by
+genomeName and geneVec) with other microbiota members (in ED data.frame) based on
+the simple sugar degradation pathways, considering their pathway existence and
+completeness.
+}
+\details{
+The output result is a radar chart, and the score one microbe achieves for one
+sugar degradation pathway is calculated as (number of steps can be catalyzed) over
+(total steps required to fully degrade one simple sugar).
 }
 \examples{
  \dontrun{
  library("microCompet")
- genome_name <- "L. johnsonii"
+ genomeName <- "L. johnsonii"
  ED <- microCompet::EnzymeDistribution
- full_enzyme_gene_lst <- ED$Gene
- genome_file_path <- "./Lactobacillus_johnsonii.gb"
- carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
- first_microbe <- 5
- last_microbe <- 13
+ full_enzyme_geneVec <- ED$Gene
+ genomeFilePath <- system.file("extdata",
+                               "Lactobacillus johnsonii.gb",
+                               package = "microCompet",
+                               mustWork = TRUE)
+ carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+ firstMicrobe <- 5
+ lastMicrobe <- 13
  ER <- microCompet::EnzymaticReactions
- compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
-                                         ED, first_microbe, last_microbe)
- compete_microbiota
+ compMicrob <- competeMicrobiota(genomeName, carbo_genes, ER,
+                                         ED, firstMicrobe, lastMicrobe)
+ compMicrob
  }
 
 }
