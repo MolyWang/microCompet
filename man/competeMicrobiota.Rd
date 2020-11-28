@@ -36,6 +36,10 @@ See \code{?EnzymeDistribution} for example.}
 \item{lastMicrobe}{Column index of last microbe genome in dataset ED. Default set
 to the last column of ED.}
 }
+\value{
+A radar chart for comparing completeness of sugar degradation pathways for microbe
+    of interest and microbiota members.
+}
 \description{
 This fuction visualizes the competition of one microbe of interest (specified by
 genomeName and geneVec) with other microbiota members (in ED data.frame) based on
@@ -61,9 +65,9 @@ sugar degradation pathway is calculated as (number of steps can be catalyzed) ov
  firstMicrobe <- 5
  lastMicrobe <- 13
  ER <- microCompet::EnzymaticReactions
- compMicrob <- competeMicrobiota(genomeName, carbo_genes, ER,
-                                         ED, firstMicrobe, lastMicrobe)
- compMicrob
+ competitions <- competeMicrobiota(genomeName, carbo_genes, ER,
+                                   ED, firstMicrobe, lastMicrobe)
+ competitions
  }
 
 }

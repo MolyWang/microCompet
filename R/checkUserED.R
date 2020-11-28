@@ -1,11 +1,23 @@
 #' Check Whether The User Input ED Dataframe Satisfies Function Requirement
 #'
+#' Given a data.frame ED and two user specified indices, check whether these arguments can
+#' be used successfully by functions \code{overallSimilarity} and \code{competeMicrobiota}.
+#' This function only check for common requirements, and each function carries out the
+#' data.frame update and function-specific checks.
+#' Function stops early if it identifies errors cannot be corrected by function.
 #'
+#' @param ED The data.frame to be passed in as ED arguments in other functions.
+#' @param firstMicrobe The value to be passed in as firstMicrobe in other functions.
+#' @param lastMicrobe The value to be passed in as lastMicrobe in other functions.
 #'
+#' @return A two-element logical vector. The first indicating whether lastMicrobe needs to
+#'     be updated in respective function, while the second indicating whether the ED frame
+#'     contains unexpected values (other than 0, 1, T/F may be accepted but not recommended)
+#'     in columns between firstMicrobe and lastMicrobe.
 #'
 #' @export
 #'
-checkED <- function(ED, requiredColsVec, firstMicrobe, lastMicrobe) {
+checkUserED <- function(ED, firstMicrobe, lastMicrobe) {
   # ============ Check for problems that have to "stop" ============
   # check user provided indices firstMicrobe and lastMicrobe are positive integers
   if (firstMicrobe <= 0 | floor(fistMicrobe) != firstMicrobe |
@@ -14,9 +26,8 @@ checkED <- function(ED, requiredColsVec, firstMicrobe, lastMicrobe) {
   }
 
   # check all required columns are present with specified names
-  if (!all(requiredColsVec %in% colnames(ED))) {
-    errorInfo <- sprintf("Columns %s (case sensitive) are required, and at least one is missing in your data.frame.",
-                         paste(requiredColsVec, collapse = ", "))
+  if (!("Gene" %in% colnames(ED))) {
+    errorInfo <- sprintf("Columns Gene (case sensitive) are required, and at least one is missing in your data.frame.")
     stop(errorInfo)
   }
 
@@ -55,5 +66,7 @@ checkED <- function(ED, requiredColsVec, firstMicrobe, lastMicrobe) {
   }
 
   return(reportVec)
-
 }
+
+
+#[END]

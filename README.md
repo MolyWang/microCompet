@@ -9,13 +9,16 @@
 
 ## Description
 
-R package ***microCompet*** is for visualizing potential microbial
+***microCompet*** is for identifying and visualizing potential microbial
 competitions for nutrition, mainly simple sugars such as pentoses an
-pyranoses. This package offers functions to: 1. visualize all sugar
-degradation activities one microbe can carry out (See function
-*_constructFullNetwork_*) 2. Compare a microbe’s overall sugar
-degradation pathway similarity to other microbes (See functions
-*_overallSimilarity_* and *_competeMicrobiota_*)
+pyranoses. This package offers functions to:
+
+1.  Visualize all sugar degradation pathways that are present in one
+    microbe of interest (See function *_constructFullNetwork_*)
+
+2.  Compare a microbe’s overall similarity of sugar degradation profile
+    to other microbes (See functions *_overallSimilarity_* and
+    *_competeMicrobiota_*)
 
 ## Installation
 
@@ -32,7 +35,7 @@ ls("package:microCompet")
 data(package = "microCompet")
 ```
 
-*microCompet* package contains 4 functions and 2 datasets.
+*microCompet* package contains 5 functions and 2 datasets.
 
 Dataset ***EnzymaticReactions*** describe enzymatic steps for sugar
 degradation pathways with 5 factors: gene encoding the enzyme, enzyme
@@ -68,7 +71,6 @@ the provided *Lactobacillus\_johnsonii.gb* genome.
 
 ``` r
 require("microCompet")
-#> Loading required package: microCompet
 
 ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
@@ -82,7 +84,7 @@ fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
 fullPathway
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-constructFullNetwork-1.png" width="100%" />
 
 Function ***overallSimilarity*** count sugar degradation genes in common
 between the given genome and other microbial species, and creates an
@@ -93,13 +95,13 @@ require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
-full_enzyme_gene_lst <- ED$Gene
-genome_file_path <- system.file("extdata",
+fullEnzymeGeneVec <- ED$Gene
+genomeFilePath <- system.file("extdata",
                               "Lactobacillus johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
-carbo_genes <- microCompet::extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
+carboGenes <- microCompet::extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+overall_similarity <- overallSimilarity(genome_name, carboGenes, ED, 5, 13)
 overall_similarity
 ```
 
@@ -114,17 +116,17 @@ require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
-full_enzyme_gene_lst <- ED$Gene
-genome_file_path <- system.file("extdata",
+fullEnzymeGeneVec <- ED$Gene
+genomeFilePath <- system.file("extdata",
                               "Lactobacillus johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
-carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-first_microbe <- 5
-last_microbe <- 13
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+firstMicrobe <- 5
+lastMicrobe <- 13
 ER <- microCompet::EnzymaticReactions
-compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
-                                       ED, first_microbe, last_microbe)
+compete_microbiota <- competeMicrobiota(genome_name, carboGenes, ER,
+                                       ED, firstMicrobe, lastMicrobe)
 compete_microbiota
 ```
 
@@ -148,6 +150,7 @@ The package tree structure is provided below.
   |- data
     |- EnzymaticReactions.rda
     |- EnzymeDistribution.rda
+    |- GenomesInfo.rda
   |- inst
     |- CITATION
     |- extdata
@@ -172,6 +175,7 @@ The package tree structure is provided below.
     |- overallSimilarity.Rd
     |- transformToVector.Rd
   |- R
+    |- checkUserED.R
     |- competeMicrobiota.R
     |- constructFullNetwork.R
     |- data.R

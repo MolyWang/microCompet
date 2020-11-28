@@ -2,25 +2,27 @@
 % Please edit documentation in R/competeMicrobiota.R
 \name{allSugarScoresForOneGenome}
 \alias{allSugarScoresForOneGenome}
-\title{Calculate pathway completeness for all pathways within a genome.}
+\title{Calculate Completeness Of All Sugar Degradation Pathways Within One Genome}
 \usage{
 allSugarScoresForOneGenome(geneVec, allSugars, ER)
 }
 \arguments{
-\item{geneVec}{Gene list represents on genome}
+\item{geneVec}{A vector of gene names, representing all sugar degradation enzymes
+present in one genome of interest.}
 
-\item{allSugars}{A list representing all sugar degradation pathways.}
+\item{allSugars}{A vector of all sugar degradation pathways.}
 
-\item{ER}{A dataset with at least 3 columns. Gene name for an enzyme, Reaction.EC for
-one catalytic reaction, and Sugar for degradation pathway. Same requirement for
-the next calculateStepsForOneSugar function, since it's only for passing to the helper.}
+\item{ER}{A data.frame describing enzymatic reactions with at least 3 columns: "Gene"
+for gene encoding an enzyme, "Reaction.EC" for categorization of catalytic reactions,
+and "Sugar" for degradation pathway. Column names need to be EXACTLY the same,
+case sensitive.}
 }
 \value{
-A vector containing a genome's score for all sugar degradatin pathways.
+A vector containing a genome's score for all sugar degradation pathways.
 }
 \description{
 Use the calculateStepsForOneSugar function for all sugar pathways one by one,
-and build a named vector for all pathways
+and build a named vector for all pathways.
 }
 \examples{
 \dontrun{
@@ -28,8 +30,8 @@ and build a named vector for all pathways
  ER <- microCompet::EnzymaticReactions
  ED <- microCompet::EnzymeDistribution
  allSugars <- sort(unique(ED$Sugar))
- ECCounts <- allSugarScoresForOneGenome(geneVec, allSugars, ER)
- ECCounts
+ sugarScoreVec <- allSugarScoresForOneGenome(geneVec, allSugars, ER)
+ sugarScoreVec
 }
 
 }

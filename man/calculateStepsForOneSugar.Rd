@@ -17,20 +17,20 @@ and "Sugar" for degradation pathway. Column names need to be EXACTLY the same,
 case sensitive.}
 }
 \value{
-ECCount An integer. Number of different sugar specific enzymes present in the geneVec.
+An integer. Number of different sugar specific enzymes present in the geneVec.
 }
 \description{
 Given a vector of gene names that contain all sugar degradation enzymes from
 a genome of interest, count of number of different enzymes encoded by these genes
-that involve in the degradation of the specified sugar. Enzymes with same catalytic
+that involve in the degradation of one specified sugar. Enzymes with same catalytic
 function (Reaction.EC) but encoded by different genes are counted once.
 }
 \examples{
 \dontrun{
  geneVec <- c("rpe", "rpiB", "eno", "fruK")
  ER <- EnzymaticReactions
- ECCount <- calculateStepsForOneSugar(geneVec, "fructose", ER)
- ECCount
+ sugarScore <- calculateStepsForOneSugar(geneVec, "fructose", ER)
+ sugarScore
 }
 
 }

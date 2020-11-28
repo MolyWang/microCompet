@@ -20,9 +20,11 @@ knitr::opts_chunk$set(
 
 
 ## Description
-R package __*microCompet*__ is for visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
-1. visualize all sugar degradation activities one microbe can carry out (See function _*constructFullNetwork*_)
-2. Compare a microbe's overall sugar degradation pathway similarity to other microbes (See functions _*overallSimilarity*_ and _*competeMicrobiota*_)
+__*microCompet*__ is for identifying and visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
+
+1. Visualize all sugar degradation pathways that are present in one microbe of interest (See function _*constructFullNetwork*_)
+
+2. Compare a microbe's overall similarity of sugar degradation profile to other microbes (See functions _*overallSimilarity*_ and _*competeMicrobiota*_)
 
 
 
@@ -40,7 +42,7 @@ library("microCompet")
 ls("package:microCompet")
 data(package = "microCompet")
 ```
-_microCompet_ package contains 4 functions and 2 datasets. 
+_microCompet_ package contains 5 functions and 2 datasets. 
 
 Dataset __*EnzymaticReactions*__ describe enzymatic steps for sugar degradation pathways with 5 factors: gene encoding the enzyme, enzyme catagory by EC number (such as 2.1.5.77), reaction substrate and product, and the sugar pathway.
 
@@ -58,7 +60,7 @@ Function __*extractCarboGenes*__ extract sugar degradation enzymes from user-giv
 The file must have genes annotated, that is they have lines in the format of _/gene="gene_name"_ (See the included *Klebsiella_variicola.gb* and *Lactobacillus_johnsonii.gb* for example, they are in the main folder). Other R packages are available for formatting GenBank file, but they parse the whole file into one object, which is not necessary for this package.
 
 Function __*constructFullNetwork*__ takes a genome and plot its full sugar degradation pathways, the following image is a sample output using the provided *Lactobacillus_johnsonii.gb* genome.
-```{r message=FALSE, warning=FALSE}
+```{r constructFullNetwork, message=FALSE, warning=FALSE}
 require("microCompet")
 
 ER <- microCompet::EnzymaticReactions
@@ -75,40 +77,40 @@ fullPathway
 
 
 Function __*overallSimilarity*__ count sugar degradation genes in common between the given genome and other microbial species, and creates an interactive radar graph.
-```{r, echo=TRUE, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/overSimi1.png"}
+```{r overallSimilarity, echo=TRUE, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/overSimi1.png"}
 require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
-full_enzyme_gene_lst <- ED$Gene
-genome_file_path <- system.file("extdata",
+fullEnzymeGeneVec <- ED$Gene
+genomeFilePath <- system.file("extdata",
                               "Lactobacillus johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
-carbo_genes <- microCompet::extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
+carboGenes <- microCompet::extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+overall_similarity <- overallSimilarity(genome_name, carboGenes, ED, 5, 13)
 overall_similarity
 
 ```
 
 
 The final function __*competeMicrobiota*__ visualize available microbes in terms of pathway completeness, suggesting their ability to fully degrade indicated sugar sources.
-```{r, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/comp1.png"}
+```{r competeMicrobiota, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/comp1.png"}
 require("microCompet")
 require("radarchart")
 genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
-full_enzyme_gene_lst <- ED$Gene
-genome_file_path <- system.file("extdata",
+fullEnzymeGeneVec <- ED$Gene
+genomeFilePath <- system.file("extdata",
                               "Lactobacillus johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
-carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-first_microbe <- 5
-last_microbe <- 13
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
+firstMicrobe <- 5
+lastMicrobe <- 13
 ER <- microCompet::EnzymaticReactions
-compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
-                                       ED, first_microbe, last_microbe)
+compete_microbiota <- competeMicrobiota(genome_name, carboGenes, ER,
+                                       ED, firstMicrobe, lastMicrobe)
 compete_microbiota
 ```
 
@@ -128,6 +130,7 @@ The package tree structure is provided below.
   |- data
     |- EnzymaticReactions.rda
     |- EnzymeDistribution.rda
+    |- GenomesInfo.rda
   |- inst
     |- CITATION
     |- extdata
@@ -152,6 +155,7 @@ The package tree structure is provided below.
     |- overallSimilarity.Rd
     |- transformToVector.Rd
   |- R
+    |- checkUserED.R
     |- competeMicrobiota.R
     |- constructFullNetwork.R
     |- data.R

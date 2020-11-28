@@ -50,49 +50,21 @@
 overallSimilarity <- function(genomeName, geneVec, ED,
                               firstMicrobe, lastMicrobe = ncol(ED)) {
 
-  # ============ Check ED and indices ============
-  # check user provided indices firstMicrobe and lastMicrobe are positive integers
-  if (firstMicrobe <= 0 | floor(fistMicrobe) != firstMicrobe |
-      lastMicrobe <= 0 | floor(lastMicrobe) != lastMicrobe) {
-    stop("firstMicrobe or lastMicrobe is invalid, positive integers are required.")
+  # ============ Check ED and column indices ============
+  reportVec <- checkUserED(ED, firstMicrobe, lastMicrobe)
+
+  # update lastMicrobe if necessary
+  if (reportVec["lastMicrobeTooLarge"]) {
+    lastMicrobe <- ncol(ED)
   }
 
-  # check column "Gene" is present
-  if (!"Gene" %in% colnames(ED)) {
-    stop("The required column Gene is missing in the provided data.frame.")
+  # update unexpected values in ED to 0 if necessary
+  if (reportVec["UnexpectedValuesInED"]) {
+    relevantSection <- ED[firstMicrobe:lastMicrobe]
+    unexpectedValues <- (relevantSection != 0) & (relevantSection != 1)
+    relevantSection[unexpectedValues] <- 0
+    ED[firstMicrobe:lastMicrobe] <- relevantSection
   }
-
-  # check at least one genomes are provided in ED
-  if (firstMicrobe > lastMicrobe) {
-    stop("Invalid column indices, firstMicrobe should be no larger than lastMicobe.")
-  }
-
-  # check indices are no larger than total number of columns available
-  if (firstMicrobe > ncol(ED)) {
-    stop("Start index firstMicrobe should be no larger than total number of columns available. (", ncol(ED), ")")
-  }
-
-
-
-
-
-  # Remind if lastMicrobe is larger than total columns available
-  if (lastMicrobe > ncol(ED)) {
-    lastMicrobe = ncol(ED)
-    sprintf("The given lastMicrobe index is larger than total columns available, and is replaced by %d.",
-            ncol(ED))
-  }
-
-  # check whether columns from firstMicrbe to lastMicrobe contains only 0 and 1,
-  relevantSection <- ED[firstMicrobe:lastMicrobe]
-  unexpectedValues <- (relevantSection != 0) & (relevantSection != 1)
-  sprintf("%d cells from column %d to column %d in the provided data.frame is not 0 or 1, and will be replaced by 0.",
-          sum(as.integer(unexpectedValues)),
-          firstMicrobe,
-          lastMicrobe)
-  # replace values other than 0 (FALSE) and 1 (TRUE) with 0.
-  relevantSection[unexpectedValues] <- 0
-  ED[firstMicrobe:lastMicrobe] <- relevantSection
 
 
   # ============ start construction ============
