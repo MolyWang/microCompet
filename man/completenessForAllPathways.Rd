@@ -17,7 +17,7 @@ for gene encoding an enzyme, "Reaction.EC" for categorization of catalytic react
 and "Sugar" for degradation pathway. Column names need to be EXACTLY the same,
 case sensitive.}
 
-\item{totslSteps}{A vector containing counts of total steps for all sugar degradation
+\item{totalSteps}{A vector containing counts of total steps for all sugar degradation
 pathways. Result of helper function \code{calculateTotalStepsForAllSugars}}
 }
 \value{

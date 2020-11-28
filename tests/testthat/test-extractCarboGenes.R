@@ -4,9 +4,9 @@ genomeFilePath <- system.file("extdata",
                               package = "microCompet",
                               mustWork = TRUE)
 ED <- microCompet::EnzymeDistribution
-full_enzyme_gene_lst <- ED$Gene
-carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+fullEnzymeGeneVec <- ED$Gene
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
 
 test_that("No external genes extracted", {
-  expect_equal(setequal(intersect(carbo_genes, full_enzyme_gene_lst), carbo_genes), TRUE)
+  expect_equal(setequal(intersect(carboGenes, fullEnzymeGeneVec), carboGenes), TRUE)
 })

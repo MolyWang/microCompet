@@ -104,7 +104,7 @@ competeMicrobiota <- function(genomeName, geneVec, ER,
 
 
   # ============ Visualization ============
-  competitions <- radarchart::chartJSRadar(scores = pathCompScores[, 2:ncol(pathCompScores)],
+  competitions <- radarchart::chartJSRadar(scores = completenessDF[, 2:ncol(completenessDF)],
                                            labs = allSugars,
                                            maxScale = 1)
   return(competitions)
@@ -126,7 +126,7 @@ competeMicrobiota <- function(genomeName, geneVec, ER,
 #'     for gene encoding an enzyme, "Reaction.EC" for categorization of catalytic reactions,
 #'     and "Sugar" for degradation pathway. Column names need to be EXACTLY the same,
 #'     case sensitive.
-#' @param totslSteps A vector containing counts of total steps for all sugar degradation
+#' @param totalSteps A vector containing counts of total steps for all sugar degradation
 #'     pathways. Result of helper function \code{calculateTotalStepsForAllSugars}
 #'
 #' @return A named vector containing completeness score for all sugar degradation pathways.
@@ -209,7 +209,7 @@ allSugarScoresForOneGenome <- function(geneVec, allSugars, ER) {
 calculateStepsForOneSugar <- function(geneVec, sugar, ER) {
   # look for genes in geneVec encoding enzymes that degrade the specified sugar
   presentEC <- ER[is.element(ER$Gene, geneVec) & ER$Sugar == sugar,
-                  Reaction.EC]
+                  "Reaction.EC"]
   sugarScore <- length(unique(presentEC))
 
   return(sugarScore)
@@ -247,7 +247,7 @@ calculateTotalStepsForAllSugars <- function(allSugars, ER) {
   # fill in values for totalSteps
   for (sugar in allSugars) {
     # count of unique ECs is the targeted steps number
-    totalSteps[sugar] <- length(unique(ER[ER$Sugar == sugar, Reaction.EC]))
+    totalSteps[sugar] <- length(unique(ER[ER$Sugar == sugar, "Reaction.EC"]))
   }
 
   return(totalSteps)

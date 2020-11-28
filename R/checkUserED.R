@@ -20,7 +20,7 @@
 checkUserED <- function(ED, firstMicrobe, lastMicrobe) {
   # ============ Check for problems that have to "stop" ============
   # check user provided indices firstMicrobe and lastMicrobe are positive integers
-  if (firstMicrobe <= 0 | floor(fistMicrobe) != firstMicrobe |
+  if (firstMicrobe <= 0 | floor(fisrtMicrobe) != firstMicrobe |
       lastMicrobe <= 0 | floor(lastMicrobe) != lastMicrobe) {
     stop("firstMicrobe or lastMicrobe is invalid, positive integers are required.")
   }
