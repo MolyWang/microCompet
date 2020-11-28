@@ -60,7 +60,7 @@
 #' @examples
 #'  \dontrun {
 #'   head(EnzymeDistribution)
-#'}
+#' }
 #'
 "EnzymeDistribution"
 
@@ -76,11 +76,11 @@
 #'   \item{Bacterial.Genome}{Full name of bacterial species.}
 #'   \item{Accession}{Accession of this genome on NCBI.}
 #'   \item{Description}{Full description of this genome on NCBI, including strain name.}
-#'   }
+#' }
 #' @examples
 #'  \dontrun {
 #'   GenomesInfo
-#'}
+#' }
 #'
 "GenomesInfo"
 

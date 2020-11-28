@@ -10,7 +10,7 @@ A matrix with 9 rows and 3 variables
   \item{Bacterial.Genome}{Full name of bacterial species.}
   \item{Accession}{Accession of this genome on NCBI.}
   \item{Description}{Full description of this genome on NCBI, including strain name.}
-  }
+}
 }
 \usage{
 GenomesInfo
