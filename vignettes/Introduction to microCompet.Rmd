@@ -4,7 +4,7 @@ author: "Zhuyi Wang"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction_to_microCompet}
+  %\VignetteIndexEntry{Introduction to microCompet}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ opts_chunk$set(fig.align = "center",
                fig.width = 1, fig.height = 0.8,
                dev.args=list(pointsize=10),
                par = TRUE, # needed for setting hook 
-               collapse = TRUE, # collapse input & ouput code in chunks
+               collapse = TRUE, # collapse input & output code in chunks
                warning = FALSE)
 knit_hooks$set(par = function(before, options, envir)
   { if(before && options$fig.show != "none") 
@@ -112,7 +112,6 @@ ER <- microCompet::EnzymaticReactions
 full_pathway <- microCompet::constructFullNetwork("L. johnsonii", carbo_genes, ER)
 full_pathway
 ```
-<img src="../inst/extdata/Ljohn.png" height="400px" width="600px"/>
 
 Don't be scared by many legends, they would make sense after explanation :D
 

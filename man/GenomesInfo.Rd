@@ -23,7 +23,7 @@ genbank files on NCBI by searching the Accession.
 \examples{
  \dontrun {
   GenomesInfo
- }
+}
 
 }
 \keyword{datasets}

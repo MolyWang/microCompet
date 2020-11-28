@@ -1,5 +1,8 @@
 # Due to relative path issue, change the path before running Check or Test
-genome_file_path = "C:/Users/Helia/Documents/microCompet/Klebsiella_variicola.gb"
+genomeFilePath <- system.file("extdata",
+                              "Klebsiella variicola.gb",
+                              package = "microCompet",
+                              mustWork = TRUE)
 ED <- microCompet::EnzymeDistribution
 full_enzyme_gene_lst <- ED$Gene
 carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)

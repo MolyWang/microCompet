@@ -80,7 +80,7 @@
 #' @examples
 #'  \dontrun {
 #'   GenomesInfo
-#'  }
+#'}
 #'
 "GenomesInfo"
 
