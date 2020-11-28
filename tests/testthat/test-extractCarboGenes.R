@@ -1,6 +1,6 @@
 # Due to relative path issue, change the path before running Check or Test
 genomeFilePath <- system.file("extdata",
-                              "Klebsiella variicola.gb",
+                              "Klebsiella_variicola.gb",
                               package = "microCompet",
                               mustWork = TRUE)
 ED <- microCompet::EnzymeDistribution

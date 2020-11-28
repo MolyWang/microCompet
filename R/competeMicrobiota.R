@@ -36,7 +36,7 @@
 #'  ED <- microCompet::EnzymeDistribution
 #'  full_enzyme_geneVec <- ED$Gene
 #'  genomeFilePath <- system.file("extdata",
-#'                                "Lactobacillus johnsonii.gb",
+#'                                "Lactobacillus_johnsonii.gb",
 #'                                package = "microCompet",
 #'                                mustWork = TRUE)
 #'  carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)

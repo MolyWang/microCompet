@@ -12,7 +12,7 @@
 #'
 #' @param genomeFilePath Full path to a GenBank file that represents a microbial genome.
 #'     This GenBank file must at least have gene names annotated. See provided file
-#'     "Klebsiella variicola.gb" and "Lactobacillus johnsonii.gb" in extdata for example,
+#'     "Klebsiella_variicola.gb" and "Lactobacillus_johnsonii.gb" in extdata for example,
 #'     they have lines in the format /gene="geneName". And see example for how to extract
 #'     full path to the example files. (\code{genomeFilePath <-} part)
 #' @param fullEnzymeGeneVec A list of all sugar degradation genes to be searched for in
@@ -26,7 +26,7 @@
 #'  ED <- microCompet::EnzymeDistribution
 #'  fullEnzymeGeneVec <- ED$Gene
 #'  genomeFilePath <- system.file("extdata",
-#'                                "Klebsiella variicola.gb",
+#'                                "Klebsiella_variicola.gb",
 #'                                package = "microCompet",
 #'                                mustWork = TRUE)
 #'  carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)

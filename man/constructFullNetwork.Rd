@@ -46,11 +46,11 @@ Color of the edge represents the sugar degradation pathway this step involved in
  ED <- microCompet::EnzymeDistribution
  fullEnzymeGeneVec <- ED$Gene
  genomeFilePath <- system.file("extdata",
-                               "Lactobacillus johnsonii.gb",
+                               "Lactobacillus_johnsonii.gb",
                                package = "microCompet",
                                mustWork = TRUE)
  carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
- fullNetwork <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
+ fullNetwork <- constructFullNetwork("Lactobacillus_johnsonii", carboGenes, ER)
  fullNetwork
 }
 

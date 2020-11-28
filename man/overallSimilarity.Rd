@@ -54,7 +54,7 @@ data.frame.
  ED <- microCompet::EnzymeDistribution
  fullEnzymeGeneVec <- ED$Gene
  genomeFilePath <- system.file("extdata",
-                               "Lactobacillus johnsonii.gb",
+                               "Lactobacillus_johnsonii.gb",
                                package = "microCompet",
                                mustWork = TRUE)
  carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)

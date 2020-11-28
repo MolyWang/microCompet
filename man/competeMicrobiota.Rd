@@ -58,7 +58,7 @@ sugar degradation pathway is calculated as (number of steps can be catalyzed) ov
  ED <- microCompet::EnzymeDistribution
  full_enzyme_geneVec <- ED$Gene
  genomeFilePath <- system.file("extdata",
-                               "Lactobacillus johnsonii.gb",
+                               "Lactobacillus_johnsonii.gb",
                                package = "microCompet",
                                mustWork = TRUE)
  carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
