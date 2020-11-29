@@ -80,6 +80,7 @@ overallSimilarity <- function(genomeName, geneVec, ED,
   # fill the vector with scores
   for (microbeName in availableMicrobes) {
     oneMicrobe <- ED[microbeName]
+    oneMicrobe <- unlist(oneMicrobe)
     names(oneMicrobe) <- ED$Gene
     # compareTwoGenomes is a helper defined later in this file
     overSimiScores[microbeName] <- compareTwoGenomes(genomeVec,

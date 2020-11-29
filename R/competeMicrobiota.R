@@ -94,7 +94,7 @@ competeMicrobiota <- function(genomeName, geneVec, ER,
   completenessDF[genomeName] <- completenessForAllPathways(geneVec, allSugars, ER, totalSteps)
 
   # then for microbes in the data.frame ED
-  genomeNames <- colnames(ED)[firstMicrobe:lastMicrobe]
+  genomeNames <- colnames(ED)
   for (i in firstMicrobe:lastMicrobe) {
     genomeName <- genomeNames[i]
     microbe <- ED[i]

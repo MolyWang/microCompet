@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 
 ## Description
-__*microCompet*__ is for identifying and visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
+`microCompet` is for identifying and visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
 
 1. Visualize all sugar degradation pathways that are present in one microbe of interest (See function _*constructFullNetwork*_)
 
@@ -29,15 +29,20 @@ __*microCompet*__ is for identifying and visualizing potential microbial competi
 
 
 ## Installation
-
+To install the package:
 ```{r, eval = FALSE}
 require("devtools")
 devtools::install_github("MolyWang/microCompet", build_vignettes = TRUE)
 library("microCompet")
 ```
+To run the Shiny app:
+```{r, eval=FALSE}
+microCompet::runMicroCompet()
+```
 
 
 ## Overview
+To list all functions and datasets in the package:
 ```{r, eval = FALSE}
 ls("package:microCompet")
 data(package = "microCompet")
@@ -67,7 +72,7 @@ ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
 fullEnzymeGeneList <- ED$Gene
 genomeFilePath <- system.file("extdata",
-                              "Lactobacillus johnsonii.gb",
+                              "Lactobacillus_johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
 carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
@@ -84,7 +89,7 @@ genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 fullEnzymeGeneVec <- ED$Gene
 genomeFilePath <- system.file("extdata",
-                              "Lactobacillus johnsonii.gb",
+                              "Lactobacillus_johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
 carboGenes <- microCompet::extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
@@ -98,18 +103,18 @@ The final function __*competeMicrobiota*__ visualize available microbes in terms
 ```{r competeMicrobiota, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/comp1.png"}
 require("microCompet")
 require("radarchart")
-genome_name <- "L. johnsonii"
+genomeName <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 fullEnzymeGeneVec <- ED$Gene
 genomeFilePath <- system.file("extdata",
-                              "Lactobacillus johnsonii.gb",
+                              "Lactobacillus_johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
 carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
 firstMicrobe <- 5
 lastMicrobe <- 13
 ER <- microCompet::EnzymaticReactions
-compete_microbiota <- competeMicrobiota(genome_name, carboGenes, ER,
+compete_microbiota <- competeMicrobiota(genomeName, carboGenes, ER,
                                        ED, firstMicrobe, lastMicrobe)
 compete_microbiota
 ```

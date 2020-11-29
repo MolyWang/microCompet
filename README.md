@@ -9,7 +9,7 @@
 
 ## Description
 
-***microCompet*** is for identifying and visualizing potential microbial
+`microCompet` is for identifying and visualizing potential microbial
 competitions for nutrition, mainly simple sugars such as pentoses an
 pyranoses. This package offers functions to:
 
@@ -22,13 +22,23 @@ pyranoses. This package offers functions to:
 
 ## Installation
 
+To install the package:
+
 ``` r
 require("devtools")
 devtools::install_github("MolyWang/microCompet", build_vignettes = TRUE)
 library("microCompet")
 ```
 
+To run the Shiny app:
+
+``` r
+microCompet::runMicroCompet()
+```
+
 ## Overview
+
+To list all functions and datasets in the package:
 
 ``` r
 ls("package:microCompet")
@@ -76,7 +86,7 @@ ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
 fullEnzymeGeneList <- ED$Gene
 genomeFilePath <- system.file("extdata",
-                              "Lactobacillus johnsonii.gb",
+                              "Lactobacillus_johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
 carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
@@ -97,7 +107,7 @@ genome_name <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 fullEnzymeGeneVec <- ED$Gene
 genomeFilePath <- system.file("extdata",
-                              "Lactobacillus johnsonii.gb",
+                              "Lactobacillus_johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
 carboGenes <- microCompet::extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
@@ -114,18 +124,18 @@ degrade indicated sugar sources.
 ``` r
 require("microCompet")
 require("radarchart")
-genome_name <- "L. johnsonii"
+genomeName <- "L. johnsonii"
 ED <- microCompet::EnzymeDistribution
 fullEnzymeGeneVec <- ED$Gene
 genomeFilePath <- system.file("extdata",
-                              "Lactobacillus johnsonii.gb",
+                              "Lactobacillus_johnsonii.gb",
                               package = "microCompet",
                               mustWork = TRUE)
 carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
 firstMicrobe <- 5
 lastMicrobe <- 13
 ER <- microCompet::EnzymaticReactions
-compete_microbiota <- competeMicrobiota(genome_name, carboGenes, ER,
+compete_microbiota <- competeMicrobiota(genomeName, carboGenes, ER,
                                        ED, firstMicrobe, lastMicrobe)
 compete_microbiota
 ```
