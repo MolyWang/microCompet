@@ -37,34 +37,36 @@ microCompet::runMicroCompet()
 
 ## Overview
 
-To list all functions and datasets in the package:
+To list the available 5 functions and 3 datasets in the package:
 
 ``` r
 ls("package:microCompet")
 data(package = "microCompet")
 ```
 
-*microCompet* package contains 5 functions and 3 datasets.
+### Datasets EnzymaticReactions, EnzymeDistribution & GenomesInfo
 
-Dataset ***EnzymaticReactions*** describe enzymatic steps for sugar
-degradation pathways with 5 factors: gene encoding the enzyme, enzyme
-catagory by EC number (such as 2.1.5.77), reaction substrate and
-product, and the sugar pathway.
+As dataset names indicated, *_EnzymaticReactions_* describes enzymatic
+reactions involved in simple sugar degradation pathways, and
+*_EnzymeDistribution_* includes data regarding the distribution of these
+enzymes in various gut microbiota members. For more information on these
+genomes, you can see *_GenomesInfo_* and find the original annotated
+genome from NCBI using provided Accession ID. For more details, check
+the dataset description files by 
 
-Dataset ***EnzymeDistribution*** lists genes for unique enzymes *AND*
-offers the genome data of 9 diverse microbe strains from human
-microbiota, using 0 and 1 to indicate whether a specific microbe (one
-column) carries the gene represented by the row. See these genomes by
+### extractCarboGenes & checkUserED
 
-``` r
-require("microCompet")
+These two functions can be treated as exported helper functions for
+users. The most readily available genome files are genbank(.gb or .gbk)
+and *_extractCarboGenes_* would extract genes encoding sugar degradation
+enzymes for other functions to operate on.
 
-# from the description for dataset by
-?EnzymeDistribution
-#or
-ED <- microCompet::EnzymeDistribution
-colnames(ED)[5:13]
-```
+While *_checkUserED_* helps user to check some required features/columns
+in provided dataset *_EnzymeDistribution_*. Datasets pass this check is
+very likely to work properly with *_overallSimilarity_* and
+*_competeMicrobiota_*, but more details are checked within functions.
+
+### constructFullNetwork, overallSimilarity & competeMicrobiota
 
 Function ***extractCarboGenes*** extract sugar degradation enzymes from
 user-given GenBank file. The file must have genes annotated, that is
@@ -72,19 +74,17 @@ they have lines in the format of */gene=“gene\_name”* (See the included
 *Klebsiella\_variicola.gb* and *Lactobacillus\_johnsonii.gb* for
 example, they are in the main folder). Other R packages are available
 for formatting GenBank file, but they parse the whole file into one
-object, which is not necessary for this package.
+object, which is not necessary for this package. Function
+***constructFullNetwork*** takes a genome and plot its full sugar
+degradation pathways, the following image is a sample output using the
+provided *Lactobacillus\_johnsonii.gb* genome. Function
+***overallSimilarity*** count sugar degradation genes in common between
+the given genome and other microbial species, and creates an interactive
+radar graph. The final function ***competeMicrobiota*** visualize
+available microbes in terms of pathway completeness, suggesting their
+ability to fully degrade indicated sugar sources.
 
-Function ***constructFullNetwork*** takes a genome and plot its full
-sugar degradation pathways, the following image is a sample output using
-the provided *Lactobacillus\_johnsonii.gb* genome.
-
-Function ***overallSimilarity*** count sugar degradation genes in common
-between the given genome and other microbial species, and creates an
-interactive radar graph.
-
-The final function ***competeMicrobiota*** visualize available microbes
-in terms of pathway completeness, suggesting their ability to fully
-degrade indicated sugar sources.
+![](./inst/extdata/overview.png)
 
 Refer to package vignettes for more details.
 
@@ -204,7 +204,7 @@ BCB410H: Applied Bioinformatics, University of Toronto, Toronto, CANADA.
 
 ## Examples
 
-# 1\. constructFullNetwork
+### 1\. constructFullNetwork
 
 A quick example for *_constructFullNetwork_*, and this would reproduce
 the network image you saw in the *_Overview_* part, making use of
@@ -230,7 +230,8 @@ fullPathway
 ```
 
 <img src="man/figures/README-constructFullNetwork-1.png" width="100%" />
-\# 2. overallSimilarity
+
+### 2\. overallSimilarity
 
 The second example quickly shows you a sample output from
 **overallSimilarity*.* You can comment out the indicated lines if you’ve
@@ -253,8 +254,9 @@ overSimiFig <- overallSimilarity(genomeName, carboGenes, ED, 5, 13)
 overSimiFig
 ```
 
-<img src="./inst/extdata/overallSimilarity.png" width="100%" /> \# 3.
-competeMicrobiota
+<img src="./inst/extdata/overallSimilarity.png" width="100%" />
+
+### 3\. competeMicrobiota
 
 The third example shows a sample image from **competeMicrobiota*.* Same
 as before, you don’t have to rerun code for generating geneVec
