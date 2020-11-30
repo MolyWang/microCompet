@@ -15,7 +15,6 @@ pyranoses. This package offers functions to:
 
 1.  Visualize all sugar degradation pathways that are present in one
     microbe of interest (See function *_constructFullNetwork_*)
-
 2.  Compare a microbe’s overall similarity of sugar degradation profile
     to other microbes (See functions *_overallSimilarity_* and
     *_competeMicrobiota_*)
@@ -45,7 +44,7 @@ ls("package:microCompet")
 data(package = "microCompet")
 ```
 
-*microCompet* package contains 5 functions and 2 datasets.
+*microCompet* package contains 5 functions and 3 datasets.
 
 Dataset ***EnzymaticReactions*** describe enzymatic steps for sugar
 degradation pathways with 5 factors: gene encoding the enzyme, enzyme
@@ -79,68 +78,13 @@ Function ***constructFullNetwork*** takes a genome and plot its full
 sugar degradation pathways, the following image is a sample output using
 the provided *Lactobacillus\_johnsonii.gb* genome.
 
-``` r
-require("microCompet")
-
-ER <- microCompet::EnzymaticReactions
-ED <- microCompet::EnzymeDistribution
-fullEnzymeGeneList <- ED$Gene
-genomeFilePath <- system.file("extdata",
-                              "Lactobacillus_johnsonii.gb",
-                              package = "microCompet",
-                              mustWork = TRUE)
-carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
-fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
-fullPathway
-```
-
-<img src="man/figures/README-constructFullNetwork-1.png" width="100%" />
-
 Function ***overallSimilarity*** count sugar degradation genes in common
 between the given genome and other microbial species, and creates an
 interactive radar graph.
 
-``` r
-require("microCompet")
-require("radarchart")
-genome_name <- "L. johnsonii"
-ED <- microCompet::EnzymeDistribution
-fullEnzymeGeneVec <- ED$Gene
-genomeFilePath <- system.file("extdata",
-                              "Lactobacillus_johnsonii.gb",
-                              package = "microCompet",
-                              mustWork = TRUE)
-carboGenes <- microCompet::extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
-overall_similarity <- overallSimilarity(genome_name, carboGenes, ED, 5, 13)
-overall_similarity
-```
-
-<img src="./inst/extdata/overSimi1.png" width="100%" />
-
 The final function ***competeMicrobiota*** visualize available microbes
 in terms of pathway completeness, suggesting their ability to fully
 degrade indicated sugar sources.
-
-``` r
-require("microCompet")
-require("radarchart")
-genomeName <- "L. johnsonii"
-ED <- microCompet::EnzymeDistribution
-fullEnzymeGeneVec <- ED$Gene
-genomeFilePath <- system.file("extdata",
-                              "Lactobacillus_johnsonii.gb",
-                              package = "microCompet",
-                              mustWork = TRUE)
-carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)
-firstMicrobe <- 5
-lastMicrobe <- 13
-ER <- microCompet::EnzymaticReactions
-compete_microbiota <- competeMicrobiota(genomeName, carboGenes, ER,
-                                       ED, firstMicrobe, lastMicrobe)
-compete_microbiota
-```
-
-<img src="./inst/extdata/comp1.png" width="100%" />
 
 Refer to package vignettes for more details.
 
@@ -170,6 +114,8 @@ The package tree structure is provided below.
       |- Ljohn.png
       |- microbiome.jpg
       |- overSimi1.png
+    |- shiny-scripts
+      |- app.R
   |- man
     |- allSugarScoresForOneGenome.Rd
     |- calculateCount.Rd
@@ -191,12 +137,23 @@ The package tree structure is provided below.
     |- data.R
     |- extractCarboGenes.R
     |- overallSimilarity.R
+    |- runMicroCompet.R
   |- tests
 ```
 
 ## Contributions
 
-Written by Zhuyi Wang.
+The author of this package is Zhuyi Wang. Information included in
+*EnzymaticReactions* are retrieved from MetaCyc (metacyc.org), while
+data included in *EnzymeDistribution* are annotated genome downloaded
+from NCBI (see details in *GenomesInfo*) and processed by Python scripts
+(also written by Zhuyi). Functions *overallSimilarity* and
+*competeMicrobiota* took advantage of one function *chartJSRadar* from R
+package *radarchart*, which decorates dataframes with interactive
+features and beautifully selected colors that agree with my aesthetics.
+Another function *constructFullNetwork* was dependency-heavy, it is
+built upon functions from *igraph* and *ggraph*, which then depend on
+*network*, *sna*, and *ggplot2*.
 
 ## References
 
@@ -216,12 +173,12 @@ Written by Zhuyi Wang.
     <https://igraph.org>
 
 5.  Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002.
-    The MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61.
+    The MetaCyc Database. *Nucleic Acids Re*. 30(1):59-61.
     <doi:10.1093/nar/30.1.59>
 
 6.  National Center for Biotechnology Information (NCBI)\[Internet\].
     Bethesda (MD): National Library of Medicine (US), National Center
-    for Biotechnology Information; \[1988\]. Available from:
+    for Biotechnology Information \[1988\]. Available from:
     <https://www.ncbi.nlm.nih.gov/>
 
 7.  Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of
@@ -229,16 +186,16 @@ Written by Zhuyi Wang.
     <https://CRAN.R-project.org/package=ggraph>
 
 8.  R Core Team. 2020. R: A language and environment for statistical
-    computing. R Foundation for Statistical Computing, Vienna, Austria.
+    computing. R Foundation for Statistical Computing. Vienna, Austria.
     URL: <https://www.R-project.org/>.
 
 9.  Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis.
     Springer-Verlag New York.
 
-10. Cite the R-package textbook here.
+10. Wickham, H. 2020. R Packages. <https://r-pkgs.org/>
 
-11. bookdown: Authoring Books and Technical Documents with R Markdown.
-    <https://bookdown.org/yihui/bookdown/>
+11. Xie, Y. 2020. bookdown: Authoring Books and Technical Documents with
+    R Markdown. <https://bookdown.org/yihui/bookdown/>
 
 ## Acknowledgements
 
@@ -246,6 +203,85 @@ This package was developed as part of an assessment for 2019-2020
 BCB410H: Applied Bioinformatics, University of Toronto, Toronto, CANADA.
 
 ## Examples
+
+# 1\. constructFullNetwork
+
+A quick example for *_constructFullNetwork_*, and this would reproduce
+the network image you saw in the *_Overview_* part, making use of
+*_extractCarboGenes_* and the carried genbank file
+**Lactobacillus\_johnsonii.gb*.* This package also comes with another
+genbank file *_Klebsiella\_variicola.gb_* (find it in inst/extdata).
+*_Klebsiella_* genus has a more complete sugar degradation system and
+would produce a busier image. More function detail in function
+description files with 
+
+``` r
+require("microCompet")
+ER <- microCompet::EnzymaticReactions
+ED <- microCompet::EnzymeDistribution
+fullEnzymeGeneList <- ED$Gene
+genomeFilePath <- system.file("extdata",
+                              "Lactobacillus_johnsonii.gb", #You can also try "Klebsiella_variicola.gb"
+                              package = "microCompet",
+                              mustWork = TRUE)
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
+fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
+fullPathway
+```
+
+<img src="man/figures/README-constructFullNetwork-1.png" width="100%" />
+\# 2. overallSimilarity
+
+The second example quickly shows you a sample output from
+**overallSimilarity*.* You can comment out the indicated lines if you’ve
+run the previous example. *_extractCarboGenes_* is a slow function and
+you want to play the cute image as soon as possible\!
+
+``` r
+require("microCompet")
+require("radarchart")
+genomeName <- "L. johnsonii"
+# Uncomment the indicated lines if you haven't run the previous example.
+ED <- microCompet::EnzymeDistribution                        #
+fullEnzymeGeneVec <- ED$Gene                                 #
+genomeFilePath <- system.file("extdata",                     #
+                              "Lactobacillus_johnsonii.gb",  #
+                              package = "microCompet",       #
+                              mustWork = TRUE)               #
+carboGenes <- microCompet::extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)     #
+overSimiFig <- overallSimilarity(genomeName, carboGenes, ED, 5, 13)
+overSimiFig
+```
+
+<img src="./inst/extdata/overallSimilarity.png" width="100%" /> \# 3.
+competeMicrobiota
+
+The third example shows a sample image from **competeMicrobiota*.* Same
+as before, you don’t have to rerun code for generating geneVec
+carboGenes. Run this in your R console, navigate through your favourite
+microbes, and enjoy its interactive features (unfortunately loss during
+knitting TAT).
+
+``` r
+require("microCompet")
+require("radarchart")
+genomeName <- "L. johnsonii"
+ED <- microCompet::EnzymeDistribution
+fullEnzymeGeneVec <- ED$Gene                                         #
+genomeFilePath <- system.file("extdata",                             #
+                              "Lactobacillus_johnsonii.gb",          #
+                              package = "microCompet",               #
+                              mustWork = TRUE)                       #
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)   #
+firstMicrobe <- 5
+lastMicrobe <- 13
+ER <- microCompet::EnzymaticReactions
+compMicro <- competeMicrobiota(genomeName, carboGenes, ER,
+                                       ED, firstMicrobe, lastMicrobe)
+compMicro
+```
+
+<img src="./inst/extdata/competeMicrobiota.png" width="100%" />
 
 ## Consent
 

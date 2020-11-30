@@ -99,10 +99,9 @@ constructFullNetwork <- function(genomeName, geneVec, ER) {
                            size = 4,
                            color = "gray30",
                            repel = TRUE) +
-    ggplot2::ggtitle(paste("Full Sugar Degradation Pathway Network of", genomeName)) +
+    ggplot2::ggtitle(paste("Full Pathway Network of", genomeName)) +
     ggplot2::theme(plot.title = element_text(hjust = 0.5,
-                                             lineheight = 1.5,
-                                             size = 18))
+                                             lineheight = 1.5))
 
   return(fullNetwork)
 }
