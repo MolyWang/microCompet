@@ -43,7 +43,7 @@
 #'  firstMicrobe <- 5
 #'  lastMicrobe <- 13
 #'  ER <- microCompet::EnzymaticReactions
-#'  competitions <- competeMicrobiota(genomeName, carbo_genes, ER,
+#'  competitions <- competeMicrobiota(genomeName, carboGenes, ER,
 #'                                    ED, firstMicrobe, lastMicrobe)
 #'  competitions
 #'  }
@@ -61,9 +61,9 @@ competeMicrobiota <- function(genomeName, geneVec, ER,
   }
 
   # check genomeName uniqueness
-  available_microbes <- colnames(ED)[firstMicrobe:lastMicrobe]
+  availableMicrobes <- colnames(ED)[firstMicrobe:lastMicrobe]
   # do not want to mask available genomes by the new input genome.
-  if (is.element(genomeName, available_microbes)) {
+  if (is.element(genomeName, availableMicrobes)) {
     stop(sprintf("Already have %s in available datasets, please rename your genome.",
                  genomeName))
   }

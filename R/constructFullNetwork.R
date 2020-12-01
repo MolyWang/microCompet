@@ -101,7 +101,8 @@ constructFullNetwork <- function(genomeName, geneVec, ER) {
                            repel = TRUE) +
     ggplot2::ggtitle(paste("Full Pathway Network of", genomeName)) +
     ggplot2::theme(plot.title = element_text(hjust = 0.5,
-                                             lineheight = 1.5))
+                                             lineheight = 1.5),
+                   aspect.ratio = 0.8)
 
   return(fullNetwork)
 }

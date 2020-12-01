@@ -65,7 +65,7 @@ sugar degradation pathway is calculated as (number of steps can be catalyzed) ov
  firstMicrobe <- 5
  lastMicrobe <- 13
  ER <- microCompet::EnzymaticReactions
- competitions <- competeMicrobiota(genomeName, carbo_genes, ER,
+ competitions <- competeMicrobiota(genomeName, carboGenes, ER,
                                    ED, firstMicrobe, lastMicrobe)
  competitions
  }
