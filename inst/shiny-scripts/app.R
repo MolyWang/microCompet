@@ -16,8 +16,8 @@ ui <- fluidPage(
   tags$head(
     tags$style(HTML("
       .shiny-output-error-validation {
-        font-size: 20px;
-        font-family: cursive;
+        font-size: 16px;
+        font-family: Arial;
         color: red;
         font-weight: 100;}"))
   ),
@@ -41,13 +41,13 @@ ui <- fluidPage(
                     display: block;}")),
 
   tags$style(HTML(
-    "#checkUserED {font-size: 18px;
+    "#checkUserED {font-size: 16px;
                       font-family: Arial;
                       color: red;
                       display: block;}")),
 
   tags$style(HTML(
-    "#checkUserER {font-size: 18px;
+    "#checkUserER {font-size: 16px;
                       font-family: Arial;
                       color: red;
                       display: block;}")),
@@ -65,7 +65,17 @@ ui <- fluidPage(
                       color: #4d3a7d;
                       display: block;}")),
 
+  tags$style(HTML(
+    "#overSimiMsg {font-size: 16px;
+                      font-family: Arial;
+                      color: red;
+                      display: block;}")),
 
+  tags$style(HTML(
+    "#competMicroMsg {font-size: 16px;
+                      font-family: Arial;
+                      color: red;
+                      display: block;}")),
 
 
   titlePanel(h1("microCompet: Microbial Competitors for Nutrition",
@@ -108,7 +118,7 @@ ui <- fluidPage(
       # preview selected DS
       actionButton(inputId = "previewSelectedDS",
                    label = "Preview Selected Datasets",
-                   style = "color: red; font-family: cursive; font-size: 18px"),
+                   style = "color: red; font-family: Arial; font-size: 16px"),
 
       br(),
 
@@ -131,30 +141,39 @@ ui <- fluidPage(
 
       # ============ Button to run microCompet functions ============
       br(),
-      tags$strong("Step 4: Now Ready To Run Package Functions!"),
+
+      tags$strong("Step 4: Extract Sugar Degradation Genes From Selected Genome!"),
       # extractCarboGenes
       actionButton(inputId = "extractCarboGenes",
                    label = "Extract Sugar Degradation Genes"),
+      # ============ Show running message ============
+      conditionalPanel(condition = "$('html').hasClass('shiny-busy')",
+                       tags$div(h3("Ahh, I am running! Give me some time ~",
+                                   style = "font-family: cursive;
+                                            font-size: 16px;
+                                            color: red;"),
+                                id="loadmessage")),
 
+      br(),
+      br(),
+      tags$strong("Step 5: Ready To Try Functions!"),
       # constructFullNetwork
+      br(),
       actionButton(inputId = "constructFullNetwork",
                    label = "Construct Pathway Network"),
+      br(),
 
       # overallSimilarity
       actionButton(inputId = "calOverallSimilarity",
                    label = "Compare Overall Similarity."),
+      br(),
 
       # competMicrobiota
       actionButton(inputId = "calCompeteMicrobiota",
                    label = "Identify Competition"),
+      br(),
 
-      # ============ Show running message ============
-      conditionalPanel(condition = "$('html').hasClass('shiny-busy')",
-                       tags$div(h3("Ahh, I am running! Give me some time ~",
-                                   style = "font-family: 'Lobster', cursive;
-                                            font-weight: 300;
-                                            color: #4d3a7d;"),
-                                id="loadmessage"))
+
     ),
 
     mainPanel(
@@ -199,9 +218,11 @@ ui <- fluidPage(
                  plotOutput(outputId = "constructFullNetworkFig")),
 
         tabPanel("Sugar Pathway Similarity",
+                 textOutput(outputId = "overSimiMsg"),
                  chartJSRadarOutput(outputId = "overallSimilarityFig")),
 
         tabPanel("Sugar Pathway Overlapping",
+                 textOutput(outputId = "competMicroMsg"),
                  chartJSRadarOutput(outputId = "competeMicrobiotaFig"))
       )
     )
@@ -309,7 +330,7 @@ server <- function(input, output) {
     if (needUploadED()) {
       actionButton(inputId = "checkUserED",
                    label = "Check My ED",
-                   style = "color: orange; font-family: cursive; font-size: 18px")
+                   style = "color: orange; font-family: cursive; font-size: 16px")
     }
   })
 
@@ -360,7 +381,7 @@ server <- function(input, output) {
     if (needUploadER()) {
       actionButton(inputId = "checkUserER",
                    label = "Check My ER",
-                   style = "color: orange; font-family: cursive; font-size: 18px")
+                   style = "color: orange; font-family: cursive; font-size: 16px")
   }})
 
   # Check User ER
@@ -371,7 +392,7 @@ server <- function(input, output) {
         if (all(c("Gene", "Reaction.EC", "Sugar") %in% colnames(ER()))) {
           "Looks good! Your ER contains all required columns."
         } else {
-          "T_T. At Least one required column Geen, Reaction,EC, Sugar (case sensitive) are missing. Click on 'Preview Selected Datasets' to see."
+          "T_T. At Least one required column Gene, Reaction,EC, Sugar (case sensitive) are missing. Click on 'Preview Selected Datasets' to see."
         }
       })
     }
@@ -407,6 +428,7 @@ server <- function(input, output) {
   # ============ For Selecting An Genome ============
   output$selectGenomeFile <- renderUI({
     if (input$selectGenome == "Upload My Own") {
+      input$reset
       fileInput(inputId = "genome",
                 label = "Upload An Annotated Microbial Genome (.gb or .gbk)",
                 accept = c(".gb", ".gbk"),
@@ -435,8 +457,6 @@ server <- function(input, output) {
     if (input$genomeName == "") {
       "User Genome"
     } else {
-      # validate(need(!(input$genomeName %in% colnames(ED()))),
-      #          message = "This name is present in the selected ED dataset, choose another one!")
       input$genomeName
     }
   })
@@ -448,28 +468,70 @@ server <- function(input, output) {
     if (input$extractCarboGenes) {
       isolate(microCompet::extractCarboGenes(genomePath(),
                                      ED()$Gene))}
-  })
+    else {c()}
+    })
 
   # extractCarboGenes
-  output$carboGenes <- renderTable({carboGenes()})
+  output$carboGenes <- renderTable({
+    # df <- data.frame()
+    # df[genomeName()] <- carboGenes
+    if (length(carboGenes()) > 0) {
+      df <- data.frame(carboGenes())
+      names(df) <- c(genomeName())
+      df}
+    })
 
   # constructFullNetwork
   output$constructFullNetworkFig <- renderPlot({
     if (input$constructFullNetwork) {
+      validate(need((length(carboGenes()) > 0),
+                    message = 'Click and run Extract Sugar Degradation Genes first'))
       isolate(microCompet::constructFullNetwork(genomeName(), carboGenes(), ER()))
-    }})
+    }}, width = 800, height = 600)
 
   # overallSimilarity
+  overSimiMsg <- reactive({
+    if (length(carboGenes()) == 0) {
+      "Click and run Extract Sugar Degradation Genes first."
+    } else if (input$calOverallSimilarity) {""}
+  })
+
+  output$overSimiMsg <- renderText({overSimiMsg()})
+
   output$overallSimilarityFig <- renderChartJSRadar({
-    if (input$calOverallSimilarity) {
+    if (input$calOverallSimilarity &
+        length(carboGenes()) > 0) {
       isolate(microCompet::overallSimilarity(genomeName(), carboGenes(), ED(),
                                      firstMicrobe(), lastMicrobe()))}
   })
 
+
   # competeMicrobiota
+  nameToUse <- reactive({
+    name <- genomeName()
+    if (name %in% colnames(ED())){
+      while (name %in% colnames(ED())) {
+        name <- paste0(name, "_")
+      }
+      name
+    } else {genomeName()}})
+
+  competMicroMsg <- reactive( {
+    if (length(carboGenes()) == 0) {
+      "Click and run Extract Sugar Degradation Genes first."
+    }
+    else if (input$calCompeteMicrobiota &
+             isolate(genomeName() %in% colnames(ED()))) {
+       {paste0("The genome name you provided is already present in ED dataset, replaced by ", nameToUse(), " when running function competeMicrobiota")}
+    } else {""}
+    })
+
+  output$competMicroMsg <- renderText({competMicroMsg()})
+
   output$competeMicrobiotaFig <- renderChartJSRadar({
-    if (input$calCompeteMicrobiota){
-      isolate(microCompet::competeMicrobiota(genomeName(), carboGenes(), ER(),
+    if (input$calCompeteMicrobiota &
+        length(carboGenes() > 0)) {
+      isolate(microCompet::competeMicrobiota(nameToUse(), carboGenes(), ER(),
                                      ED(), firstMicrobe(), lastMicrobe()))}
   })
 }
