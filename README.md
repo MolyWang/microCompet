@@ -52,9 +52,9 @@ reactions involved in simple sugar degradation pathways, and
 enzymes in various gut microbiota members. For more information on these
 genomes, you can see *_GenomesInfo_* and find the original annotated
 genome from NCBI using provided Accession ID. For more details, check
-the dataset description files by 
+the dataset description files by `?DatasetName`
 
-### extractCarboGenes & checkUserED
+### Functions extractCarboGenes & checkUserED
 
 These two functions can be treated as exported helper functions for
 users. The most readily available genome files are genbank(.gb or .gbk)
@@ -66,18 +66,11 @@ in provided dataset *_EnzymeDistribution_*. Datasets pass this check is
 very likely to work properly with *_overallSimilarity_* and
 *_competeMicrobiota_*, but more details are checked within functions.
 
-### constructFullNetwork, overallSimilarity & competeMicrobiota
+### Functions constructFullNetwork, overallSimilarity & competeMicrobiota
 
-Function ***extractCarboGenes*** extract sugar degradation enzymes from
-user-given GenBank file. The file must have genes annotated, that is
-they have lines in the format of */gene=“gene\_name”* (See the included
-*Klebsiella\_variicola.gb* and *Lactobacillus\_johnsonii.gb* for
-example, they are in the main folder). Other R packages are available
-for formatting GenBank file, but they parse the whole file into one
-object, which is not necessary for this package. Function
-***constructFullNetwork*** takes a genome and plot its full sugar
-degradation pathways, the following image is a sample output using the
-provided *Lactobacillus\_johnsonii.gb* genome. Function
+Function ***constructFullNetwork*** takes a vector of genes and plot its
+full sugar degradation pathways, the following image is a sample output
+using the provided *Lactobacillus\_johnsonii.gb* genome. Function
 ***overallSimilarity*** count sugar degradation genes in common between
 the given genome and other microbial species, and creates an interactive
 radar graph. The final function ***competeMicrobiota*** visualize
@@ -118,18 +111,22 @@ The package tree structure is provided below.
       |- app.R
   |- man
     |- allSugarScoresForOneGenome.Rd
-    |- calculateCount.Rd
-    |- calclateTotalSteps.Rd
+    |- calculateStepsForOneSugar.Rd
+    |- calclateTotalStepsForAllSugars.Rd
+    |- checkUserED.Rd
     |- compareTwoGenomes.Rd
     |- competeMicrobiota.Rd
+    |- completenessForAllPathways.Rd
     |- constructFullNetwork.Rd
     |- createEdgeFrame.Rd
     |- createNodeFrame.Rd
     |- EnzymaticReactions.Rd
     |- EnzymeDistribution.Rd
     |- extractCarboGenes.Rd
+    |- GenomesInfo.Rd
     |- overallSimilarity.Rd
     |- transformToVector.Rd
+    |- TransformToVector.Rd
   |- R
     |- checkUserED.R
     |- competeMicrobiota.R
@@ -213,7 +210,7 @@ the network image you saw in the *_Overview_* part, making use of
 genbank file *_Klebsiella\_variicola.gb_* (find it in inst/extdata).
 *_Klebsiella_* genus has a more complete sugar degradation system and
 would produce a busier image. More function detail in function
-description files with 
+description files with `?functionName`
 
 ``` r
 require("microCompet")
@@ -229,7 +226,7 @@ fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
 fullPathway
 ```
 
-<img src="man/figures/README-constructFullNetwork-1.png" width="100%" />
+<img src="man/figures/README-constructFullNetwork-1.png" width="800px" />
 
 ### 2\. overallSimilarity
 
@@ -243,13 +240,13 @@ require("microCompet")
 require("radarchart")
 genomeName <- "L. johnsonii"
 # Uncomment the indicated lines if you haven't run the previous example.
-ED <- microCompet::EnzymeDistribution                        #
-fullEnzymeGeneVec <- ED$Gene                                 #
-genomeFilePath <- system.file("extdata",                     #
-                              "Lactobacillus_johnsonii.gb",  #
-                              package = "microCompet",       #
-                              mustWork = TRUE)               #
-carboGenes <- microCompet::extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)     #
+ED <- microCompet::EnzymeDistribution                                  #
+fullEnzymeGeneVec <- ED$Gene                                           #
+genomeFilePath <- system.file("extdata",                               #
+                              "Lactobacillus_johnsonii.gb",            #
+                              package = "microCompet",                 #
+                              mustWork = TRUE)                         #
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneVec)     #
 overSimiFig <- overallSimilarity(genomeName, carboGenes, ED, 5, 13)
 overSimiFig
 ```
@@ -279,7 +276,7 @@ firstMicrobe <- 5
 lastMicrobe <- 13
 ER <- microCompet::EnzymaticReactions
 compMicro <- competeMicrobiota(genomeName, carboGenes, ER,
-                                       ED, firstMicrobe, lastMicrobe)
+                               ED, firstMicrobe, lastMicrobe)
 compMicro
 ```
 

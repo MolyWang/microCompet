@@ -44,8 +44,8 @@ _*microCompet*_ is a package for visualizing potential microbial competition for
 To use this package, the only required input from users is a microbial genome in the format of an *__ANNOTATED__ GenBank file*. By annotated, this means "genes" are labeled onto a genome, and the file is not one very very very long line of ATCG. See provided files in the main directory for example, Klebsiella_variicola.gb, Lactobacillus_johnsonii.gb. (Microbe names are hard to pronounce, but it's harder to resist the temptation to try!). __*Download sample genbank(.gb) files to your working directory*__, so the later examples can run smoothly.
 
 The first step is to load the library, and following this vignettes do not require any other user input.
-```{r, eval=FALSE}
-library("microCompet")
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+require("microCompet")
 # and load all dependencies
 require("radarchart")
 require("ggraph")
@@ -76,43 +76,53 @@ colnames(EnzymeDistribution)[5:13]
 A "0" suggest this species/genome does not encode the gene in the row, while "1" suggests it's encoded.
 
 
+__3. GenomesInfo__
+
+This dataset lists information about genomes included in dataset _*EnzymeDistribution*_. If you want to run this package with your own datasets, this one is not required.
+
 __Attention for self-defined dataseets__
-If you read in a data frame from a csv, tsv, excel file, be careful about empty spaces in the cell. All functions used here are sensitive the spaces, and "ribose" and "ribose " is not considered as the same sugar. You can call the trim() function in excel before saving the dataset.
+If you read in a data frame from a tsv, tab file, be careful about empty spaces in the cell. All functions used here are sensitive the spaces, and "ribose" and "ribose " is not considered as the same sugar. You can call the trim() function in excel before saving the dataset.
 
 ## Available Functions
-__1. extractCarboGenes__
+__1. checkUserED__
 
-When use provide a full path to a gbk file, and a list of potentially sugar degradation genes of interest, this function extract available carbo_genes from the file. There are other avilable gbk-parsing packages available, but they usually format the whole file (about 20M for one microbe) into one very object, which is very slow and provides unused information for this package. 
+If users decide to use their own dataset ED, this function helps to check whether required column "Gene" are present in the provided _*ED*_, and whether the chosen columns representing genomes of interest contain only 0 and 1. I assume genome columns are continuous from column with index _firstMicrobe_ to _lastMicrobe_. See built-in _*EnzymeDistribution*_ for example.
 
-Function extractCarboGenes simply screen over the file, extract all lines in the format "/gene="gene_name" and select ones in the list of genes provided by users. See example with 
-```{r, eval=FALSE}
+
+__2. extractCarboGenes__
+
+When user provide a full path to an annotated genome (a .gb or .gbk file), and a list of potentially sugar degradation genes of interest, this function extract available *carboGenes* from the genome. There are other available GenBank-parsing packages, but they usually format the whole file (about 20M for one microbe) into one very large object, which is very slow and provides unnecessary information for this package. 
+
+Function _*extractCarboGenes*_ simply screen over the file, extract all lines in the format "/gene="gene_name" and select ones in the list of genes provided by users. See example with 
+```{r extractCarboGenes}
 require("microCompet")
-# load package dataset
+# load package datasets
 ED <- microCompet::EnzymeDistribution
 # Will include all sugar degradation genes for this example
-full_enzyme_gene_lst <- ED$Gene
-# Uncommet if you have the file in your working directory
-# otherwise replace the . with path to the directory
-genome_file_path <- "./Lactobacillus_johnsonii.gb"
-carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-carbo_genes
-
+fullEnzymeGeneList <- ED$Gene
+genomeFilePath <- system.file("extdata",
+                              "Lactobacillus_johnsonii.gb", #You can also try "Klebsiella_variicola.gb"
+                              package = "microCompet",
+                              mustWork = TRUE)
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
+carboGenes
 ```
-__2. constructFullNetwork__
+__3. constructFullNetwork__
 
-This function offers to visualize the all sugar degradation pathways of a microbial genome. The three arguments are name of a microbe, a full list of sugar degradation enzymes (output from extractCarboGenes), and a dataset with all reactions of interest (See __*EnzymaticReactions*__ for example and descriptions). A sample can be produced by:
-```{r, eval=FALSE}
-# No need to run the commented lines if you've run the previous example.
-# require("microCompet")
-# ED <- microCompet::EnzymeDistribution
-# full_enzyme_gene_lst <- ED$Gene
-# genome_file_path <- "./Lactobacillus_johnsonii.gb"
-# carbo_genes <- microCompet::extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
+This function offers to visualize the all sugar degradation pathways of a microbial genome. The three arguments are name of a microbe, a full list of sugar degradation enzymes (output from extractCarboGenes), and a dataset with all reactions of interest (See _*EnzymaticReactions*_ for example and descriptions). A sample can be produced by:
+```{r fullPath, message=FALSE, warning=FALSE}
+require("microCompet")
 ER <- microCompet::EnzymaticReactions
-full_pathway <- microCompet::constructFullNetwork("L. johnsonii", carbo_genes, ER)
-full_pathway
+ED <- microCompet::EnzymeDistribution
+fullEnzymeGeneList <- ED$Gene
+genomeFilePath <- system.file("extdata",
+                              "Lactobacillus_johnsonii.gb", #You can also try "Klebsiella_variicola.gb"
+                              package = "microCompet",
+                              mustWork = TRUE)
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
+fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
+fullPathway
 ```
-
 Don't be scared by many legends, they would make sense after explanation :D
 
 Each vertex is an intermediate compound that appears in the pathway, while each edge suggest enzymes/genes that can catalyze this reaction (tail as substrate and head as product).
@@ -123,28 +133,28 @@ Enzyme name or reaction EC for each edge is not labeled. Though this sample figu
 
 Try this function with _Klebsiella_variicola.gb_ or other annotated gbk files. (Check NCBI)
 
-__3. overallSimilarity__
+__4. overallSimilarity__
 
 Given a genome of interest (represented by a list of gene names) and an expression profile of some other species (must be offered in a dataframe following the format of __*EnzymeDistribution*__), this function compares the overall similarity of the genome of interest with other species and produce a radar chart. See example
-```{r, eval=FALSE}
-# library("microCompet")
-# genome_name <- "L. johnsonii"
-# full_enzyme_gene_lst <- ED$Gene
-# genome_file_path <- "./Lactobacillus_johnsonii.gb"
-# carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-# check ED with head(ED)
+```{r overSimi, message=FALSE, warning=FALSE}
+require("microCompet")
+genomeName <- "L. johnsonii"
+ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
-# check ED with 
-# head(ED)
-overall_similarity <- overallSimilarity(genome_name, carbo_genes, ED, 5, 13)
-overall_similarity
+fullEnzymeGeneList <- ED$Gene
+# No need to rerun extractCarboGenes (lines with #) if you ran the previous example
+genomeFilePath <- system.file("extdata",                              #
+                              "Lactobacillus_johnsonii.gb",           #
+                              package = "microCompet",                #
+                              mustWork = TRUE)                        #
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)   #
+firstMicrobe <- 5 # first column in ED representing a genome
+lastMicrobe <- 13 # last column in ED representing a genome
+overSimi <- overallSimilarity(genomeName, carboGenes, ED, firstMicrobe, lastMicrobe)
+overSimi
 ```
-<img src="../inst/extdata/overSimi1.png" height="500px" width="600px"/>
 
-The full score is the total number of enzymes in the provided dataset. Common features is either "both genome express one enzyme" or "neither express it". One common feature adds 1 to the similarity score, and the radar chart visually tells you which species might be the strongest competitor (most similar). To see full name of each species on the corner, check out the description file for _EnzymeDistribution_ by
-```{r, eval=FALSE}
-?EnzymeDistribution
-```
+The full score is the total number of enzymes in the provided dataset. Common features is either "both genome express one enzyme" or "neither express it". One common feature adds 1 to the similarity score, and the radar chart visually tells you which species might be the strongest competitor (most similar). To see full name of each species on the corner, check out the description file for _*EnzymeDistribution*_ by `?EnzymeDistribution`.
 
 __4. competeMicrobiota__
 
@@ -152,22 +162,25 @@ The last function is to show potential microbial competition for various sugars.
 
 Run the code, play with the interactive plot, and compare your favourite ones.
 
-```{r, eval=FALSE}
-#  library("microCompet")
-#  genome_name <- "L. johnsonii"
-#  full_enzyme_gene_lst <- ED$Gene
-#  genome_file_path <- "./Lactobacillus_johnsonii.gb"
-#  carbo_genes <- extractCarboGenes(genome_file_path, full_enzyme_gene_lst)
-ED <- microCompet::EnzymeDistribution
-first_microbe <- 5
-last_microbe <- 13
+```{r compMicro, message=FALSE, warning=FALSE}
+library("microCompet")
+genomeName <- "L. johnsonii"
 ER <- microCompet::EnzymaticReactions
-compete_microbiota <- competeMicrobiota(genome_name, carbo_genes, ER,
-                                        ED, first_microbe, last_microbe)
-compete_microbiota
+ED <- microCompet::EnzymeDistribution
+fullEnzymeGeneList <- ED$Gene
+# No need to rerun extractCarboGenes (lines with #) if you ran the previous example
+genomeFilePath <- system.file("extdata",                              #
+                              "Lactobacillus_johnsonii.gb",           #
+                              package = "microCompet",                #
+                              mustWork = TRUE)                        #
+carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)   #
+firstMicrobe <- 5
+lastMicrobe <- 13
+compMicro <- competeMicrobiota(genomeName, carboGenes, ER,
+                               ED, firstMicrobe, lastMicrobe)
+compMicro
 ```
-<img src="../inst/extdata/comp1.png" height="400px" width="700px"/>
-<img src="../inst/extdata/comp2.png" height="400px" width="700px"/>
+
 
 ## Yeah!
 
@@ -176,21 +189,22 @@ Now you understand how to play with this package, have fun!
 ## References
 
 1. Butts, C. 2008. “network: a Package for Managing Relational Data in R.” _Journal of Statistical Software_. 24(2). <URL: https://www.jstatsoft.org/v24/i02/paper>.
-
 2. Butts, C. 2020. network: Classes for Relational Data. The Statnet Project (<URL:http://www.statnet.org>). R package version 1.16.1, <URL: https://CRAN.R-project.org/package=network>.
 
 3. Butts, C.T. 2020. sna: Tools for Social Network Analysis. R package version 2.6. https://CRAN.R-project.org/package=sna
 
 4. Csardi, G., Nepusz, T. 2006. The igraph software package for complex network research, InterJournal, Complex Systems 1695. https://igraph.org
 
-5. Emery Pharma. A Fascination for the Human Microbiome for a Healthier Life. https://emerypharma.com/blog/human_microbiome_healthier_life/ 
+5. Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The MetaCyc Database. _Nucleic Acids Re_. 30(1):59-61. doi:10.1093/nar/30.1.59
 
-6. Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The MetaCyc Database. *Nucleic Acids Res*. 30(1):59-61. doi:10.1093/nar/30.1.59
+6. National Center for Biotechnology Information (NCBI)[Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information [1988]. Available from: https://www.ncbi.nlm.nih.gov/
 
-7. National Center for Biotechnology Information (NCBI)[Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information; [1988]. Available from: https://www.ncbi.nlm.nih.gov/
+7. Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of Graphics for Graphs and Networks. R package version 2.0.3. https://CRAN.R-project.org/package=ggraph
 
-8. Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of Graphics for Graphs and Networks. R package version 2.0.3. https://CRAN.R-project.org/package=ggraph
+8. R Core Team. 2020. R: A language and environment for statistical computing. R Foundation for Statistical Computing. Vienna, Austria. URL: https://www.R-project.org/.
 
-9. R Core Team. 2020. R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL: https://www.R-project.org/.
+9. Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.
 
-10. Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.
+10. Wickham, H. 2020. R Packages. https://r-pkgs.org/
+
+11. Xie, Y. 2020. bookdown: Authoring Books and Technical Documents with R Markdown. https://bookdown.org/yihui/bookdown/
