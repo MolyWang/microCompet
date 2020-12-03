@@ -59,12 +59,10 @@ the dataset description files by `?DatasetName`
 These two functions can be treated as exported helper functions for
 users. The most readily available genome files are genbank(.gb or .gbk)
 and *_extractCarboGenes_* would extract genes encoding sugar degradation
-enzymes for other functions to operate on.
-
-While *_checkUserED_* helps user to check some required features/columns
-in provided dataset *_EnzymeDistribution_*. Datasets pass this check is
-very likely to work properly with *_overallSimilarity_* and
-*_competeMicrobiota_*, but more details are checked within functions.
+enzymes for other functions to operate on. While *_checkUserED_* helps
+user to check some required features/columns in provided dataset
+*_EnzymeDistribution_*. Datasets pass this check will work properly with
+*_overallSimilarity_* and *_competeMicrobiota_*.
 
 ### Functions constructFullNetwork, overallSimilarity & competeMicrobiota
 

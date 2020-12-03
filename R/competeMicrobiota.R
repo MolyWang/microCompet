@@ -63,9 +63,13 @@ competeMicrobiota <- function(genomeName, geneVec, ER,
   # check genomeName uniqueness
   availableMicrobes <- colnames(ED)[firstMicrobe:lastMicrobe]
   # do not want to mask available genomes by the new input genome.
-  if (is.element(genomeName, availableMicrobes)) {
-    stop(sprintf("Already have %s in available datasets, please rename your genome.",
-                 genomeName))
+  iniName <- genomeName
+  if (is.element(iniName, availableMicrobes)) {
+    while (genomeName %in% availableMicrobes) {
+      genomeName <- paste0(genomeName, "_")
+    }
+    sprintf("Already have %s in available datasets, and your genome is renamed to %s.",
+            iniName, genomeName)
   }
 
   # check ED and indices

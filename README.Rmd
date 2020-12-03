@@ -50,9 +50,7 @@ data(package = "microCompet")
 As dataset names indicated, _*EnzymaticReactions*_ describes enzymatic reactions involved in simple sugar degradation pathways, and _*EnzymeDistribution*_ includes data regarding the distribution of these enzymes in various gut microbiota members. For more information on these genomes, you can see _*GenomesInfo*_ and find the original annotated genome from NCBI using provided Accession ID. For more details, check the dataset description files by `?DatasetName`
 
 ### Functions extractCarboGenes & checkUserED
-These two functions can be treated as exported helper functions for users. The most readily available genome files are genbank(.gb or .gbk) and _*extractCarboGenes*_ would extract genes encoding sugar degradation enzymes for other functions to operate on.
-
-While _*checkUserED*_ helps user to check some required features/columns in provided dataset _*EnzymeDistribution*_. Datasets pass this check is very likely to work properly with _*overallSimilarity*_ and _*competeMicrobiota*_, but more details are checked within functions.
+These two functions can be treated as exported helper functions for users. The most readily available genome files are genbank(.gb or .gbk) and _*extractCarboGenes*_ would extract genes encoding sugar degradation enzymes for other functions to operate on. While _*checkUserED*_ helps user to check some required features/columns in provided dataset _*EnzymeDistribution*_. Datasets pass this check will work properly with _*overallSimilarity*_ and _*competeMicrobiota*_.
 
 
 ### Functions constructFullNetwork, overallSimilarity & competeMicrobiota
