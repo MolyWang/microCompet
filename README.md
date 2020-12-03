@@ -226,7 +226,7 @@ fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
 fullPathway
 ```
 
-<img src="man/figures/README-constructFullNetwork-1.png" width="800px" />
+<img src="man/figures/README-constructFullNetwork-1.png" width="800px" height="100%" />
 
 ### 2\. overallSimilarity
 
@@ -251,7 +251,7 @@ overSimiFig <- overallSimilarity(genomeName, carboGenes, ED, 5, 13)
 overSimiFig
 ```
 
-<img src="./inst/extdata/overallSimilarity.png" width="100%" />
+<img src="./inst/extdata/overallSimilarity.png" height="100%" />
 
 ### 3\. competeMicrobiota
 
@@ -280,7 +280,7 @@ compMicro <- competeMicrobiota(genomeName, carboGenes, ER,
 compMicro
 ```
 
-<img src="./inst/extdata/competeMicrobiota.png" width="100%" />
+<img src="./inst/extdata/competeMicrobiota.png" height="100%" />
 
 ## Consent
 

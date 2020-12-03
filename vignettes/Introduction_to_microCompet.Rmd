@@ -12,8 +12,8 @@ vignette: >
 ```{r, include = FALSE}
 library(knitr)
 opts_chunk$set(fig.align = "center", 
-               out.width = "50%",
-               fig.width = 1, fig.height = 0.8,
+               out.width = "80%",
+               fig.width = 1, fig.height = 0.6,
                dev.args=list(pointsize=10),
                par = TRUE, # needed for setting hook 
                collapse = TRUE, # collapse input & output code in chunks
@@ -46,14 +46,14 @@ To use this package, the only required input from users is a microbial genome in
 The first step is to load the library, and following this vignettes do not require any other user input.
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
 require("microCompet")
-# and load all dependencies
-require("radarchart")
-require("ggraph")
-require("network")
-require("sna")
-require("ggplot2")
-require("igraph")
-require("dplyr")
+# and these are all the dependecies, all available from CRAN
+# require("radarchart")
+# require("ggraph")
+# require("network")
+# require("sna")
+# require("ggplot2")
+# require("igraph")
+# require("dplyr")
 ```
 
 
@@ -110,7 +110,7 @@ carboGenes
 __3. constructFullNetwork__
 
 This function offers to visualize the all sugar degradation pathways of a microbial genome. The three arguments are name of a microbe, a full list of sugar degradation enzymes (output from extractCarboGenes), and a dataset with all reactions of interest (See _*EnzymaticReactions*_ for example and descriptions). A sample can be produced by:
-```{r fullPath, message=FALSE, warning=FALSE}
+```{r constructFullNetwork, eval = FALSE, message=FALSE, warning=FALSE, out.width="800px"}
 require("microCompet")
 ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
@@ -123,6 +123,8 @@ carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
 fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
 fullPathway
 ```
+<img src="../inst/extdata/fullNet.png" height="400px" width="700px"/>
+
 Don't be scared by many legends, they would make sense after explanation :D
 
 Each vertex is an intermediate compound that appears in the pathway, while each edge suggest enzymes/genes that can catalyze this reaction (tail as substrate and head as product).
@@ -186,6 +188,7 @@ compMicro
 
 Now you understand how to play with this package, have fun!
 
+
 ## References
 
 1. Butts, C. 2008. “network: a Package for Managing Relational Data in R.” _Journal of Statistical Software_. 24(2). <URL: https://www.jstatsoft.org/v24/i02/paper>.
@@ -208,3 +211,10 @@ Now you understand how to play with this package, have fun!
 10. Wickham, H. 2020. R Packages. https://r-pkgs.org/
 
 11. Xie, Y. 2020. bookdown: Authoring Books and Technical Documents with R Markdown. https://bookdown.org/yihui/bookdown/
+
+## Session Info
+
+This list seems longer than expected, but that's the case #_#
+```{r}
+sessionInfo()
+```
