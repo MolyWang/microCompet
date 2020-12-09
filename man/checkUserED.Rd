@@ -26,3 +26,10 @@ This function only check for common requirements, and each function carries out 
 data.frame update and function-specific checks.
 Function stops early if it identifies errors cannot be corrected by function.
 }
+\examples{
+ \dontrun{
+  reportVec <- checkUserED(EnzymeDistribution, 4, 10)
+  reportVec
+ }
+
+}

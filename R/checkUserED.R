@@ -15,6 +15,12 @@
 #'     contains unexpected values (other than 0, 1, T/F may be accepted but not recommended)
 #'     in columns between firstMicrobe and lastMicrobe.
 #'
+#' @examples
+#'  \dontrun{
+#'   reportVec <- checkUserED(EnzymeDistribution, 4, 10)
+#'   reportVec
+#'  }
+#'
 #' @export
 #'
 checkUserED <- function(ED, firstMicrobe, lastMicrobe) {

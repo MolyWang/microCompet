@@ -7,7 +7,7 @@ options(shiny.maxRequestSize = 10*1024^2)
 ui <- fluidPage(
   tags$head(
     tags$style(HTML(
-      "label {font-size: 16px;
+      "label {font-size: 14px;
               font-weight: 100;
               font-family: Arial;
               margin-bottom: 0px;}"))
@@ -86,7 +86,8 @@ ui <- fluidPage(
   sidebarLayout(
 
     sidebarPanel(
-      tags$p("Introduction"),
+      tags$strong("Introduction"),
+      tags$p("microCompet helps to identify potential microbial competitors for nutritions. Follow the five steps listed in the sidebar."),
       # ============ Have a look at Datasets ============
       tags$strong("Step 1: Have A Look at Built-in Datasets"),
       tags$p(""),
@@ -330,7 +331,7 @@ server <- function(input, output) {
     if (needUploadED()) {
       actionButton(inputId = "checkUserED",
                    label = "Check My ED",
-                   style = "color: orange; font-family: cursive; font-size: 16px")
+                   style = "color: orange; font-size: 16px")
     }
   })
 
@@ -381,7 +382,7 @@ server <- function(input, output) {
     if (needUploadER()) {
       actionButton(inputId = "checkUserER",
                    label = "Check My ER",
-                   style = "color: orange; font-family: cursive; font-size: 16px")
+                   style = "color: orange; font-size: 16px")
   }})
 
   # Check User ER
