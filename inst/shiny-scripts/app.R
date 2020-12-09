@@ -217,11 +217,11 @@ ui <- fluidPage(
         tabPanel("Full Sugar Degradation Pathway Network",
                  plotOutput(outputId = "constructFullNetworkFig")),
 
-        tabPanel("Sugar Pathway Similarity",
+        tabPanel("Compare Overall Pathway Similarity",
                  textOutput(outputId = "overSimiMsg"),
                  chartJSRadarOutput(outputId = "overallSimilarityFig")),
 
-        tabPanel("Sugar Pathway Overlapping",
+        tabPanel("Identify Microbial Competition",
                  textOutput(outputId = "competMicroMsg"),
                  chartJSRadarOutput(outputId = "competeMicrobiotaFig"))
       )

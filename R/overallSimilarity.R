@@ -77,11 +77,12 @@ overallSimilarity <- function(genomeName, geneVec, ED,
   overSimiScores <- vector(mode = "integer",
                            length = length(availableMicrobes))
   names(overSimiScores) <- availableMicrobes
+  indices <- sort(order(ED$Gene)[!duplicated(sort(ED$Gene))])
 
   # fill the vector with scores
   for (microbeName in availableMicrobes) {
     oneMicrobe <- ED[microbeName]
-    oneMicrobe <- unlist(oneMicrobe)
+    oneMicrobe <- (unlist(oneMicrobe))[indices]
     names(oneMicrobe) <- uniqueGenes
     # compareTwoGenomes is a helper defined later in this file
     overSimiScores[microbeName] <- compareTwoGenomes(genomeVec,
