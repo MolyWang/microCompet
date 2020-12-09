@@ -96,7 +96,7 @@ constructFullNetwork <- function(genomeName, geneVec, ER) {
     ggplot2::theme_void() +
     ggraph::scale_edge_width(range = c(0.5, 1)) +
     ggraph::geom_node_text(label = nodeFrame$Compound,
-                           size = 5,
+                           size = 4,
                            color = "gray30",
                            repel = TRUE) +
     ggplot2::ggtitle(paste("Full Pathway Network of", genomeName)) +

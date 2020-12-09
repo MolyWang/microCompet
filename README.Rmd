@@ -22,8 +22,9 @@ knitr::opts_chunk$set(
 ## Description
 `microCompet` is for identifying and visualizing potential microbial competitions for nutrition, mainly simple sugars such as pentoses an pyranoses. This package offers functions to:
 
-1. Visualize all sugar degradation pathways that are present in one microbe of interest (See function _*constructFullNetwork*_)
-2. Compare a microbe's overall similarity of sugar degradation profile to other microbes (See functions _*overallSimilarity*_ and _*competeMicrobiota*_)
+1. Visualize all sugar degradation pathways that are present in one microbe of interest. (See function __*constructFullNetwork*__)
+2. Compare a microbe's overall similarity of sugar degradation profile to other microbes. (See functions __*overallSimilarity*__ and __*competeMicrobiota*__)
+3. Functions that help users to check their datasets and extract information. (See __*checkUserED*__ and __*extractCarboGenes*__)
 
 
 ## Installation
@@ -47,15 +48,14 @@ data(package = "microCompet")
 ```
 
 ### Datasets EnzymaticReactions, EnzymeDistribution & GenomesInfo
-As dataset names indicated, _*EnzymaticReactions*_ describes enzymatic reactions involved in simple sugar degradation pathways, and _*EnzymeDistribution*_ includes data regarding the distribution of these enzymes in various gut microbiota members. For more information on these genomes, you can see _*GenomesInfo*_ and find the original annotated genome from NCBI using provided Accession ID. For more details, check the dataset description files by `?DatasetName`
+As dataset names indicated, __*EnzymaticReactions*__ describes enzymatic reactions involved in simple sugar degradation pathways, and __*EnzymeDistribution*__ includes data regarding the distribution of these enzymes in various gut microbiota members. For more information on these genomes, you can see __*GenomesInfo*__ and find the original annotated genome from NCBI using provided Accession ID. For more details, check the dataset description files by `?DatasetName`
 
 ### Functions extractCarboGenes & checkUserED
-These two functions can be treated as exported helper functions for users. The most readily available genome files are genbank(.gb or .gbk) and _*extractCarboGenes*_ would extract genes encoding sugar degradation enzymes for other functions to operate on. While _*checkUserED*_ helps user to check some required features/columns in provided dataset _*EnzymeDistribution*_. Datasets pass this check will work properly with _*overallSimilarity*_ and _*competeMicrobiota*_.
+These two functions can be treated as exported helper functions for users. The most readily available genome files are in genbank(.gb or .gbk) format and __*extractCarboGenes*__ would extract genes encoding sugar degradation enzymes for other functions to operate on. While __*checkUserED*__ helps user to check some required features/columns in provided dataset __*EnzymeDistribution*__. Datasets pass this check will work properly with __*overallSimilarity*__ and __*competeMicrobiota*__.
 
 
 ### Functions constructFullNetwork, overallSimilarity & competeMicrobiota
-
-Function __*constructFullNetwork*__ takes a vector of genes and plot its full sugar degradation pathways, the following image is a sample output using the provided *Lactobacillus_johnsonii.gb* genome. Function __*overallSimilarity*__ count sugar degradation genes in common between the given genome and other microbial species, and creates an interactive radar graph. The final function __*competeMicrobiota*__ visualize available microbes in terms of pathway completeness, suggesting their ability to fully degrade indicated sugar sources.
+Function __*constructFullNetwork*__ takes a vector of genes and plot its full sugar degradation pathways, the following image is a sample output using the provided __*Lactobacillus_johnsonii.gb*__ genome. Function __*overallSimilarity*__ count sugar degradation genes in common between the given genome and other microbial species, and creates an interactive radar graph. The final function __*competeMicrobiota*__ visualize available microbes in terms of pathway completeness, suggesting their ability to fully degrade indicated sugar sources. __*overallSimilarity*__ and __*competeMicrobiota*__ aim to interpret microbial competition from two related angles.
 
 
 ![](./inst/extdata/overview.png)
@@ -80,12 +80,13 @@ The package tree structure is provided below.
   |- inst
     |- CITATION
     |- extdata
-      |- comp1.png
-      |- comp2.png
-      |- Kvari_pathway.png
-      |- Ljohn.png
+      |- competeMicrobiota.png
+      |- fullNet.PGN
+      |- Klebsiella_variicola.gb
+      |- Lactobacillus_johnsonii.gb
       |- microbiome.jpg
-      |- overSimi1.png
+      |- overallSimilarity.png
+      |- overview.png
     |- shiny-scripts
       |- app.R
   |- man
@@ -115,11 +116,18 @@ The package tree structure is provided below.
     |- overallSimilarity.R
     |- runMicroCompet.R
   |- tests
+    |- testthat.R
+    |- testthat
+      |- test-checkUserED.R
+      |- test-competMicrobiota.R
+      |- test-constructFullNetwork.R
+      |- test-extractCarboGenes.R
+      |- test-overallSimilarity.R
 ``` 
 
 
 ## Contributions
-The author of this package is Zhuyi Wang. Information included in _EnzymaticReactions_ are retrieved from MetaCyc (metacyc.org), while data included in _EnzymeDistribution_ are annotated genome downloaded from NCBI (see details in _GenomesInfo_) and processed by Python scripts (also written by Zhuyi). Functions _overallSimilarity_ and _competeMicrobiota_ took advantage of one function _chartJSRadar_ from R package _radarchart_, which decorates dataframes with interactive features and beautifully selected colors that agree with my aesthetics. Another function _constructFullNetwork_ was dependency-heavy, it is built upon functions from _igraph_ and _ggraph_, which then depend on _network_, _sna_, and _ggplot2_.
+The author of this package is Zhuyi Wang. Information included in __*EnzymaticReactions*__ are retrieved from __*MetaCyc (metacyc.org)*__, while data included in __*EnzymeDistribution*__ are annotated genome downloaded from __*NCBI*__ (see details in __*GenomesInfo*__) and processed by Python scripts (also written by Zhuyi). Functions __*overallSimilarity*__ and __*competeMicrobiota*__ took advantage of one function __*chartJSRadar*__ from R package __*radarchart*__, which decorates dataframes with interactive features and beautifully selected colors that agree with my aesthetics. Another function __*constructFullNetwork*__ was dependency-heavy, it is built upon functions from __*igraph*__ and __*ggraph*__, which then depend on __*network*__, __*sna*__, and __*ggplot2*__.
 
 
 ## References
@@ -129,21 +137,23 @@ The author of this package is Zhuyi Wang. Information included in _EnzymaticReac
 
 3. Butts, C.T. 2020. sna: Tools for Social Network Analysis. R package version 2.6. https://CRAN.R-project.org/package=sna
 
-4. Csardi, G., Nepusz, T. 2006. The igraph software package for complex network research, InterJournal, Complex Systems 1695. https://igraph.org
+4. Csardi, G., Nepusz, T. 2006. The igraph software package for complex network research. _InterJournal_. https://igraph.org
 
-5. Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The MetaCyc Database. _Nucleic Acids Re_. 30(1):59-61. doi:10.1093/nar/30.1.59
+5. Grolemund, G. (2015). Learn Shiny - Video Tutorials. https://shiny.rstudio.com/tutorial/
 
-6. National Center for Biotechnology Information (NCBI)[Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information [1988]. Available from: https://www.ncbi.nlm.nih.gov/
+6. Karp, P.D., Riley, M., Paley, S.M., and Pellegrini-Toole A. 2002. The MetaCyc Database. _Nucleic Acids Re_. 30(1):59-61. doi:10.1093/nar/30.1.59
 
-7. Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of Graphics for Graphs and Networks. R package version 2.0.3. https://CRAN.R-project.org/package=ggraph
+7. National Center for Biotechnology Information (NCBI)[Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information [1988]. Available from: https://www.ncbi.nlm.nih.gov/
 
-8. R Core Team. 2020. R: A language and environment for statistical computing. R Foundation for Statistical Computing. Vienna, Austria. URL: https://www.R-project.org/.
+8. Pedersen, T.L. 2020. ggraph: An Implementation of Grammar of Graphics for Graphs and Networks. R package version 2.0.3. https://CRAN.R-project.org/package=ggraph
 
-9. Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.
+9. R Core Team. 2020. R: A language and environment for statistical computing. R Foundation for Statistical Computing. Vienna, Austria. URL: https://www.R-project.org/.
 
-10. Wickham, H. 2020. R Packages. https://r-pkgs.org/
+10. Wickham, H. 2016. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.
 
-11. Xie, Y. 2020. bookdown: Authoring Books and Technical Documents with R Markdown. https://bookdown.org/yihui/bookdown/
+11. Wickham, H. 2020. R Packages. https://r-pkgs.org/
+
+12. Xie, Y. 2020. bookdown: Authoring Books and Technical Documents with R Markdown. https://bookdown.org/yihui/bookdown/
 
 
 ## Acknowledgements
@@ -153,8 +163,8 @@ This package was developed as part of an assessment for 2019-2020 BCB410H: Appli
 ## Examples
 
 ### 1. constructFullNetwork
-A quick example for *_constructFullNetwork_*, and this would reproduce the network image you saw in the *_Overview_* part, making use of *_extractCarboGenes_* and the carried genbank file *_Lactobacillus_johnsonii.gb_.* This package also comes with another genbank file *_Klebsiella_variicola.gb_* (find it in inst/extdata). *_Klebsiella_* genus has a more complete sugar degradation system and would produce a busier image. More function detail in function description files with `?functionName`
-```{r constructFullNetwork, message=FALSE, warning=FALSE, out.width="800px"}
+A quick example for __*constructFullNetwork*__, and this would reproduce the network image you saw in the *__Overview__* part, making use of __*extractCarboGenes*__ and the carried genbank file __*Lactobacillus_johnsonii.gb*__. This package also comes with another genbank file __*Klebsiella_variicola.gb*__ (find it in inst/extdata). __*Klebsiella*__ genus has a more complete sugar degradation system and would produce a busier image. More function detail in function description files with `?functionName`
+```{r constructFullNetwork, eval=FALSE, message=FALSE, warning=FALSE, out.width="800px"}
 require("microCompet")
 ER <- microCompet::EnzymaticReactions
 ED <- microCompet::EnzymeDistribution
@@ -167,9 +177,10 @@ carboGenes <- extractCarboGenes(genomeFilePath, fullEnzymeGeneList)
 fullPathway <- constructFullNetwork("Lactobacillus johnsonii", carboGenes, ER)
 fullPathway
 ```
+![](./inst/extdata/fullNet.PNG)
 
 ### 2. overallSimilarity 
-The second example quickly shows you a sample output from *_overallSimilarity_.* You can comment out the indicated lines if you've run the previous example. *_extractCarboGenes_* is a slow function and you want to play the cute image as soon as possible!
+The second example quickly shows you a sample output from __*overallSimilarity*__. You can comment out the indicated lines if you've run the previous example. __*extractCarboGenes*__ is a slow function and you want to play the cute image as soon as possible!
 ```{r overallSimilarity, echo=TRUE, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/overallSimilarity.png"}
 require("microCompet")
 require("radarchart")
@@ -187,7 +198,7 @@ overSimiFig
 ```
 
 ### 3. competeMicrobiota 
-The third example shows a sample image from *_competeMicrobiota_.* Same as before, you don't have to rerun code for generating geneVec carboGenes. Run this in your R console, navigate through your favourite microbes, and enjoy its interactive features (unfortunately loss during knitting TAT).
+The third example shows a sample image from __*competeMicrobiota*__. Same as before, you don't have to rerun code for generating geneVec carboGenes. Run this in your R console, navigate through your favourite microbes, and enjoy its interactive features (unfortunately loss during knitting TAT).
 ```{r competeMicrobiota, message=FALSE, warning=FALSE, screenshot.alt="./inst/extdata/competeMicrobiota.png"}
 require("microCompet")
 require("radarchart")

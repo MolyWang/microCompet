@@ -11,7 +11,7 @@ transformToVector(geneVec, allGenes)
 this vector includes all simple sugar degradation enzymes present in a microbial
 genome of interest.}
 
-\item{allGenes}{A vector containing all sugar degradation genes of interest.}
+\item{allGenes}{A vector containing all (unique) sugar degradation genes of interest.}
 }
 \value{
 A named vector of 0 and 1, indicating whether each sugar degradation enzyme,

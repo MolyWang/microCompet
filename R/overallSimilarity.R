@@ -69,7 +69,8 @@ overallSimilarity <- function(genomeName, geneVec, ED,
 
   # ============ start construction ============
   # transformToVector is a helper defined later in this file
-  genomeVec <- transformToVector(geneVec, ED$Gene)
+  uniqueGenes <- unique(ED$Gene)
+  genomeVec <- transformToVector(geneVec, uniqueGenes)
   availableMicrobes <- colnames(ED)[firstMicrobe:lastMicrobe]
 
   # initialize the vector for the output radarchart
@@ -81,11 +82,11 @@ overallSimilarity <- function(genomeName, geneVec, ED,
   for (microbeName in availableMicrobes) {
     oneMicrobe <- ED[microbeName]
     oneMicrobe <- unlist(oneMicrobe)
-    names(oneMicrobe) <- ED$Gene
+    names(oneMicrobe) <- uniqueGenes
     # compareTwoGenomes is a helper defined later in this file
     overSimiScores[microbeName] <- compareTwoGenomes(genomeVec,
                                                      oneMicrobe,
-                                                     length(ED$Gene))
+                                                     length(uniqueGenes))
   }
 
   # transform the score vector into a dataframe for RadarGraph
@@ -150,7 +151,7 @@ compareTwoGenomes <- function(genome1, genome2, totalGeneCount) {
 #' @param geneVec A vector of gene names, represented by 3-5 characters, such as "eno",
 #'     this vector includes all simple sugar degradation enzymes present in a microbial
 #'     genome of interest.
-#' @param allGenes A vector containing all sugar degradation genes of interest.
+#' @param allGenes A vector containing all (unique) sugar degradation genes of interest.
 #'
 #' @return A named vector of 0 and 1, indicating whether each sugar degradation enzyme,
 #'     represented by the element's name, is presetn in the geneVec.

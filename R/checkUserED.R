@@ -53,7 +53,10 @@ checkUserED <- function(ED, firstMicrobe, lastMicrobe) {
     reportVec["lastMicrobeTooLarge"] <- TRUE
   }
 
-  # check whether columns from firstMicrbe to lastMicrobe contains only 0 and 1,
+  # check whether columns from firstMicrbe to lastMicrobe contains only 0 and 1.
+  if (lastMicrobe > ncol(ED)) {
+    lastMicrobe <- ncol(ED)
+  }
   relevantSection <- ED[firstMicrobe:lastMicrobe]
   unexpectedValues <- (relevantSection != 0) & (relevantSection != 1)
   unexpectedValuesCount <- sum(as.integer(unexpectedValues))
