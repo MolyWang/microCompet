@@ -10,7 +10,7 @@
 ## Description
 
 `microCompet` is for identifying and visualizing potential microbial
-competitions for nutrition, mainly simple sugars such as pentoses an
+competitions for nutrition, mainly simple sugars such as pentoses and
 pyranoses. This package offers functions to:
 
 1.  Visualize all sugar degradation pathways that are present in one
